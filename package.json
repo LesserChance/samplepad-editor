@@ -1,0 +1,63 @@
+{
+  "name": "MY-APP",
+  "description": "MY-APP",
+  "author": "Ryan Bateman",
+  "version": "0.1.0",
+  "private": true,
+  "main": "public/electron.js",
+  "homepage": "./",
+  "build": {
+    "appId": "MY-APP",
+    "files": [
+      "build/**/*",
+      "node_modules/**/*"
+    ],
+    "directories": {
+      "buildResources": "assets"
+    }
+  },
+  "dependencies": {
+    "electron-is-dev": "^1.1.0",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "react-redux": "^7.1.0",
+    "react-scripts": "3.3.0",
+    "redux": "^4.0.4"
+  },
+  "devDependencies": {
+    "concurrently": "^5.0.2",
+    "electron": "7.1.8",
+    "electron-builder": "^21.2.0",
+    "node-sass-chokidar": "^1.4.0",
+    "wait-on": "^3.3.0",
+    "yarn-run-all": "^3.1.1"
+  },
+  "scripts": {
+    "preelectron-pack": "yarn run build",
+    "electron-pack": "electron-builder build -m -w -c.extraMetadata.main=build/electron.js",
+    "electron-dev": "concurrently \"BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron .\"",
+    "build-css": "node-sass-chokidar src/ -o src/",
+    "watch-css": "yarn run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
+    "start": "npm-run-all -p watch-css start-react",
+    "build": "npm-run-all -s build-css build-react",
+    "start-react": "react-scripts start",
+    "build-react": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

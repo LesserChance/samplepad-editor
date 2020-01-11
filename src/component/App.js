@@ -67,12 +67,10 @@ class App extends React.Component {
 
   loadKit() {
     KitfileParser
-    .openKitFile()
-    .then(result => {
-      console.log("ouside class")
-      console.log(result);
-      this.setState({kit: result})
-    })
+      .openKitFile()
+      .then(result => {
+        this.setState({kit: result})
+      })
   }
 }
 

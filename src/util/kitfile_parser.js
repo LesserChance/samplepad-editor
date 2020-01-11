@@ -29,9 +29,12 @@ class KitfileParser {
   static getKit(filename) {
     if(fs.existsSync(filename)) {
         let pads = [];
-        let data_buffer = fs.readFileSync(filename);
+        let buffer = fs.readFileSync(filename);
 
-        // todo: confirm this conforms to kit file standards before proceeding
+        let checksum = buffer.readUInt8(BUFFER_CONSTANTS.CHECKSUM_BYTE);
+        if (checksum != KitfileParser.calculateChecksumFromBuffer(buffer)) {
+          throw new Error("Invalid .kit file")
+        }
 
         for (let midi_note in BUFFER_CONSTANTS.NOTE_MAP) {
           let pad_props = {
@@ -44,10 +47,10 @@ class KitfileParser {
               let buffer_start = BUFFER_CONSTANTS.NOTE_MAP[midi_note][BUFFER_CONSTANTS.PROP_MAP_KEY[prop]];
 
               switch (BUFFER_CONSTANTS.PROP_TYPE[prop]) {
-                case 'int8':
-                  return data_buffer.readInt8(buffer_start);
+                case 'uint8':
+                  return buffer.readUInt8(buffer_start);
                 case 'string':
-                  return data_buffer.toString("utf-8", buffer_start, buffer_start + BUFFER_CONSTANTS.PROP_LENGTH[prop]);
+                  return buffer.toString("utf-8", buffer_start, buffer_start + BUFFER_CONSTANTS.PROP_LENGTH[prop]);
                 default:
                   return null;
               }
@@ -67,6 +70,13 @@ class KitfileParser {
 
     // default: get an empty kit
     return KitfileParser.getEmptyKit();
+  }
+
+  // kit file checksum is least significant byte of the sum of all bytes after the checksum
+  static calculateChecksumFromBuffer(buffer) {
+    return buffer
+      .slice(BUFFER_CONSTANTS.CHECKSUM_BYTE + 1)
+      .reduce((a, b) => a + b) % 256;
   }
 
   static getEmptyKit() {

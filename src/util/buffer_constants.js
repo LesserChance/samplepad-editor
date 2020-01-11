@@ -1,5 +1,7 @@
 // these are references to all information needed to parse parameters out of a file
 export default Object.freeze({
+  CHECKSUM_BYTE: 0x00000008,
+
   // map setup {note: [level, tune, pan, reverb, sensitivity, mgrp, velocity_min, velocity_max, display_name, filename], ...}
 
   // todo: need to store references to all layer b param locations
@@ -23,14 +25,14 @@ export default Object.freeze({
 
   // the data type for each prop
   PROP_TYPE: {
-    'level': 'int8',
-    'tune': 'int8',
-    'pan': 'int8',
-    'reverb': 'int8',
-    'sensitivity': 'int8',
-    'mgrp': 'int8',
-    'velocity_min': 'int8',
-    'velocity_max': 'int8',
+    'level': 'uint8',
+    'tune': 'uint8',
+    'pan': 'uint8',
+    'reverb': 'uint8',
+    'sensitivity': 'uint8',
+    'mgrp': 'uint8',
+    'velocity_min': 'uint8',
+    'velocity_max': 'uint8',
     'display_name': 'string',
     'filename': 'string'
   },

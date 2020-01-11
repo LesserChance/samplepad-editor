@@ -32,33 +32,55 @@ class Pad {
   }
 
   // Getters + setters
-  // tune display value is -4 to +4 (252,253,254,255,0,1,2,3,4)
+  // tune display value is -4 to +4 (unsigned int: 252,253,254,255,0,1,2,3,4)
   get tune_display() {
+    // todo: theres definitely a better way to convert uint8 to signed int here, right?
     if (this.tune >= 252) {
-      return -1 * (256 - this.tune);
+      return '' + (-1 * (256 - this.tune));
     }
 
     return '' + this.tune;
   }
-  set tune_display(value) {
+  setTune(value) {
     let tune = parseInt(value, 10);
 
     if (tune < 0) {
-      this.tune = (256 - tune);
+      this.tune = (256 + tune);
     } else {
       this.tune = tune;
     }
   }
 
-  // sensitivity is 1 to 8
+  // sensitivity is 1 to 8 (5=23, 7=27, 8=32  -- cant figure the pattern out - need to map each)
   get sensitivity_display() {
-    return '' + this.sensitivity;
+    switch (this.sensitivity) {
+      case 23:
+        return '5';
+      case 27:
+        return '7';
+      case 32:
+        return '8';
+      default:
+        return '' + this.sensitivity;
+    }
   }
-  set sensitivity_display(value) {
-    this.sensitivity = value;
+  setSensitivity(value) {
+    switch (value) {
+      case '5':
+        this.sensitivity = 23;
+        break;
+      case '7':
+        this.sensitivity = 27;
+        break;
+      case '8':
+        this.sensitivity = 32;
+        break;
+      default:
+        throw new Error("invalid sensitivity value");
+    }
   }
 
-  // pan display value is L4 to R4 (252,253,254,255,0,1,2,3,4)
+  // pan display value is L4 to R4 (unsigned int: 252,253,254,255,0,1,2,3,4)
   get pan_display() {
     if (this.pan === 0) {
       return 'ctr';
@@ -68,7 +90,7 @@ class Pad {
       return "R" + this.pan;
     }
   }
-  set pan_display(value) {
+  setPan(value) {
     if (value === 'ctr') {
       this.pan = 0;
     } else {

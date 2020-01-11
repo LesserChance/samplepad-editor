@@ -1,3 +1,5 @@
+import Pad from './pad';
+
 class Kit {
   constructor(props) {
     this.filepath = props.filepath;
@@ -8,6 +10,9 @@ class Kit {
 
   static fromArray(kit_props) {
     var kits = kit_props.map((props) => {
+      // pads should reference the models
+      props.pads = Pad.fromArray(props.pads);
+
       return new Kit(props);
     });
 

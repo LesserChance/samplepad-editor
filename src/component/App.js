@@ -1,7 +1,9 @@
 import React from 'react';
-import './App.css';
-
+import FileList from './FileList';
+import Kit from './Kit';
 import KitfileParser from "../util/kitfile_parser"
+
+import './App.css';
 
 class App extends React.Component {
 
@@ -9,68 +11,63 @@ class App extends React.Component {
     super(props);
 
     this.state = {
+      sd_card: props.sd_card,
       kit: props.kit
     };
 
+    this.loadCard = this.loadCard.bind(this);
     this.loadKit = this.loadKit.bind(this);
+    this.saveKit = this.saveKit.bind(this);
+    this.saveNewKit = this.saveNewKit.bind(this);
   }
 
   render() {
     return (
       <div className="App">
-        <button onClick = {this.loadKit}>Load Kit</button>
-
-        {this.state.kit &&
-          <div>
-            <div>
-              <strong>Kit:</strong>
-              <div>filepath: {this.state.kit.filepath}</div>
-              <div>filename: {this.state.kit.filename}</div>
-              <div>kit_name: {this.state.kit.kit_name}</div>
-            </div>
-
-            <div className="mt-2">
-              <strong>Pads:</strong>
-              {
-                this.state.kit.pads.map((pad, index) => {
-                  return (
-                    <div key={index}>
-                      <strong>Pad:</strong>
-                      <div>filename: {pad.filename}</div>
-                      <div>display_name: {pad.display_name}</div>
-                      <div>velocity_min: {pad.velocity_min}</div>
-                      <div>velocity_max: {pad.velocity_max}</div>
-                      <div>filename_b: {pad.filename_b}</div>
-                      <div>display_name_b: {pad.display_name_b}</div>
-                      <div>velocity_min_b: {pad.velocity_min_b}</div>
-                      <div>velocity_max_b: {pad.velocity_max_b}</div>
-                      <div>tune: {pad.tune}</div>
-                      <div>tune_display: {pad.tune_display}</div>
-                      <div>sensitivity: {pad.sensitivity}</div>
-                      <div>sensitivity_display: {pad.sensitivity_display}</div>
-                      <div>pan: {pad.pan}</div>
-                      <div>pan_display: {pad.pan_display}</div>
-                      <div>reverb: {pad.reverb}</div>
-                      <div>level: {pad.level}</div>
-                      <div>midi_note: {pad.midi_note}</div>
-                      <div>mode: {pad.mode}</div>
-                      <div>mgrp: {pad.mgrp}</div>
-                    </div>
-                  );
-                })
-              }
-            </div>
-          </div>}
+        <div>
+          <button onClick = {this.loadCard}>Load SD Card</button>
+          <button onClick = {this.loadKit}>Load Kit</button>
+          <button onClick = {this.saveKit}>Save Kit</button>
+          {!this.state.kit.is_new &&
+            <button onClick = {this.saveNewKit}>Save as New Kit</button>
+          }
+        </div>
+        <div className="row">
+          <div className="col-2">
+            <FileList sd_card={this.state.sd_card} />
+          </div>
+          <div className="col-10">
+            <Kit kit={this.state.kit} />
+          </div>
+        </div>
       </div>
     );
+  }
+
+  loadCard() {
+    KitfileParser
+      .openSdCard()
+      .then(result => {
+        this.setState({sd_card: result})
+      })
   }
 
   loadKit() {
     KitfileParser
       .openKitFile()
       .then(result => {
-        this.setState({kit: result})
+        if (result !== null) {
+          this.setState({kit: result});
+        }
       })
+  }
+
+  saveKit() {
+    this.state.kit.save();
+  }
+
+  saveNewKit() {
+    this.state.kit.save(true);
   }
 }
 

@@ -1,12 +1,13 @@
 // these are references to all information needed to parse parameters out of a file
 export default Object.freeze({
-  CHECKSUM_BYTE: 0x00000008,
+  HEADER: [0x4B,0x49,0x54,0x48,0x00,0x80,0x00,0x00],
+  CHECKSUM_BYTE: 0x08,
 
   // map setup {note: [level, tune, pan, reverb, sensitivity, mgrp, velocity_min, velocity_max, display_name, filename], ...}
 
   // todo: need to store references to all layer b param locations
   NOTE_MAP: {
-    36: [0x00000fa9,0x00000fad,0x00000fb1,0x00000fb5,0x00000fc1,0x00000fc9,0x00002802,0x00002803,0x00002808,0x00002810]
+    36: [0x0fa9,0x0fad,0x0fb1,0x0fb5,0x0fc1,0x0fc9,0x2802,0x2803,0x2808,0x2810]
   },
 
   // the index in the above map which each param uses

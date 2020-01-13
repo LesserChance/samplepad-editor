@@ -1,7 +1,7 @@
 import React from 'react';
 
 import PadComponent from './Pad';
-import './Kit.css';
+import '../css/Kit.css';
 
 class KitComponent extends React.Component {
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import './Pad.css';
+import '../css/Pad.css';
 
 class PadComponent extends React.Component {
 

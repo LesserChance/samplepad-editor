@@ -1,6 +1,6 @@
 import React from 'react';
 
-import './FileList.css';
+import '../css/FileList.css';
 
 class FileListComponent extends React.Component {
 

@@ -4,11 +4,11 @@ import ReactDOM from 'react-dom';
 import './css/bootstrap.min.css';
 import './css/index.css';
 
-import App from './component/App';
-import KitfileParser from "./util/kitfile_parser"
+import AppComponent from './component/App';
+import Kit from "./model/kit"
+import SampleDrive from "./model/sample_drive"
 
 ReactDOM.render(
-  <App
-    kit={KitfileParser.getKit('/Users/admin/Documents/samplepad-editor/TEST.kit')}
-    sd_card={KitfileParser.getSdCard('/Volumes/SAMPLERACK')}
+  <AppComponent
+    sampleDrive={SampleDrive.fromDirectory('/Volumes/SAMPLERACK')}
     />, document.getElementById('root'));

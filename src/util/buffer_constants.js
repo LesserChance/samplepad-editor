@@ -3,7 +3,7 @@ export default Object.freeze({
   HEADER: [0x4B,0x49,0x54,0x48,0x00,0x80,0x00,0x00],
   CHECKSUM_BYTE: 0x08,
 
-  // map setup {note: [level, tune, pan, reverb, sensitivity, mgrp, velocity_min, velocity_max, display_name, filename], ...}
+  // map setup {note: [level, tune, pan, reverb, sensitivity, mgrp, velocityMin, velocityMax, displayName, fileName], ...}
 
   // todo: need to store references to all layer b param locations
   NOTE_MAP: {
@@ -18,10 +18,10 @@ export default Object.freeze({
     'reverb': 3,
     'sensitivity': 4,
     'mgrp': 5,
-    'velocity_min': 6,
-    'velocity_max': 7,
-    'display_name': 8,
-    'filename': 9
+    'velocityMin': 6,
+    'velocityMax': 7,
+    'displayName': 8,
+    'fileName': 9
   },
 
   // the data type for each prop
@@ -32,15 +32,15 @@ export default Object.freeze({
     'reverb': 'uint8',
     'sensitivity': 'uint8',
     'mgrp': 'uint8',
-    'velocity_min': 'uint8',
-    'velocity_max': 'uint8',
-    'display_name': 'string',
-    'filename': 'string'
+    'velocityMin': 'uint8',
+    'velocityMax': 'uint8',
+    'displayName': 'string',
+    'fileName': 'string'
   },
 
   // the number of bytes to read for a string prop
   PROP_LENGTH: {
-    'display_name': 8,
-    'filename': 8
+    'displayName': 8,
+    'fileName': 8
   }
 });

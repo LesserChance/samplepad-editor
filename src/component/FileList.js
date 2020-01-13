@@ -2,15 +2,12 @@ import React from 'react';
 
 import './FileList.css';
 
-class FileList extends React.Component {
+class FileListComponent extends React.Component {
 
   render() {
-    let sd_card = this.props.sd_card;
-
     return (
       <div className="FileList">
-        {sd_card && sd_card.samples &&
-          sd_card.samples.map((file, index) => {
+        {this.props.samples && this.props.samples.map((file, index) => {
             return (
               <div key={index}>
                 {file.name}
@@ -23,4 +20,4 @@ class FileList extends React.Component {
   }
 }
 
-export default FileList;
+export default FileListComponent;

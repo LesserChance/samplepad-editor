@@ -1,7 +1,7 @@
 import React from 'react';
 import './Pad.css';
 
-class Pad extends React.Component {
+class PadComponent extends React.Component {
 
   constructor(props) {
     super(props);
@@ -13,25 +13,16 @@ class Pad extends React.Component {
 
   render() {
     let pad = this.props.pad;
-    console.log(pad.velocity_min);
 
     return (
       <tr>
-        <th scope="row"><input type="text" className="form-control" defaultValue={pad.midi_note} onChange={(e) => this.updatePadIntProperty("midi_note", e.target.value)} /></th>
-        <td><input type="text" className="form-control" defaultValue={pad.filename} onChange={(e) => this.updatePadStringProperty("filename", e.target.value)} /></td>
-        <td><input type="text" className="form-control" defaultValue={pad.display_name} onChange={(e) => this.updatePadStringProperty("display_name", e.target.value)} /></td>
+        <th scope="row"><input type="text" className="form-control" defaultValue={pad.midiNote} onChange={(e) => this.updatePadIntProperty("midiNote", e.target.value)} /></th>
+        <td><input type="text" className="form-control" defaultValue={pad.fileName} onChange={(e) => this.updatePadStringProperty("fileName", e.target.value)} /></td>
+        <td><input type="text" className="form-control" defaultValue={pad.displayName} onChange={(e) => this.updatePadStringProperty("displayName", e.target.value)} /></td>
         <td className="velocity-td">
-          <input type="text" className="form-control" defaultValue={pad.velocity_min} onChange={(e) => this.updatePadIntProperty("velocity_min", e.target.value)} /> -
-          <input type="text" className="form-control" defaultValue={pad.velocity_max} onChange={(e) => this.updatePadIntProperty("velocity_max", e.target.value)} />
+          <input type="text" className="form-control" defaultValue={pad.velocityMin} onChange={(e) => this.updatePadIntProperty("velocityMin", e.target.value)} /> -
+          <input type="text" className="form-control" defaultValue={pad.velocityMax} onChange={(e) => this.updatePadIntProperty("velocityMax", e.target.value)} />
         </td>
-
-        {
-        // <td><input type="text" className="form-control" defaultValue={pad.filename_b} onChange={(e) => this.updatePadStringProperty("filename_b", e.target.value)} /></td>
-        // <td><input type="text" className="form-control" defaultValue={pad.display_name_b} onChange={(e) => this.updatePadStringProperty("display_name_b", e.target.value)} /></td>
-        // <td><input type="text" className="form-control" defaultValue={pad.velocity_min_b} onChange={(e) => this.updatePadIntProperty("velocity_min_b", e.target.value)} /></td>
-        // <td><input type="text" className="form-control" defaultValue={pad.velocity_max_b} onChange={(e) => this.updatePadIntProperty("velocity_max_b", e.target.value)} /></td>
-        }
-
         <td>
           <select className="form-control" defaultValue={pad.tune} onChange={(e) => this.updatePadIntProperty('tune', e.target.value)}>
             <option value="252">-4</option>
@@ -45,7 +36,7 @@ class Pad extends React.Component {
             <option value="4">+4</option>
           </select>
         </td>
-        <td><input type="text" className="form-control" defaultValue={pad.getSensitivityDisplayValue()} onChange={(e) => this.updatePadSensitivity(e.target.value)} /></td>
+        <td><input type="text" className="form-control" defaultValue={pad.sensitivityDisplayValue} onChange={(e) => this.updatePadSensitivity(e.target.value)} /></td>
         <td>
           <select className="form-control" defaultValue={pad.pan} onChange={(e) => this.updatePadIntProperty('pan', e.target.value)}>
             <option value="-2">L2</option>
@@ -64,16 +55,21 @@ class Pad extends React.Component {
   }
 
   updatePadIntProperty(property, value) {
-    this.props.pad[property] = parseInt(value, 10);
+    this.updatePadProperty(property, parseInt(value, 10));
   }
 
   updatePadStringProperty(property, value) {
-    this.props.pad[property] = value;
+    this.updatePadProperty(property, value);
   }
 
   updatePadSensitivity(value) {
     this.props.pad.setSensitivityFromDisplayValue(value);
   }
+
+  updatePadProperty(property, value) {
+    this.props.pad[property] = value;
+  }
+
 }
 
-export default Pad;
+export default PadComponent;

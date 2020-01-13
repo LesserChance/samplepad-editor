@@ -1,20 +1,30 @@
-class Pad {
-  constructor(props) {
-    // First Layer
-    this.filename = props.filename;
-    this.display_name = props.display_name;
-    this.velocity_min = props.velocity_min;
-    this.velocity_max = props.velocity_max;
+const uuidv1 = require('uuid/v1');
 
-    // Second Layer
-    this.filename_b = props.filename_b;
-    this.display_name_b = props.display_name_b;
-    this.velocity_min_b = props.velocity_min_b;
-    this.velocity_max_b = props.velocity_max_b;
+class Pad {
+  static defaultState() {
+    return {
+      id: uuidv1()
+    };
+  }
+
+  constructor(props) {
+    props = Object.assign({}, Pad.defaultState(), props)
+
+    // First Layer
+    this.fileName = props.fileName;
+    this.displayName = props.displayName;
+    this.velocityMin = props.velocityMin;
+    this.velocityMax = props.velocityMax;
+
+    // // Second Layer
+    // fileName_b: null,
+    // displayName_b: null,
+    // velocityMin_b: null,
+    // velocityMax_b: null,
 
     this.reverb = props.reverb;
     this.level = props.level;
-    this.midi_note = props.midi_note;
+    this.midiNote = props.midiNote;
     this.mode = props.mode;
     this.mgrp = props.mgrp;
 
@@ -24,35 +34,37 @@ class Pad {
     this.pan = props.pan;
   }
 
-  static fromArray(pad_props) {
-    var pads = pad_props.map((props) => {
-      return new Pad(props);
-    });
-
-    return pads.sort((a, b) => {return a.display_name > b.display_name})
-  }
-
-  // Getters + setters
-  // tune display value is -4 to +4 (unsigned int: 252,253,254,255,0,1,2,3,4)
+  /*
+   * tune display value is -4 to +4 (unsigned int: 252,253,254,255,0,1,2,3,4)
+   * @returns {String}
+   */
   getTuneDisplayValue() {
     // todo: theres definitely a better way to convert uint8 to signed int here, right?
-    if (this.tune >= 252) {
-      return '' + (-1 * (256 - this.tune));
+    let tune = this.tune
+    if (tune >= 252) {
+      return '' + (-1 * (256 - tune));
     }
 
-    return '' + this.tune;
+    return '' + tune;
   }
+
+  /*
+   * @param {String} value
+   */
   setTuneFromDisplayValue(value) {
     let tune = parseInt(value, 10);
 
     if (tune < 0) {
       this.tune = (256 + tune);
     } else {
-      this.tune = tune;
+      this.tune = (tune);
     }
   }
 
-  // sensitivity is 1 to 8 (5=23, 7=27, 8=32  -- cant figure the pattern out - need to map each)
+  /*
+   * sensitivity is 1 to 8 (5=23, 7=27, 8=32  -- cant figure the pattern out - need to map each)
+   * @returns {String}
+   */
   getSensitivityDisplayValue() {
     switch (this.sensitivity) {
       case 23:
@@ -65,6 +77,10 @@ class Pad {
         return '' + this.sensitivity;
     }
   }
+
+  /*
+   * @param {String} value
+   */
   setSensitivityFromDisplayValue(value) {
     switch (value) {
       case '5':
@@ -81,19 +97,28 @@ class Pad {
     }
   }
 
-  // pan display value is L4 to R4 (unsigned int: 252,253,254,255,0,1,2,3,4)
+  /*
+   * pan display value is L4 to R4 (unsigned int: 252,253,254,255,0,1,2,3,4)
+   * @returns {String}
+   */
   getPanDisplayValue() {
-    if (this.pan === 0) {
+    let pan = this.pan
+
+    if (pan === 0) {
       return 'ctr';
-    } else if (this.pan >= 252) {
-      return "L" + (256 - this.pan);
+    } else if (pan >= 252) {
+      return "L" + (256 - pan);
     } else {
-      return "R" + this.pan;
+      return "R" + pan;
     }
   }
+
+  /*
+   * @param {String} value
+   */
   setPanFromDisplayValue(value) {
     if (value === 'ctr') {
-      this.pan = 0;
+      this.pan = 0
     } else {
       if (value.length <= 1) {
         throw new Error("invalid pan value");
@@ -109,6 +134,18 @@ class Pad {
         throw new Error("invalid pan value");
       }
     }
+  }
+
+  /*
+   * Create Pad Models given an array of json properties
+   * @param {Object} pad_props
+   */
+  static fromArray(pad_props) {
+    var pads = pad_props.map((props) => {
+      return new Pad(props);
+    });
+
+    return pads.sort((a, b) => {return a.MidiNote() > b.getMidiNote()})
   }
 }
 

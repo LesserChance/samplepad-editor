@@ -21,7 +21,7 @@ class AppComponent extends React.Component {
     this.state = {
       kit: props.kit,
       sampleDrive: props.sampleDrive,
-      selectedKit: ""
+      selectedKit: props.sampleDrive.kits[0].id
     };
 
     this.loadCard = this.loadCard.bind(this);
@@ -30,9 +30,7 @@ class AppComponent extends React.Component {
     this.saveNewKit = this.saveNewKit.bind(this);
     this.loadNewKit = this.loadNewKit.bind(this);
     this.loadSelectedKit = this.loadSelectedKit.bind(this);
-
     this.setSelectedKit = this.setSelectedKit.bind(this);
-
     this.updateKitProperty = this.updateKitProperty.bind(this);
   }
 
@@ -70,20 +68,19 @@ class AppComponent extends React.Component {
           <div className="column is-three-quarters">
             <h5 className="is-size-4">Kit</h5>
             <div>
-              <a className="button" onClick = {this.loadKitFromFile}>Import Kit</a>
-              <a className="button" onClick = {this.saveKit}>Save Kit</a>
-              {this.state.kit && !this.state.kit.isNew &&
-                <a className="button" onClick = {this.saveNewKit}>Save as New Kit</a>
-              }
+              <a className="button is-small" onClick = {this.loadKitFromFile}>Import Kit</a>
+              <a className="button is-small" onClick={this.loadNewKit}>New Kit</a>
             </div>
 
             <h5>Kits</h5>
             <KitListComponent
               selectedKit={this.state.selectedKit}
+              kitIsExisting={this.state.kit && !this.state.kit.isNew}
               kits={this.state.sampleDrive.kits}
               onChangeKit={this.setSelectedKit}
-              onNewKit={this.loadNewKit}
-              onLoadKit={this.loadSelectedKit} />
+              onLoadKit={this.loadSelectedKit}
+              onSaveKit={this.saveKit}
+              onSaveNewKit={this.saveNewKit} />
 
             {this.state.kit &&
               <KitComponent
@@ -126,6 +123,10 @@ class AppComponent extends React.Component {
   loadCard() {
     SampleDrive.openDirectory()
       .then(result => {
+        if (!result) {
+          return;
+        }
+
         this.setSampleDriveState(result)
       })
   }
@@ -157,7 +158,8 @@ class AppComponent extends React.Component {
    * given a kit id, generate the model and load it
    * @param {String} kitId
    */
-  loadSelectedKit(kitId) {
+  loadSelectedKit() {
+    let kitId = this.state.selectedKit;
     let kit = this.state.sampleDrive.getKitById(kitId);
 
     if (!kit.isLoaded) {
@@ -183,14 +185,16 @@ class AppComponent extends React.Component {
    *
    */
   saveKit() {
-    this.state.kit.save();
+    alert("save");
+    // this.state.kit.save();
   }
 
   /*
    *
    */
   saveNewKit() {
-    this.state.kit.save(true);
+    alert("saveNewKit");
+    // this.state.kit.save(true);
   }
 }
 

@@ -2,29 +2,13 @@ import React from 'react';
 
 class KitListComponent extends React.Component {
 
-  /*
-   * @constructor
-   * @param {Object} props
-   */
-  constructor(props) {
-    super(props);
-
-    this.selectElement = null;
-    this.setSelectRef = element => {
-      this.selectElement = element;
-    };
-
-    this.loadKit = this.loadKit.bind(this);
-  }
-
   render() {
     return (
       <div className="KitList">
         <div className="select">
           <select
             value={this.props.selectedKit}
-            onChange={(e) => this.props.onChangeKit(e.target.value)}
-            ref={this.setSelectRef}>
+            onChange={(e) => this.props.onChangeKit(e.target.value)}>
             {
               this.props.kits &&
               this.props.kits.map((kit, index) => {
@@ -42,14 +26,13 @@ class KitListComponent extends React.Component {
             }
           </select>
         </div>
-        <a className="button" onClick={this.loadKit}>Edit Kit</a>
-        <a className="button" onClick={this.props.onNewKit}>New Kit</a>
+        <a className="button" onClick={this.props.onLoadKit}>Edit Kit</a>
+        <a className="button" onClick = {this.props.onSaveKit}>Save Kit</a>
+        {this.props.kitIsExisting &&
+          <a className="button" onClick = {this.props.onSaveNewKit}>Save as New Kit</a>
+        }
       </div>
     );
-  }
-
-  loadKit() {
-    this.props.onLoadKit(this.selectElement.value);
   }
 }
 

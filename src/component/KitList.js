@@ -20,28 +20,30 @@ class KitListComponent extends React.Component {
   render() {
     return (
       <div className="KitList">
-        <select
-          ref={this.setSelectRef}
-          className="form-control">
-          {
-            this.props.kits &&
-            this.props.kits.map((kit, index) => {
-              return (
-                <option key={kit.id} value={kit.id}>
-                  {kit.isNew &&
-                    "<New> " + kit.kitName
-                  }
-                  {!kit.isNew &&
-                    kit.fileName
-                  }
-                </option>
-              );
-            })
-          }
-        </select>
-
-        <button onClick={this.loadKit}>Load Kit</button>
-        <button onClick={this.props.onNewKit}>New Kit</button>
+        <div className="select">
+          <select
+            value={this.props.selectedKit}
+            onChange={(e) => this.props.onChangeKit(e.target.value)}
+            ref={this.setSelectRef}>
+            {
+              this.props.kits &&
+              this.props.kits.map((kit, index) => {
+                return (
+                  <option key={kit.id} value={kit.id}>
+                    {kit.isNew &&
+                      "<New> " + kit.kitName
+                    }
+                    {!kit.isNew &&
+                      kit.fileName
+                    }
+                  </option>
+                );
+              })
+            }
+          </select>
+        </div>
+        <a className="button" onClick={this.loadKit}>Edit Kit</a>
+        <a className="button" onClick={this.props.onNewKit}>New Kit</a>
       </div>
     );
   }

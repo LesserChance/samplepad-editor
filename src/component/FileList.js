@@ -7,14 +7,34 @@ class FileListComponent extends React.Component {
   render() {
     return (
       <div className="FileList">
-        {this.props.samples && this.props.samples.map((file, index) => {
-            return (
-              <div key={index}>
-                {file.name}
-              </div>
-            );
-          })
-        }
+        <nav className="panel">
+          <p className="panel-heading">
+            Browse Samples
+          </p>
+
+          <div className="panel-block">
+            <p className="control has-icons-left">
+              <input className="input" type="text" placeholder="Search" />
+              <span className="icon is-left">
+                <i  className="glyphicon glyphicon-search" aria-hidden="true"></i>
+              </span>
+            </p>
+          </div>
+
+          <div className="samples">
+            {this.props.samples && this.props.samples.map((file, index) => {
+                return (
+                  <a key={index} className="panel-block sample">
+                    <span className="panel-icon">
+                      <i className="glyphicon glyphicon-file" aria-hidden="true"></i>
+                    </span>
+                    {file.name}
+                  </a>
+                );
+              })
+            }
+          </div>
+        </nav>
       </div>
     );
   }

@@ -1,2 +1,5 @@
-.pad-table {
-  overflow-x: scroll; }
+.pad-table .table td, .pad-table .table th {
+  padding: .25em .25em; }
+
+.col-mute-group {
+  white-space: nowrap; }

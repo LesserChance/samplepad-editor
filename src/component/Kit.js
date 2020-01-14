@@ -14,7 +14,7 @@ class KitComponent extends React.Component {
           <div>
             <div>
               <strong>Kit:</strong>
-              <input type="text" className="form-control" defaultValue={this.props.kitName} onChange={(e) => this.props.updateKitProperty('kitName', e.target.value)} />
+              <input type="text" className="input" defaultValue={this.props.kitName} onChange={(e) => this.props.updateKitProperty('kitName', e.target.value)} />
             </div>
 
             <div className="mt-2">
@@ -23,17 +23,16 @@ class KitComponent extends React.Component {
                 <table className="table">
                   <thead>
                     <tr>
-                      <th scope="col">Note</th>
-                      <th scope="col">File</th>
-                      <th scope="col">Name</th>
-                      <th scope="col">Velocity</th>
-                      <th scope="col">Tune</th>
-                      <th scope="col">Sensitivity</th>
-                      <th scope="col">Pan</th>
-                      <th scope="col">Reverb</th>
-                      <th scope="col">Level</th>
-                      <th scope="col">Mode</th>
-                      <th scope="col">Mute Group</th>
+                      <th scope="col" className="col-note">Note</th>
+                      <th scope="col" className="col-file">File</th>
+                      <th scope="col" className="col-velocity">Velocity</th>
+                      <th scope="col" className="col-tune">Tune</th>
+                      <th scope="col" className="col-sensitivity">Sensitivity</th>
+                      <th scope="col" className="col-pan">Pan</th>
+                      <th scope="col" className="col-reverb">Reverb</th>
+                      <th scope="col" className="col-level">Level</th>
+                      <th scope="col" className="col-mode">Mode</th>
+                      <th scope="col" className="col-mute-group">Mute Group</th>
                     </tr>
                   </thead>
                   <tbody>

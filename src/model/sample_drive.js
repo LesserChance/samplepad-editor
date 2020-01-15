@@ -13,6 +13,8 @@ class SampleDrive {
       rootPath: "",
       /* @var {String} */
       kitPath: "",
+      /* @var {Number} */
+      fileCount: 0,
       /* @var {Kit[]} */
       kits: [],
       /* @var {dirent[]} */
@@ -25,6 +27,7 @@ class SampleDrive {
 
     this.rootPath = props.rootPath;
     this.kitPath = props.kitPath;
+    this.fileCount = props.fileCount;
     this.kits = props.kits;
     this.samples = props.samples;
   }
@@ -39,6 +42,13 @@ class SampleDrive {
     }
 
     return null;
+  }
+
+  /*
+   * @param {dirent} sample
+   */
+  getSampleFilePath(sample) {
+    return this.rootPath + "/" + sample.name;
   }
 
   /*
@@ -66,29 +76,38 @@ class SampleDrive {
    */
   static fromDirectory(rootPath) {
     let kitPath = rootPath + "/" + KIT_CONSTANTS.KIT_DIRECTORY;
+    let allFiles = fs.readdirSync(rootPath, {withFileTypes: true});
 
-    let sample_files = fs.readdirSync(rootPath, {withFileTypes: true})
+    let fileCount = allFiles
+      .filter((dirent, index, arr) => {
+        return dirent.isFile() && !(/(^|\/)\.[^\/\.]/g).test(dirent.name)
+      }).length
+
+      console.log(fileCount);
+
+    let sampleFiles = allFiles
       .filter((dirent, index, arr) => {
         return dirent.isFile()
           && path.extname(dirent.name).toLowerCase() === KIT_CONSTANTS.SAMPLE_EXTENSION
           && !(/(^|\/)\.[^\/\.]/g).test(dirent.name)
       })
 
-    let kit_files = fs.readdirSync(kitPath, {withFileTypes: true})
+    let kitFiles = fs.readdirSync(kitPath, {withFileTypes: true})
       .filter((dirent, index, arr) => {
         return dirent.isFile()
           && path.extname(dirent.name).toLowerCase() === KIT_CONSTANTS.KIT_EXTENSION
           && !(/(^|\/)\.[^\/\.]/g).test(dirent.name)
       })
 
-    let kits = kit_files.map((kit_file, index) => {
+    let kits = kitFiles.map((kit_file, index) => {
         return Kit.getUnloadedKit(kitPath, kit_file.name)
       });
 
     return new SampleDrive({
       rootPath: rootPath,
       kitPath: kitPath,
-      samples: sample_files,
+      fileCount: fileCount,
+      samples: sampleFiles,
       kits: kits
     });
   }

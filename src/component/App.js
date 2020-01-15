@@ -21,7 +21,7 @@ class AppComponent extends React.Component {
     this.state = {
       kit: props.kit,
       sampleDrive: props.sampleDrive,
-      selectedKit: props.sampleDrive.kits[0].id
+      selectedKit: props.sampleDrive.kits.length && props.sampleDrive.kits[0].id
     };
 
     this.loadCard = this.loadCard.bind(this);
@@ -62,7 +62,10 @@ class AppComponent extends React.Component {
 
         <section className="columns">
           <div className="column is-one-quarter">
-            <FileListComponent samples={this.state.sampleDrive.samples} />
+            <FileListComponent
+              fileCount={this.state.sampleDrive.fileCount}
+              sampleDrive={this.state.sampleDrive}
+              samples={this.state.sampleDrive.samples} />
           </div>
 
           <div className="column is-three-quarters">

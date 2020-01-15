@@ -33,9 +33,11 @@ class SamplePlayer {
   }
 
   stop() {
-    this.child.removeAllListeners('close');
     if (this.child) {
-      this.child.kill();
+      this.child.removeAllListeners('close');
+      if (this.child) {
+        this.child.kill();
+      }
     }
   };
 }

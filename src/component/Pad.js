@@ -1,10 +1,16 @@
 import React from 'react';
 import '../css/Pad.css';
+import samplePlayer from '../util/sample_player';
 
 class PadComponent extends React.Component {
 
   constructor(props) {
     super(props);
+
+    this.state = {
+      player: null,
+      playing_sample: false
+    };
 
     this.updatePadIntProperty = this.updatePadIntProperty.bind(this);
     this.updatePadStringProperty = this.updatePadStringProperty.bind(this);
@@ -17,7 +23,16 @@ class PadComponent extends React.Component {
     return (
       <tr>
         <th scope="row"><input type="text" className="input" defaultValue={pad.midiNote} onChange={(e) => this.updatePadIntProperty("midiNote", e.target.value)} /></th>
-        <td><input type="text" className="input" defaultValue={pad.fileName} onChange={(e) => this.updatePadStringProperty("fileName", e.target.value)} /></td>
+        <td>
+          <a className="sample button" onClick={(e) => this.playSample()}>
+            <span className="panel-icon">
+              <i className={"glyphicon " + ((this.state.playing_sample) ? "glyphicon-stop" : "glyphicon-play")} aria-hidden="true" />
+            </span>
+            <span className={((this.state.playing_sample) ? "has-text-primary" : "")}>
+              {pad.fileName}
+            </span>
+          </a>
+        </td>
         <td className="velocity-td">
           <input type="text" className="input" defaultValue={pad.velocityMin} onChange={(e) => this.updatePadIntProperty("velocityMin", e.target.value)} /> -
           <input type="text" className="input" defaultValue={pad.velocityMax} onChange={(e) => this.updatePadIntProperty("velocityMax", e.target.value)} />
@@ -67,6 +82,22 @@ class PadComponent extends React.Component {
 
   updatePadProperty(property, value) {
     this.props.pad[property] = value;
+  }
+
+  playSample(file, index) {
+    if (this.state.playing_sample) {
+      this.state.player.stop();
+      this.setState({playing_sample: false});
+      return;
+    }
+
+    this.state.player = new samplePlayer();
+    this.setState({playing_sample: true});
+    this.state.player
+      .play(this.props.sampleDrive.getSampleFilePath(this.props.pad.fileName + ".wav"))
+      .then(() => {
+        this.setState({playing_sample: false});
+      })
   }
 
 }

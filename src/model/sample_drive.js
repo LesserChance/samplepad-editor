@@ -47,8 +47,8 @@ class SampleDrive {
   /*
    * @param {dirent} sample
    */
-  getSampleFilePath(sample) {
-    return this.rootPath + "/" + sample.name;
+  getSampleFilePath(sample_file) {
+    return this.rootPath + "/" + sample_file;
   }
 
   /*

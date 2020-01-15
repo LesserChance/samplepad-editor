@@ -23,7 +23,7 @@ class FileListComponent extends React.Component {
     return (
       <div className="FileList">
         <nav className="panel">
-          <p className="panel-heading">
+          <div className="panel-heading">
             <div className="level">
               <div className="level-left">
                 <div className="level-item">
@@ -35,15 +35,15 @@ class FileListComponent extends React.Component {
                 <i className="is-size-7">({this.props.fileCount}/512)</i>
               </div>
             </div>
-          </p>
+          </div>
 
           <div className="panel-block">
-            <p className="control has-icons-left">
+            <div className="control has-icons-left">
               <input className="input" type="text" placeholder="Search" />
               <span className="icon is-left">
                 <i  className="glyphicon glyphicon-search" aria-hidden="true"></i>
               </span>
-            </p>
+            </div>
           </div>
 
           <div className="samples">
@@ -88,7 +88,7 @@ class FileListComponent extends React.Component {
     this.setState(new_state);
 
     player
-      .play(this.props.sampleDrive.getSampleFilePath(file))
+      .play(this.props.sampleDrive.getSampleFilePath(file.name))
       .then(() => {
         let new_state = {};
         new_state["player_" + index] = null;

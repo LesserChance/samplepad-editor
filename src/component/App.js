@@ -90,6 +90,7 @@ class AppComponent extends React.Component {
                 kitId={this.state.kit.id}
                 kitName={this.state.kit.kitName}
                 kitPads={this.state.kit.pads}
+                sampleDrive={this.state.sampleDrive}
                 updateKitProperty={this.updateKitProperty}
                 />
             }

@@ -39,7 +39,7 @@ class KitComponent extends React.Component {
                     {
                       this.props.kitPads.map((pad, index) => {
                         return (
-                          <PadComponent key={index} pad={pad} />
+                          <PadComponent key={index} pad={pad} sampleDrive={this.props.sampleDrive} />
                         );
                       })
                     }

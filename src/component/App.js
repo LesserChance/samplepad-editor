@@ -26,7 +26,7 @@ const AppComponent = React.memo(function AppComponent(props) {
             loadSelectedKit={props.loadSelectedKit}
             saveKit={props.saveKit}
             kits={props.kits}
-            showSaveAsNew={props.kits[props.activeKitId].isExisting}
+            showSaveAsNew={props.kits[props.activeKitId] &&props.kits[props.activeKitId].isExisting}
             selectedKitId={props.selectedKitId} />
 
           {props.kits[props.activeKitId] &&

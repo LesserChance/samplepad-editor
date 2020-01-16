@@ -42,10 +42,12 @@ class Store extends React.Component {
   }
 
   getInitialState(initialState) {
+    let selectedKitId = null;
     let activeKitId = null;
     if (Object.keys(initialState.kits).length) {
-      activeKitId = Object.keys(initialState.kits)[0];
+      selectedKitId = Object.keys(initialState.kits)[0];
     }
+
 
     return Object.assign({
       whammy: 1,
@@ -55,7 +57,7 @@ class Store extends React.Component {
       kits: {},
       samples: [],
 
-      selectedKitId: activeKitId,
+      selectedKitId: selectedKitId,
       activeKitId: activeKitId
     }, initialState)
   }
@@ -237,7 +239,6 @@ class Store extends React.Component {
           samples={this.state.samples}
           selectedKitId={this.state.selectedKitId}
           activeKitId={this.state.activeKitId}
-          activeKit={this.state.kits[this.state.activeKitId].kitName}
 
           // methods
           loadCard={this.loadCard}

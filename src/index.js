@@ -4,10 +4,6 @@ import ReactDOM from 'react-dom';
 import './css/bulma.min.css';
 import './css/index.css';
 
-import AppComponent from './component/App';
-import SampleDrive from "./model/sample_drive"
+import Store from './component/Store';
 
-ReactDOM.render(
-  <AppComponent
-    sampleDrive={SampleDrive.fromDirectory('/Volumes/SAMPLERACK')}
-    />, document.getElementById('root'));
+ReactDOM.render(<Store />, document.getElementById('root'));

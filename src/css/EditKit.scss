@@ -1,0 +1,52 @@
+.pad-table {
+  .table td, .table th {
+    padding: .25em .25em;
+  }
+}
+.col-note {
+  width: 70px;
+}
+.col-file {
+  width: 150px;
+}
+.col-velocity {
+  width: 150px;
+  white-space: nowrap;
+}
+.col-tune {
+  width: 70px;
+}
+.col-sensitivity {
+  width: 100px;
+}
+.col-pan {
+  width: 70px;
+}
+.col-reverb {
+  width: 70px;
+}
+.col-level {
+  width: 70px;
+}
+.col-mode {
+  width: 100px;
+}
+.col-mute-group {
+  width: 100px;
+  white-space: nowrap;
+}
+
+.sampleDrop {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+.sampleDropHighlight {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  zIndex: 1;
+  opacity: 0.5;
+}

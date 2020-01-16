@@ -1,5 +1,4 @@
 const remote = window.require('electron').remote;
-const fs = window.require('fs');
 const spawn = window.require('child_process').spawn;
 
 class SamplePlayer {

@@ -1,205 +1,51 @@
 import React from 'react';
+import EditKitComponent from './EditKit'
+import HeaderComponent from './Header'
+import SampleListComponent from './SampleList'
+import KitListComponent from './KitList'
 
-import KitListComponent from './KitList';
-import FileListComponent from './FileList';
-import KitComponent from './Kit';
+const AppComponent = React.memo(function AppComponent(props) {
+  return (
+    <div className="App">
+      <HeaderComponent
+        loadCard={props.loadCard} />
 
-import Kit from '../model/kit';
-import SampleDrive from '../model/sample_drive';
+      <section className="columns">
+        <div className="column is-one-quarter">
+          <SampleListComponent
+            getSampleFilePath={props.getSampleFilePath}
+            driveFileCount={props.driveFileCount}
+            samples={props.samples} />
+        </div>
 
-import '../css/App.css';
+        <div className="column is-three-quarters">
+          <KitListComponent
+            loadKitFromFile={props.loadKitFromFile}
+            loadNewKit={props.loadNewKit}
+            setSelectedKit={props.setSelectedKit}
+            loadSelectedKit={props.loadSelectedKit}
+            saveKit={props.saveKit}
+            kits={props.kits}
+            showSaveAsNew={props.kits[props.activeKitId].isExisting}
+            selectedKitId={props.selectedKitId} />
 
-class AppComponent extends React.Component {
-
-  /*
-   * @constructor
-   * @param {Object} props
-   */
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      kit: props.kit,
-      sampleDrive: props.sampleDrive,
-      selectedKit: props.sampleDrive.kits.length && props.sampleDrive.kits[0].id
-    };
-
-    this.loadCard = this.loadCard.bind(this);
-    this.loadKitFromFile = this.loadKitFromFile.bind(this);
-    this.saveKit = this.saveKit.bind(this);
-    this.saveNewKit = this.saveNewKit.bind(this);
-    this.loadNewKit = this.loadNewKit.bind(this);
-    this.loadSelectedKit = this.loadSelectedKit.bind(this);
-    this.setSelectedKit = this.setSelectedKit.bind(this);
-    this.updateKitProperty = this.updateKitProperty.bind(this);
-  }
-
-  render() {
-    return (
-      <div className="App">
-
-        <section className="hero is-small is-primary is-bold">
-          <div className="hero-body">
-            <div className="container">
-              <div className="level">
-                <div className="level-left">
-                  <div className="level-item">
-                    <h1 className="title">
-                      SamplePad Kit Editor
-                    </h1>
-                  </div>
-                </div>
-
-                <div className="level-right">
-                  <p className="level-item">
-                    <a className="button is-link is-outlined" onClick = {this.loadCard}>Load SD Card</a>
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section className="columns">
-          <div className="column is-one-quarter">
-            <FileListComponent
-              fileCount={this.state.sampleDrive.fileCount}
-              sampleDrive={this.state.sampleDrive}
-              samples={this.state.sampleDrive.samples} />
-          </div>
-
-          <div className="column is-three-quarters">
-            <h5 className="is-size-4">Kit</h5>
-            <div>
-              <a className="button is-small" onClick = {this.loadKitFromFile}>Import Kit</a>
-              <a className="button is-small" onClick={this.loadNewKit}>New Kit</a>
-            </div>
-
-            <h5>Kits</h5>
-            <KitListComponent
-              selectedKit={this.state.selectedKit}
-              kitIsExisting={this.state.kit && !this.state.kit.isNew}
-              kits={this.state.sampleDrive.kits}
-              onChangeKit={this.setSelectedKit}
-              onLoadKit={this.loadSelectedKit}
-              onSaveKit={this.saveKit}
-              onSaveNewKit={this.saveNewKit} />
-
-            {this.state.kit &&
-              <KitComponent
-                kitId={this.state.kit.id}
-                kitName={this.state.kit.kitName}
-                kitPads={this.state.kit.pads}
-                sampleDrive={this.state.sampleDrive}
-                updateKitProperty={this.updateKitProperty}
-                />
-            }
-          </div>
-        </section>
-      </div>
-    );
-  }
-
-  /*
-   * set the displayed kit, and refresh all its properties
-   */
-  setKitState(kit) {
-    this.setState({kit: kit});
-  }
-  setSampleDriveState(sampleDrive) {
-    this.setState({sampleDrive: sampleDrive});
-  }
-
-  /*
-   * @param {String} property
-   * @param {String|Number} value
-   */
-  updateKitProperty(property, value) {
-    let kit = this.state.kit
-    kit[property] = value;
-
-    this.setKitState(kit);
-  }
-
-  /*
-   * Open a dialog to locate the SD card
-   */
-  loadCard() {
-    SampleDrive.openDirectory()
-      .then(result => {
-        if (!result) {
-          return;
-        }
-
-        this.setSampleDriveState(result)
-      })
-  }
-
-  /*
-   * Create an empty kit and load it
-   */
-  loadNewKit() {
-    let newKit = Kit.getEmptyKit();
-    let sampleDrive = this.state.sampleDrive
-    sampleDrive.kits.unshift(newKit);
-
-    this.setState({
-      "kit": newKit,
-      "sampleDrive": sampleDrive,
-      "selectedKit": newKit.id
-    })
-  }
-
-  /*
-   * select a specific kit in the dropdown
-   * @param {String} kitId
-   */
-  setSelectedKit(kitId) {
-    this.setState({"selectedKit": kitId})
-  }
-
-  /*
-   * given a kit id, generate the model and load it
-   * @param {String} kitId
-   */
-  loadSelectedKit() {
-    let kitId = this.state.selectedKit;
-    let kit = this.state.sampleDrive.getKitById(kitId);
-
-    if (!kit.isLoaded) {
-      kit.load()
-    }
-    this.setKitState(kit);
-  }
-
-  /*
-   * Open a dialog to locate a kit file and load it
-   */
-  loadKitFromFile() {
-    Kit.openKitFile()
-      .then(result => {
-        if (result !== null) {
-          // todo: also need to load this into the kit list
-          this.setKitState(result);
-        }
-      })
-  }
-
-  /*
-   *
-   */
-  saveKit() {
-    alert("save");
-    // this.state.kit.save();
-  }
-
-  /*
-   *
-   */
-  saveNewKit() {
-    alert("saveNewKit");
-    // this.state.kit.save(true);
-  }
-}
+          {props.kits[props.activeKitId] &&
+            <EditKitComponent
+              kitId={props.kits[props.activeKitId].id}
+              kitName={props.kits[props.activeKitId].kitName}
+              kitPads={props.kits[props.activeKitId].pads}
+              getSampleFilePath={props.getSampleFilePath}
+              updateKitProperty={props.updateKitProperty}
+              updatePadSample={props.updatePadSample}
+              updatePadIntProperty={props.updatePadIntProperty}
+              updatePadStringProperty={props.updatePadStringProperty}
+              updatePadSensitivity={props.updatePadSensitivity}
+            />
+          }
+        </div>
+      </section>
+    </div>
+  );
+});
 
 export default AppComponent;

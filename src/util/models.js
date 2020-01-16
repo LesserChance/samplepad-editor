@@ -1,0 +1,50 @@
+const uuidv1 = require('uuid/v1');
+
+export const RootModel = (rootPath = "", kitPath = "", fileCount = "", kits = {}, samples = []) => {
+  return {
+    driveRootModelPath: rootPath,
+    driveKitPath: kitPath,
+    driveFileCount: fileCount,
+    kits: kits,
+    samples: samples
+  };
+}
+
+export const KitModel = (filePath = "", fileName = "", isNew = false, isLoaded = false, kitName = "", pads = {}) => {
+  return {
+    id: uuidv1(),
+    isNew: isNew,
+    isLoaded: isLoaded,
+    filePath: filePath,
+    fileName: fileName,
+    kitName: kitName,
+    pads: pads
+  };
+}
+
+export const PadModel = (midiNote = null, fileName = "", displayName = "", velocityMin = 0, velocityMax = 127, fileName_b = "", displayName_b = "", velocityMin_b = 0, velocityMax_b = 127, reverb = 0, level = 0, mode = null, mgrp = 0, tune = 0, sensitivity = 8, pan = 0) => {
+  return {
+    id: uuidv1(),
+    midiNote: midiNote,
+
+    // First Layer
+    fileName: fileName,
+    displayName: displayName,
+    velocityMin: velocityMin,
+    velocityMax: velocityMax,
+
+    // Second Layer
+    fileName_b: fileName_b,
+    displayName_b: displayName_b,
+    velocityMin_b: velocityMin_b,
+    velocityMax_b: velocityMax_b,
+
+    reverb: reverb,
+    level: level,
+    mode: mode,
+    mgrp: mgrp,
+    tune: tune,
+    sensitivity: sensitivity,
+    pan: pan
+  };
+}

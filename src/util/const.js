@@ -1,5 +1,15 @@
-// these are references to all information needed to parse parameters out of a file
-export default Object.freeze({
+export const DragItemTypes = {
+  SAMPLE: 'sample',
+};
+
+export const Drive = {
+  SAMPLE_EXTENSION: ".wav",
+  KIT_EXTENSION: ".kit",
+  KIT_FILE_TYPE: "kit",
+  KIT_DIRECTORY: "KITS"
+};
+
+export const KitBuffer = {
   HEADER: [0x4B,0x49,0x54,0x48,0x00,0x80,0x00,0x00],
   CHECKSUM_BYTE: 0x08,
 
@@ -24,6 +34,13 @@ export default Object.freeze({
     'fileName': 9
   },
 
+  // Second Layer - havent figured these out yet
+  // fileName_b: null,
+  // displayName_b: null,
+  // velocityMin_b: null,
+  // velocityMax_b: null,
+
+
   // the data type for each prop
   PROP_TYPE: {
     'level': 'uint8',
@@ -43,4 +60,4 @@ export default Object.freeze({
     'displayName': 8,
     'fileName': 8
   }
-});
+};

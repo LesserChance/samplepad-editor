@@ -1,6 +1,6 @@
 {
-  "name": "MY-APP",
-  "description": "MY-APP",
+  "name": "samplepad-editor",
+  "description": "Build drum kits for the Alesis SamplePad",
   "author": "Ryan Bateman",
   "version": "0.1.0",
   "private": true,

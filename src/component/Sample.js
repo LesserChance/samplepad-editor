@@ -25,6 +25,7 @@ class SampleComponent extends React.Component {
         playSample = {this.playSample}
         playingSample = {this.state.playingSample}
         fileName = {this.props.fileName}
+        highlightKeyword = {this.props.highlightKeyword}
       />
     );
   }

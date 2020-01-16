@@ -1,5 +1,5 @@
 .SampleList {
   margin: .5em 0 0 .5em; }
   .SampleList .samples {
-    max-height: 400px;
+    max-height: 30em;
     overflow-y: scroll; }

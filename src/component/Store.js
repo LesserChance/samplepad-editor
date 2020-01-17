@@ -29,9 +29,9 @@ class Store extends React.Component {
     this.saveKit = this.saveKit.bind(this);
     this.saveNewKit = this.saveNewKit.bind(this);
     this.loadNewKit = this.loadNewKit.bind(this);
-    this.loadSelectedKit = this.loadSelectedKit.bind(this);
     this.setSelectedKit = this.setSelectedKit.bind(this);
     this.updateKitProperty = this.updateKitProperty.bind(this);
+
     this.updatePadSample = this.updatePadSample.bind(this);
     this.updatePadIntProperty = this.updatePadIntProperty.bind(this);
     this.updatePadStringProperty = this.updatePadStringProperty.bind(this);
@@ -44,13 +44,12 @@ class Store extends React.Component {
   getInitialState(initialState) {
     let selectedKitId = null;
     let activeKitId = null;
-    if (Object.keys(initialState.kits).length) {
-      selectedKitId = Object.keys(initialState.kits)[0];
-    }
+    // if (Object.keys(initialState.kits).length) {
+    //   selectedKitId = Object.keys(initialState.kits)[0];
+    // }
 
 
     return Object.assign({
-      whammy: 1,
       driveRootModelPath: null,
       driveKitPath: null,
       driveFileCount: null,
@@ -95,6 +94,7 @@ class Store extends React.Component {
         kitPath.dir,
         kitPath.base,
         true,
+        false,
         true,
         kitPath.name,
         getKitPadsFromFile(result.filePaths[0])
@@ -113,7 +113,7 @@ class Store extends React.Component {
   }
 
   loadNewKit() {
-    let kit = KitModel(null, null, true, true);
+    let kit = KitModel(null, null, true, false, true);
 
     this.setState(update(this.state, {
       selectedKitId: {$set: kit.id},
@@ -124,32 +124,35 @@ class Store extends React.Component {
     }));
   }
 
-  loadSelectedKit() {
-    let selectedKit = this.state.kits[this.state.selectedKitId];
-
-    if (!selectedKit.isLoaded) {
-      this.loadKit(this.state.selectedKitId);
-    }
-
-    this.setState({activeKitId: this.state.selectedKitId})
-  }
-
   saveKit() {
+    console.log("saveKit");
     let kit = this.state.kits[this.state.activeKitId];
     saveKit(kit, false);
 
     // todo: update state so this is no longer dirty/new
+    this.updateKitProperty(kit.id, 'originalKitName', kit.kitName);
   }
 
   saveNewKit() {
+    console.log("saveNewKit");
     let kit = this.state.kits[this.state.activeKitId];
     saveKit(kit, true);
 
     // todo: update state so this is no longer dirty/new
+    this.updateKitProperty(kit.id, 'originalKitName', kit.kitName);
   }
 
   setSelectedKit(kitId) {
-    this.setState({selectedKitId: kitId});
+    let kit = this.state.kits[kitId];
+
+    if (!kit.isLoaded) {
+      this.loadKit(kitId);
+    }
+
+    this.setState({
+      selectedKitId: kitId,
+      activeKitId: kitId
+    })
   }
 
   updateKitProperty(kitId, property, value) {

@@ -1,15 +1,32 @@
-.pad-table .table td, .pad-table .table th {
+.Kit {
+  margin: 1em .5em 0 0; }
+
+.kitHeader {
+  margin: 1em 0 .7em 0 !important; }
+
+input.kitName {
+  max-width: 20em; }
+
+.pad-table .table {
+  margin-bottom: 0; }
+
+.pad-table .table th {
   padding: .25em .25em; }
+
+.pad-table .table td {
+  padding: 0; }
 
 .col-note {
   width: 70px; }
 
 .col-file {
-  width: 150px; }
+  width: 200px; }
 
 .col-velocity {
   width: 150px;
   white-space: nowrap; }
+  .col-velocity input {
+    width: 40%; }
 
 .col-tune {
   width: 70px; }

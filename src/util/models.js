@@ -1,23 +1,24 @@
 const uuidv1 = require('uuid/v1');
 
-export const RootModel = (rootPath = "", kitPath = "", fileCount = "", kits = {}, samples = []) => {
+export const RootModel = (rootPath = "", kitPath = "", fileCount = "", samples = []) => {
   return {
     driveRootModelPath: rootPath,
     driveKitPath: kitPath,
     driveFileCount: fileCount,
-    kits: kits,
     samples: samples
   };
 }
 
-export const KitModel = (filePath = "", fileName = "", isNew = false, isLoaded = false, kitName = "", pads = {}) => {
+export const KitModel = (filePath = "", fileName = "", isNew = false, isExisting = false, isLoaded = false, kitName = "", pads = []) => {
   return {
     id: uuidv1(),
     isNew: isNew,
+    isExisting: isExisting,
     isLoaded: isLoaded,
     filePath: filePath,
     fileName: fileName,
     kitName: kitName,
+    originalKitName: kitName,
     pads: pads
   };
 }

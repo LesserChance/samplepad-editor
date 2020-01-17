@@ -1,8 +1,40 @@
 import { Drive, KitBuffer } from "../util/const";
 import { RootModel, KitModel, PadModel } from "./models";
 
+const remote = window.require('electron').remote;
 const fs = window.require('fs');
 const path = window.require('path');
+
+export function openKitFileDialog() {
+  return remote.dialog.showOpenDialog(remote.getCurrentWindow(), {
+    properties:["openFile"],
+    filters: [
+      { name: 'Kits (* .' + Drive.KIT_FILE_TYPE + ')',
+        extensions: [Drive.KIT_FILE_TYPE] },
+      { name: 'All Files', extensions: ['*'] }
+    ]
+  })
+}
+
+export function getKitAndPadsFromFile(kitFile) {
+  console.log("getKitAndPadsFromFile");
+  let kitPath = path.parse(kitFile);
+  let pads = getKitPadsFromFile(kitFile);
+
+  var kit = KitModel(
+    kitPath.dir,
+    kitPath.base,
+    true,
+    false,
+    true,
+    kitPath.name,
+    Object.keys(pads)
+  );
+
+  console.log(kit);
+
+  return {kit, pads};
+}
 
 export const getGlobalStateFromDirectory = (rootPath) => {
   let kitPath = rootPath + "/" + Drive.KIT_DIRECTORY;
@@ -30,11 +62,13 @@ export const getGlobalStateFromDirectory = (rootPath) => {
   let kits = {};
 
   kitFiles.forEach((kitFile) => {
-    let kit = KitModel(kitPath, kitFile.name, null, null, kitFile.name.slice(0, -4));
+    let kit = KitModel(kitPath, kitFile.name, null, true, null, kitFile.name.slice(0, -4));
     kits[kit.id] = kit;
   });
 
-  return RootModel(rootPath, kitPath, fileCount, kits, sampleFiles);
+  let drive = RootModel(rootPath, kitPath, fileCount, sampleFiles);
+
+  return {drive, kits};
 }
 
 export const getKitPadsFromFile = (kitFile) => {

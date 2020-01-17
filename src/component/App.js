@@ -23,16 +23,17 @@ const AppComponent = React.memo(function AppComponent(props) {
             loadKitFromFile={props.loadKitFromFile}
             loadNewKit={props.loadNewKit}
             setSelectedKit={props.setSelectedKit}
-            loadSelectedKit={props.loadSelectedKit}
-            saveKit={props.saveKit}
             kits={props.kits}
-            showSaveAsNew={props.kits[props.activeKitId] &&props.kits[props.activeKitId].isExisting}
             selectedKitId={props.selectedKitId} />
 
           {props.kits[props.activeKitId] &&
             <EditKitComponent
+              saveKit={props.saveKit}
+              saveNewKit={props.saveNewKit}
+              showSaveAsNew={props.kits[props.activeKitId].isExisting}
               kitId={props.kits[props.activeKitId].id}
               kitName={props.kits[props.activeKitId].kitName}
+              originalKitName={props.kits[props.activeKitId].originalKitName}
               kitPads={props.kits[props.activeKitId].pads}
               getSampleFilePath={props.getSampleFilePath}
               updateKitProperty={props.updateKitProperty}

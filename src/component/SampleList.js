@@ -65,7 +65,7 @@ class SampleListComponent extends React.Component {
             }
           </div>
 
-          <div class="panel-block">
+          <div className="panel-block">
             <button className="button is-link is-outlined is-fullwidth">
               Import Samples
             </button>

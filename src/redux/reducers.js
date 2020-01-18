@@ -2,9 +2,21 @@ import { combineReducers } from 'redux'
 import { Actions } from '../util/const'
 import update from 'immutability-helper';
 import { getGlobalStateFromDirectory } from "../util/fileParser";
+import { getLastLoadedDirectory } from "../util/storage";
 
-// for development speed - get initial state from known card
-let initialState = getGlobalStateFromDirectory("/Volumes/SAMPLERACK");
+let lastLoadedDirectory = getLastLoadedDirectory();
+let initialState = {
+  drive: {},
+  kits: {}
+}
+
+if (lastLoadedDirectory) {
+  try {
+    initialState = getGlobalStateFromDirectory(lastLoadedDirectory);
+  } catch (err) {
+    // ignore failed load
+  }
+}
 
 const initialAppState = {
   selectedKitId: null,

@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux'
 import PadRowComponent from './PadRow'
-import { saveKit, updateKitProperty } from '../redux/actions'
+import { saveKit, updateKitName } from '../redux/actions'
 import "../css/EditKit.css"
 
 const EditKit = (props) => {
@@ -78,7 +78,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(saveKit(ownProps.kitId, true));
     },
     updateKitName: (value) => {
-      dispatch(updateKitProperty(ownProps.kitId, "kitName", value));
+      dispatch(updateKitName(ownProps.kitId,  value));
     }
   }
 }

@@ -1,6 +1,7 @@
 import { KitModel } from "../redux/models";
-import { Actions } from '../util/const'
+import { Actions, Drive } from '../util/const'
 import { getGlobalStateFromDirectory, getKitAndPadsFromFile, openKitFileDialog, openDriveDirectoryDialog, saveKitToFile} from "../util/fileParser";
+import { storeLastLoadedDirectory } from "../util/storage";
 
 /** DRIVE ACTION CREATORS */
 /**
@@ -14,6 +15,7 @@ export function selectAndLoadDrive() {
           return null;
         }
 
+        storeLastLoadedDirectory(result.filePaths[0]);
         dispatch(loadDrive(result.filePaths[0]));
       })
   }
@@ -76,8 +78,9 @@ export function loadKitDetails(kitId) {
  * create an empty kit and add it to the kit list
  */
 export function loadNewKit() {
-  return (dispatch) => {
-    var kit = KitModel(null, null, true, false, true);
+  return (dispatch, getState) => {
+    let state = getState();
+    var kit = KitModel(state.drive.kitPath, null, true, false, true);
     dispatch({ type: Actions.ADD_KIT, kit: kit });
     dispatch({ type: Actions.SET_SELECTED_KIT_ID, kitId: kit.id });
     dispatch({ type: Actions.SET_ACTIVE_KIT_ID, kitId: kit.id });
@@ -91,13 +94,25 @@ export function saveKit(kitId, asNew=false) {
   return (dispatch, getState) => {
     let state = getState();
     let kit = state.kits[kitId];
-    saveKitToFile(kit, asNew)
+
+    let fileName = saveKitToFile(kit, asNew);
 
     dispatch(updateKitState(kitId, {
       isNew: false,
       isExisting: true,
-      originalKitName: kit.kitName
+      originalKitName: kit.kitName,
+      fileName: fileName
     }));
+  }
+}
+/**
+ * Update the kit name and filename
+ * @param {String} kitId
+ * @param {?} value
+ */
+export function updateKitName(kitId, value) {
+  return (dispatch, getState) => {
+    dispatch(updateKitProperty(kitId, 'kitName', value));
   }
 }
 /**

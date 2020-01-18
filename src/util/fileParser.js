@@ -60,7 +60,10 @@ export function getKitAndPadsFromFile(kitFile) {
  * @return {RootModel, KitModel[]}
  */
 export const getGlobalStateFromDirectory = (rootPath) => {
-  let kitPath = rootPath + "/" + Drive.KIT_DIRECTORY;
+  if(!fs.existsSync(rootPath)) {
+    throw new Error("Invalid directory")
+  }
+
   let allFiles = fs.readdirSync(rootPath, {withFileTypes: true});
 
   let fileCount = allFiles
@@ -75,19 +78,22 @@ export const getGlobalStateFromDirectory = (rootPath) => {
         && !(/(^|\/)\.[^/.]/g).test(dirent.name)
     })
 
-  let kitFiles = fs.readdirSync(kitPath, {withFileTypes: true})
-    .filter((dirent, index, arr) => {
-      return dirent.isFile()
-        && path.extname(dirent.name).toLowerCase() === Drive.KIT_EXTENSION
-        && !(/(^|\/)\.[^/.]/g).test(dirent.name)
-    })
-
   let kits = {};
+  let kitPath = rootPath + "/" + Drive.KIT_DIRECTORY;
 
-  kitFiles.forEach((kitFile) => {
-    let kit = KitModel(kitPath, kitFile.name, null, true, null, kitFile.name.slice(0, -4));
-    kits[kit.id] = kit;
-  });
+  if(fs.existsSync(kitPath)) {
+    let kitFiles = fs.readdirSync(kitPath, {withFileTypes: true})
+      .filter((dirent, index, arr) => {
+        return dirent.isFile()
+          && path.extname(dirent.name).toLowerCase() === Drive.KIT_EXTENSION
+          && !(/(^|\/)\.[^/.]/g).test(dirent.name)
+      })
+
+    kitFiles.forEach((kitFile) => {
+      let kit = KitModel(kitPath, kitFile.name, null, true, null, kitFile.name.slice(0, -4));
+      kits[kit.id] = kit;
+    });
+  }
 
   let drive = RootModel(rootPath, kitPath, fileCount, sampleFiles);
 
@@ -139,65 +145,66 @@ export const getKitPadsFromFile = (kitFile) => {
 /**
  * @param {KitModel} kit
  * @param {Boolean} asNew
+ * @returns {String} the file name the kit was stored as
  */
 export const saveKitToFile = (kit, asNew = false) => {
-  if (kit.isNew) {
-    // do file stuff
-    // determine the fileName
-    // assure we have a file_path, or get from sd card
-    // save the file
-
-  } else {
-    // do file stuff
-    // determine the fileName
-    // if kit.fileName different from the new determined fileName, we need to update the file's name
-    // unless asNew is true, then just save the new file
-    // save the file
-
-    let kitFile = kit.filePath + "/" + kit.fileName;
-
-    if(fs.existsSync(kitFile)) {
-      fs.open(kitFile, "r+", (err, fd) => {
-        if (err) throw err;
-
-        // write the kit name
-        // todo
-
-        // write the notes
-        for (let midiNote in KitBuffer.NOTE_MAP) {
-          let pad = getPadWithNote(kit, midiNote);
-
-          Object.keys(KitBuffer.PROP_MAP_KEY).forEach(function(prop) {
-            let buffer_length = KitBuffer.PROP_LENGTH[prop] || 1;
-            let write_buffer = Buffer.alloc(buffer_length)
-
-            if (pad && pad[prop]) {
-                switch (KitBuffer.PROP_TYPE[prop]) {
-                  case 'uint8':
-                    write_buffer.writeUInt8(pad[prop], 0);
-                    break;
-                  case 'string':
-                    write_buffer.write(pad[prop]);
-                    break;
-                  default:
-                    break;
-                }
-            }
-
-            let buffer_start = KitBuffer.NOTE_MAP[midiNote][KitBuffer.PROP_MAP_KEY[prop]];
-            fs.writeSync(fd, write_buffer, 0, buffer_length, buffer_start);
-          });
-        }
-
-        // write the checksum
-        let buffer = fs.readFileSync(kitFile);
-        let checksum = calculateChecksumFromBuffer(buffer);
-        let checksum_buffer = Buffer.from(Array(1));
-        checksum_buffer.writeUInt8(checksum, 0);
-        fs.writeSync(fd, checksum_buffer, 0, 1, KitBuffer.CHECKSUM_BYTE);
-      });
-    }
+  if(!fs.existsSync(kit.filePath)) {
+    // need to create the kits directory
+    fs.mkdirSync(kit.filePath);
   }
+
+  let fileName = kit.fileName;
+
+  // if the kit hasnt been stored, or we want to store it as a new kit, use the kit name as the file name
+  if (!fileName || asNew) {
+    fileName = kit.kitName + Drive.KIT_EXTENSION;
+  }
+
+  let kitFile = kit.filePath + "/" + fileName;
+
+  if(!fs.existsSync(kitFile)) {
+    fs.open(kitFile, "w", (err, fd) => {
+      if (err) throw err;
+
+      // write the kit name
+      // todo
+
+      // write the notes
+      for (let midiNote in KitBuffer.NOTE_MAP) {
+        let pad = getPadWithNote(kit, midiNote);
+
+        Object.keys(KitBuffer.PROP_MAP_KEY).forEach(function(prop) {
+          let buffer_length = KitBuffer.PROP_LENGTH[prop] || 1;
+          let write_buffer = Buffer.alloc(buffer_length)
+
+          if (pad && pad[prop]) {
+              switch (KitBuffer.PROP_TYPE[prop]) {
+                case 'uint8':
+                  write_buffer.writeUInt8(pad[prop], 0);
+                  break;
+                case 'string':
+                  write_buffer.write(pad[prop]);
+                  break;
+                default:
+                  break;
+              }
+          }
+
+          let buffer_start = KitBuffer.NOTE_MAP[midiNote][KitBuffer.PROP_MAP_KEY[prop]];
+          fs.writeSync(fd, write_buffer, 0, buffer_length, buffer_start);
+        });
+      }
+
+      // write the checksum
+      let buffer = fs.readFileSync(kitFile);
+      let checksum = calculateChecksumFromBuffer(buffer);
+      let checksum_buffer = Buffer.from(Array(1));
+      checksum_buffer.writeUInt8(checksum, 0);
+      fs.writeSync(fd, checksum_buffer, 0, 1, KitBuffer.CHECKSUM_BYTE);
+    });
+  }
+
+  return fileName;
 }
 
 /*

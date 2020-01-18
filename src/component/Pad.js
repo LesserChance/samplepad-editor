@@ -101,10 +101,12 @@ const getMgrpBackgroundColor = (value) => {
 }
 
 const getMgrpForegroundColor = (value) => {
-  if (value == 2 || value == 3 || value == 8 || value == 9 || value == 11 || value == 13 || value == 15 || value == 16) {
+  if ([2,3,8,9,11,13,15,16].indexOf(value) > -1) {
+    // these background colors require light text
     return '#ffffff';
   }
 
+  // other background colors require dark text
   return 'rgba(0, 0, 0, 0.7)';
 }
 

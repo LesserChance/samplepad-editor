@@ -1,5 +1,5 @@
 export const getSortedKitIds = (kits) => {
-  let sortedKits = Object.keys(kits)
+  return Object.keys(kits)
     .map((kitId) => {
       let kit = kits[kitId];
       return {id: kitId, name: kit.kitName, isNew: kit.isNew}
@@ -25,9 +25,7 @@ export const getSortedKitIds = (kits) => {
       }
 
       return 0;
-    })
-
-  return sortedKits.map((kit) => {
+    }).map((kit) => {
       return kit.id
-    })
+    });
 }

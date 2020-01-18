@@ -46,7 +46,7 @@ class SampleList extends React.Component {
               <div className="control has-icons-left">
                 <input className="input" type="text" placeholder="Search" onChange={(e) => this.filterSamples(e.target.value)} />
                 <span className="icon is-left">
-                  <i  className="glyphicon glyphicon-search" aria-hidden="true"></i>
+                  <i className="glyphicon glyphicon-search" aria-hidden="true"></i>
                 </span>
               </div>
             </div>
@@ -54,21 +54,21 @@ class SampleList extends React.Component {
             <div className="samples">
               {
                 this.props.samples && this.props.samples.map((file, index) => {
-                  if (file.name.toLowerCase().includes(this.state.filter.toLowerCase())) {
-                    return (
-                      <SamplePlayerComponent
-                        key={index}
-                        sampleFile={this.props.sampleRoot + "/" + file.name}>
-                        <SampleComponent
-                          fileName={file.name}
-                          highlightKeyword={this.state.filter}
-                          draggable={true}
-                        />
-                      </SamplePlayerComponent>
-                    );
-                  } else {
-                    return <span />
-                  }
+                  return (
+                    <span key={index}>
+                       { file.name.toLowerCase().includes(this.state.filter.toLowerCase()) && (
+                          <SamplePlayerComponent
+                            sampleFile={this.props.sampleRoot + "/" + file.name}>
+                            <SampleComponent
+                              fileName={file.name}
+                              highlightKeyword={this.state.filter}
+                              draggable={true}
+                            />
+                          </SamplePlayerComponent>
+                        )
+                      }
+                    </span>
+                  )
                 })
               }
             </div>

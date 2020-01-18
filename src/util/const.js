@@ -1,3 +1,23 @@
+export const Actions = {
+  /* drive action types */
+  LOAD_DRIVE: 'LOAD_DRIVE',
+
+  /* kit action types */
+  ADD_KITS: 'ADD_KITS',
+  ADD_KIT: 'ADD_KIT',
+  UPDATE_KIT_PROPERTY: 'UPDATE_KIT_PROPERTY',
+  UPDATE_KIT_STATE: 'UPDATE_KIT_STATE',
+
+  /* pad action types */
+  ADD_PADS: 'ADD_PADS',
+  ADD_PAD: 'ADD_PAD',
+  UPDATE_PAD_PROPERTY: 'UPDATE_PAD_PROPERTY',
+
+  /* app action types */
+  SET_SELECTED_KIT_ID: 'SET_SELECTED_KIT_ID',
+  SET_ACTIVE_KIT_ID: 'SET_ACTIVE_KIT_ID',
+};
+
 export const DragItemTypes = {
   SAMPLE: 'sample',
 };

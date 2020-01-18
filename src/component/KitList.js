@@ -1,6 +1,8 @@
 import React from 'react';
+import { importKitFromFile, selectKit, loadNewKit } from '../redux/actions'
+import { connect } from 'react-redux'
 
-const KitListComponent = React.memo(function KitListComponent(props) {
+const KitList = (props) => {
   return (
     <section>
       <label className="label kitHeader is-size-5">Select, Import, or Create a New Kit</label>
@@ -26,12 +28,33 @@ const KitListComponent = React.memo(function KitListComponent(props) {
         </div>
 
         <div className="buttons control">
-          <a className="button" onClick={props.loadKitFromFile}>Import Kit</a>
-          <a className="button" onClick={props.loadNewKit}>New Kit</a>
+          <button className="button" onClick={props.loadKitFromFile}>Import Kit</button>
+          <button className="button" onClick={props.loadNewKit}>New Kit</button>
         </div>
       </div>
     </section>
   );
-})
+}
 
-export default KitListComponent;
+const mapStateToProps = (state, ownProps) => {
+  return {
+    kits: state.kits,
+    selectedKitId: state.app.selectedKitId
+  }
+}
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    loadKitFromFile: () => {
+      dispatch(importKitFromFile());
+    },
+    loadNewKit: () => {
+      dispatch(loadNewKit());
+    },
+    setSelectedKit: (kitId) => {
+      dispatch(selectKit(kitId));
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(KitList)

@@ -1,6 +1,8 @@
 import React from 'react';
+import { connect } from 'react-redux'
+import { selectAndLoadDrive } from '../redux/actions'
 
-const HeaderComponent = React.memo(function HeaderComponent(props) {
+const HeaderComponent = (props) => {
   return (
     <section className="hero is-small is-primary is-bold">
       <div className="hero-body">
@@ -16,7 +18,7 @@ const HeaderComponent = React.memo(function HeaderComponent(props) {
 
             <div className="level-right">
               <p className="level-item">
-                <a className="button is-link is-outlined" onClick = {props.loadCard}>Load SD Card</a>
+                <button className="button is-link is-outlined" onClick={props.loadCard}>Load SD Card</button>
               </p>
             </div>
           </div>
@@ -24,6 +26,18 @@ const HeaderComponent = React.memo(function HeaderComponent(props) {
       </div>
     </section>
   );
-})
+}
 
-export default HeaderComponent;
+const mapStateToProps = (state, ownProps) => {
+  return {}
+}
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    loadCard: () => {
+      dispatch(selectAndLoadDrive())
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(HeaderComponent)

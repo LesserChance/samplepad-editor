@@ -1,10 +1,14 @@
 import { Drive, KitBuffer } from "../util/const";
-import { RootModel, KitModel, PadModel } from "./models";
+import { RootModel, KitModel, PadModel } from "../redux/models";
 
 const remote = window.require('electron').remote;
 const fs = window.require('fs');
 const path = window.require('path');
 
+/**
+ * Open a file dialog with appropriate file type filters for kits
+ * @return {Promise}
+ */
 export function openKitFileDialog() {
   return remote.dialog.showOpenDialog(remote.getCurrentWindow(), {
     properties:["openFile"],
@@ -16,8 +20,25 @@ export function openKitFileDialog() {
   })
 }
 
+/**
+ * Open a directory dialog
+ * @return {Promise}
+ */
+export function openDriveDirectoryDialog() {
+  return remote.dialog.showOpenDialog(remote.getCurrentWindow(), {
+    properties:["openDirectory"]
+  })
+}
+
+/**
+ * @param {String} kitFile - the file to parse
+ * @return {KitModel, PadModel[]} kit, pads
+ */
 export function getKitAndPadsFromFile(kitFile) {
-  console.log("getKitAndPadsFromFile");
+  if(!fs.existsSync(kitFile)) {
+    return null;
+  }
+
   let kitPath = path.parse(kitFile);
   let pads = getKitPadsFromFile(kitFile);
 
@@ -31,11 +52,13 @@ export function getKitAndPadsFromFile(kitFile) {
     Object.keys(pads)
   );
 
-  console.log(kit);
-
   return {kit, pads};
 }
 
+/**
+ * @param {String} rootPath
+ * @return {RootModel, KitModel[]}
+ */
 export const getGlobalStateFromDirectory = (rootPath) => {
   let kitPath = rootPath + "/" + Drive.KIT_DIRECTORY;
   let allFiles = fs.readdirSync(rootPath, {withFileTypes: true});
@@ -71,6 +94,10 @@ export const getGlobalStateFromDirectory = (rootPath) => {
   return {drive, kits};
 }
 
+/**
+ * @param {String} kitFile
+ * @return {PadModel[]} pads
+ */
 export const getKitPadsFromFile = (kitFile) => {
   let pads = {};
   let buffer = fs.readFileSync(kitFile);
@@ -100,6 +127,8 @@ export const getKitPadsFromFile = (kitFile) => {
     });
 
     if (padProps.fileName) {
+      // the file name parsed does not have the extensions
+      padProps.fileName = (padProps.fileName + Drive.SAMPLE_EXTENSION);
       pads[padProps.id] = padProps;
     }
   }
@@ -107,7 +136,11 @@ export const getKitPadsFromFile = (kitFile) => {
   return pads;
 }
 
-export const saveKit = (kit, as_new = false) => {
+/**
+ * @param {KitModel} kit
+ * @param {Boolean} asNew
+ */
+export const saveKitToFile = (kit, asNew = false) => {
   if (kit.isNew) {
     // do file stuff
     // determine the fileName
@@ -118,7 +151,7 @@ export const saveKit = (kit, as_new = false) => {
     // do file stuff
     // determine the fileName
     // if kit.fileName different from the new determined fileName, we need to update the file's name
-    // unless as_new is true, then just save the new file
+    // unless asNew is true, then just save the new file
     // save the file
 
     let kitFile = kit.filePath + "/" + kit.fileName;
@@ -168,7 +201,7 @@ export const saveKit = (kit, as_new = false) => {
 }
 
 /*
- * @returns {Object|null}
+ * @returns {PadModel|null}
  */
 const getPadWithNote = (kit, midiNote) => {
   let padWithNote = null

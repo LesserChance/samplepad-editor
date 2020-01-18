@@ -2,9 +2,9 @@ const uuidv1 = require('uuid/v1');
 
 export const RootModel = (rootPath = "", kitPath = "", fileCount = "", samples = []) => {
   return {
-    driveRootModelPath: rootPath,
-    driveKitPath: kitPath,
-    driveFileCount: fileCount,
+    rootPath: rootPath,
+    kitPath: kitPath,
+    fileCount: fileCount,
     samples: samples
   };
 }

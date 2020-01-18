@@ -1,9 +1,10 @@
 import React from 'react';
+import { connect } from 'react-redux'
 import PadRowComponent from './PadRow'
-
+import { saveKit, updateKitProperty } from '../redux/actions'
 import "../css/EditKit.css"
 
-const EditKitComponent = React.memo(function EditKitComponent(props) {
+const EditKit = (props) => {
   return (
     <section>
       <div className="Kit">
@@ -14,14 +15,14 @@ const EditKitComponent = React.memo(function EditKitComponent(props) {
               type="text"
               className="input kitName"
               value={props.kitName}
-              onChange={(e) => props.updateKitProperty(props.kitId, 'kitName', e.target.value)} />
+              onChange={(e) => props.updateKitName(e.target.value)} />
           </div>
 
           <div className="buttons control">
-            <a className="button is-info" onClick={props.saveKit}>Save Kit</a>
+            <button className="button is-info" onClick={props.saveKit}>Save Kit</button>
             {
               props.showSaveAsNew &&
-              <a className="button" onClick={props.saveNewKit}>Save as New Kit</a>
+              <button className="button" onClick={props.saveNewKit}>Save as New Kit</button>
             }
           </div>
         </div>
@@ -45,19 +46,9 @@ const EditKitComponent = React.memo(function EditKitComponent(props) {
           </table>
 
           {
-            Object.keys(props.kitPads).map((padId) => {
-              let pad = props.kitPads[padId];
+            props.pads.map((padId) => {
               return (
-                <PadRowComponent
-                  pad={pad}
-                  kitId={props.kitId}
-                  padId={padId}
-                  getSampleFilePath={props.getSampleFilePath}
-                  updatePadSample={props.updatePadSample}
-                  updatePadIntProperty={props.updatePadIntProperty}
-                  updatePadStringProperty={props.updatePadStringProperty}
-                  updatePadSensitivity={props.updatePadSensitivity}
-                  key={padId} />
+                <PadRowComponent padId={padId} key={padId} />
               );
             })
           }
@@ -65,6 +56,31 @@ const EditKitComponent = React.memo(function EditKitComponent(props) {
       </div>
     </section>
   );
-});
+}
 
-export default EditKitComponent;
+const mapStateToProps = (state, ownProps) => {
+  let kit = state.kits[ownProps.kitId];
+
+  return {
+    showSaveAsNew: kit.isExisting,
+    kitName: kit.kitName,
+    originalKitName: kit.originalKitName,
+    pads: kit.pads
+  }
+}
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    saveKit: () => {
+      dispatch(saveKit(ownProps.kitId));
+    },
+    saveNewKit: () => {
+      dispatch(saveKit(ownProps.kitId, true));
+    },
+    updateKitName: (value) => {
+      dispatch(updateKitProperty(ownProps.kitId, "kitName", value));
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(EditKit)

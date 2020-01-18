@@ -1,52 +1,45 @@
 import React from 'react';
+import { connect } from 'react-redux'
+import { DndProvider } from 'react-dnd'
+import Backend from 'react-dnd-html5-backend'
 import EditKitComponent from './EditKit'
 import HeaderComponent from './Header'
 import SampleListComponent from './SampleList'
 import KitListComponent from './KitList'
 
-const AppComponent = React.memo(function AppComponent(props) {
+const AppComponent = (props) => {
   return (
-    <div className="App">
-      <HeaderComponent
-        loadCard={props.loadCard} />
+    <DndProvider backend={Backend}>
+      <div className="App">
+        <HeaderComponent />
 
-      <section className="columns">
-        <div className="column is-one-quarter">
-          <SampleListComponent
-            getSampleFilePath={props.getSampleFilePath}
-            driveFileCount={props.driveFileCount}
-            samples={props.samples} />
-        </div>
+        <section className="columns">
+          <div className="column is-one-quarter">
+            <SampleListComponent />
+          </div>
 
-        <div className="column is-three-quarters">
-          <KitListComponent
-            loadKitFromFile={props.loadKitFromFile}
-            loadNewKit={props.loadNewKit}
-            setSelectedKit={props.setSelectedKit}
-            kits={props.kits}
-            selectedKitId={props.selectedKitId} />
+          <div className="column is-three-quarters">
+            <KitListComponent />
 
-          {props.kits[props.activeKitId] &&
-            <EditKitComponent
-              saveKit={props.saveKit}
-              saveNewKit={props.saveNewKit}
-              showSaveAsNew={props.kits[props.activeKitId].isExisting}
-              kitId={props.kits[props.activeKitId].id}
-              kitName={props.kits[props.activeKitId].kitName}
-              originalKitName={props.kits[props.activeKitId].originalKitName}
-              kitPads={props.kits[props.activeKitId].pads}
-              getSampleFilePath={props.getSampleFilePath}
-              updateKitProperty={props.updateKitProperty}
-              updatePadSample={props.updatePadSample}
-              updatePadIntProperty={props.updatePadIntProperty}
-              updatePadStringProperty={props.updatePadStringProperty}
-              updatePadSensitivity={props.updatePadSensitivity}
-            />
-          }
-        </div>
-      </section>
-    </div>
+            {props.hasActiveKit &&
+              <EditKitComponent kitId={props.activeKitId} />
+            }
+          </div>
+        </section>
+      </div>
+    </DndProvider>
   );
-});
+}
 
-export default AppComponent;
+const mapStateToProps = (state, ownProps) => {
+  return {
+    activeKitId: state.app.activeKitId,
+    hasActiveKit: (state.app.activeKitId !== null)
+  }
+}
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(AppComponent)

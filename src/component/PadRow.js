@@ -20,7 +20,7 @@ const PadRowComponent = (props) => {
     <div
       className="sampleDrop"
       ref={drop} >
-      <PadComponent padId={props.padId}/>
+      <PadComponent padId={props.padId} />
       {isOver && (
         <div className="sampleDropHighlight has-background-warning"/>
       )}

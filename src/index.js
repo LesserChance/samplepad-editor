@@ -6,7 +6,6 @@ import reducers from './redux/reducers'
 import thunk from 'redux-thunk';
 import App from './component/App'
 
-import './css/bulma.min.css';
 import './css/index.css';
 
 const store = createStore(reducers, applyMiddleware(thunk));

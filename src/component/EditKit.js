@@ -5,10 +5,11 @@ import { saveKit, updateKitName } from '../redux/actions'
 import "../css/EditKit.css"
 
 const EditKit = (props) => {
+  console.log("e");
   return (
     <section>
-      <div className="Kit">
-        <label className="label is-size-3">Kit: {props.originalKitName}</label>
+      <div className="kit">
+        <div className="is-size-3">Kit: {props.originalKitName}</div>
         <div className="field is-grouped">
           <div className="control">
             <input
@@ -28,28 +29,13 @@ const EditKit = (props) => {
         </div>
 
         <div className="pad-table">
-          <table className="table">
-            <thead>
-              <tr>
-                <th scope="col" className="col-note">Note</th>
-                <th scope="col" className="col-file">File</th>
-                <th scope="col" className="col-velocity">Velocity</th>
-                <th scope="col" className="col-tune">Tune</th>
-                <th scope="col" className="col-sensitivity">Sensitivity</th>
-                <th scope="col" className="col-pan">Pan</th>
-                <th scope="col" className="col-reverb">Reverb</th>
-                <th scope="col" className="col-level">Level</th>
-                <th scope="col" className="col-mode">Mode</th>
-                <th scope="col" className="col-mute-group">Mute Group</th>
-              </tr>
-            </thead>
-          </table>
-
           {
-            props.pads.map((padId) => {
-              return (
-                <PadRowComponent padId={padId} key={padId} />
-              );
+            [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1].map((i) => {
+              return props.pads.map((padId) => {
+                return (
+                  <PadRowComponent padId={padId} key={padId} mgrp={i} />
+                );
+              })
             })
           }
         </div>

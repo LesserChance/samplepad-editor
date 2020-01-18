@@ -1,72 +1,68 @@
-.Kit {
-  margin: 1em .5em 0 0;
+.kit {
+  margin: .8em 0 0 0;
 }
 .kitHeader {
   margin: 1em 0 .7em 0 !important;
 }
 
-input.kitName {
-  max-width: 20em;
+.panel-block.sample {
+  border-radius: 6px;
+  padding: .2em .5em;
 }
-
 .pad-table {
-  .table {
-    margin-bottom: 0;
-  }
-  .table th {
-    padding: .25em .25em;
-  }
-  .table td {
-    padding: 0;
-  }
-  .table td input {
+  max-height: 27.5em;
+  overflow-y: scroll;
+  padding-right: 1em;
+}
 
-  }
-  .table td select {
+.dataIcon {
+  width: 1.5em;
+  text-align: center;
+}
+.modeIcon {
+  width: 3em;
+  text-align: left;
+}
+.velocityIcon {
+  width: 5em;
+  text-align: center;
+}
+.levelIcon {
+  width: 2.3em;
+  padding-left: .2em;
+  text-align: left;
+}
+.overlapIcon {
+  width: 1.5em;
+  height: 1.5em;
+  text-align: left;
 
-  }
-}
-.col-note {
-  width: 70px;
-}
-.col-file {
-  width: 200px;
-}
-.col-velocity {
-  width: 150px;
-  white-space: nowrap;
+  .overlapContainer {
+    div {
+      position: absolute;
+      left: .2em;
 
-  input {
-    width: 40%;
+      .glyphicon.overlapValue {
+        overflow: hidden;
+        top: 2px;
+      }
+    }
   }
 }
-.col-tune {
-  width: 70px;
-}
-.col-sensitivity {
-  width: 100px;
-}
-.col-pan {
-  width: 70px;
-}
-.col-reverb {
-  width: 70px;
-}
-.col-level {
-  width: 70px;
-}
-.col-mode {
-  width: 100px;
-}
-.col-mute-group {
-  width: 100px;
-  white-space: nowrap;
+.mgrpIcon {
+  border-radius: 2px;
+  box-shadow: 0 2px 3px 0 rgba(0,0,0,.1),inset 0 0 0 1px rgba(0,0,0,.1);
+  display: inline-block;
+  height: 1.5em;
+  width: 1.5em;
+  text-align: center;
 }
 
 .sampleDrop {
   position: relative;
   width: 100%;
   height: 100%;
+  margin-bottom: .24em;
 }
 .sampleDropHighlight {
   position: absolute;
@@ -74,6 +70,6 @@ input.kitName {
   left: 0;
   height: 100%;
   width: 100%;
-  zIndex: 1;
+  z-index: 1;
   opacity: 0.5;
 }

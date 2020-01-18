@@ -1,10 +1,9 @@
 const uuidv1 = require('uuid/v1');
 
-export const RootModel = (rootPath = "", kitPath = "", fileCount = "", samples = []) => {
+export const RootModel = (rootPath = "", kitPath = "", samples = []) => {
   return {
     rootPath: rootPath,
     kitPath: kitPath,
-    fileCount: fileCount,
     samples: samples
   };
 }

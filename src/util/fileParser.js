@@ -1,34 +1,8 @@
 import { Drive, KitBuffer } from "../util/const";
 import { RootModel, KitModel, PadModel } from "../redux/models";
 
-const remote = window.require('electron').remote;
 const fs = window.require('fs');
 const path = window.require('path');
-
-/**
- * Open a file dialog with appropriate file type filters for kits
- * @return {Promise}
- */
-export function openKitFileDialog() {
-  return remote.dialog.showOpenDialog(remote.getCurrentWindow(), {
-    properties:["openFile"],
-    filters: [
-      { name: 'Kits (* .' + Drive.KIT_FILE_TYPE + ')',
-        extensions: [Drive.KIT_FILE_TYPE] },
-      { name: 'All Files', extensions: ['*'] }
-    ]
-  })
-}
-
-/**
- * Open a directory dialog
- * @return {Promise}
- */
-export function openDriveDirectoryDialog() {
-  return remote.dialog.showOpenDialog(remote.getCurrentWindow(), {
-    properties:["openDirectory"]
-  })
-}
 
 /**
  * @param {String} kitFile - the file to parse
@@ -64,19 +38,15 @@ export const getGlobalStateFromDirectory = (rootPath) => {
     throw new Error("Invalid directory")
   }
 
-  let allFiles = fs.readdirSync(rootPath, {withFileTypes: true});
-
-  let fileCount = allFiles
-    .filter((dirent, index, arr) => {
-      return dirent.isFile() && !(/(^|\/)\.[^/.]/g).test(dirent.name)
-    }).length
-
-  let sampleFiles = allFiles
+  let sampleFiles = fs.readdirSync(rootPath, {withFileTypes: true})
     .filter((dirent, index, arr) => {
       return dirent.isFile()
         && path.extname(dirent.name).toLowerCase() === Drive.SAMPLE_EXTENSION
         && !(/(^|\/)\.[^/.]/g).test(dirent.name)
     })
+    .map((dirent) => {
+      return dirent.name
+    });
 
   let kits = {};
   let kitPath = rootPath + "/" + Drive.KIT_DIRECTORY;
@@ -95,7 +65,7 @@ export const getGlobalStateFromDirectory = (rootPath) => {
     });
   }
 
-  let drive = RootModel(rootPath, kitPath, fileCount, sampleFiles);
+  let drive = RootModel(rootPath, kitPath, sampleFiles);
 
   return {drive, kits};
 }
@@ -142,92 +112,12 @@ export const getKitPadsFromFile = (kitFile) => {
   return pads;
 }
 
-/**
- * @param {KitModel} kit
- * @param {Boolean} asNew
- * @returns {String} the file name the kit was stored as
- */
-export const saveKitToFile = (kit, asNew = false) => {
-  if(!fs.existsSync(kit.filePath)) {
-    // need to create the kits directory
-    fs.mkdirSync(kit.filePath);
-  }
-
-  let fileName = kit.fileName;
-
-  // if the kit hasnt been stored, or we want to store it as a new kit, use the kit name as the file name
-  if (!fileName || asNew) {
-    fileName = kit.kitName + Drive.KIT_EXTENSION;
-  }
-
-  let kitFile = kit.filePath + "/" + fileName;
-
-  if(!fs.existsSync(kitFile)) {
-    fs.open(kitFile, "w", (err, fd) => {
-      if (err) throw err;
-
-      // write the kit name
-      // todo
-
-      // write the notes
-      for (let midiNote in KitBuffer.NOTE_MAP) {
-        let pad = getPadWithNote(kit, midiNote);
-
-        Object.keys(KitBuffer.PROP_MAP_KEY).forEach(function(prop) {
-          let buffer_length = KitBuffer.PROP_LENGTH[prop] || 1;
-          let write_buffer = Buffer.alloc(buffer_length)
-
-          if (pad && pad[prop]) {
-              switch (KitBuffer.PROP_TYPE[prop]) {
-                case 'uint8':
-                  write_buffer.writeUInt8(pad[prop], 0);
-                  break;
-                case 'string':
-                  write_buffer.write(pad[prop]);
-                  break;
-                default:
-                  break;
-              }
-          }
-
-          let buffer_start = KitBuffer.NOTE_MAP[midiNote][KitBuffer.PROP_MAP_KEY[prop]];
-          fs.writeSync(fd, write_buffer, 0, buffer_length, buffer_start);
-        });
-      }
-
-      // write the checksum
-      let buffer = fs.readFileSync(kitFile);
-      let checksum = calculateChecksumFromBuffer(buffer);
-      let checksum_buffer = Buffer.from(Array(1));
-      checksum_buffer.writeUInt8(checksum, 0);
-      fs.writeSync(fd, checksum_buffer, 0, 1, KitBuffer.CHECKSUM_BYTE);
-    });
-  }
-
-  return fileName;
-}
-
-/*
- * @returns {PadModel|null}
- */
-const getPadWithNote = (kit, midiNote) => {
-  let padWithNote = null
-  Object.keys(kit.pads).forEach(function(padId) {
-    let pad = kit.pads[padId];
-    if (pad.midiNote === midiNote) {
-      padWithNote = pad;
-    }
-  })
-
-  return padWithNote;
-}
-
 /*
  * kit file checksum is least significant byte of the sum of all bytes after the checksum
  * @param {Buffer} buffer
  * @return {Number}
  */
-const calculateChecksumFromBuffer = (buffer) => {
+export const calculateChecksumFromBuffer = (buffer) => {
   return buffer
     .slice(KitBuffer.CHECKSUM_BYTE + 1)
     .reduce((a, b) => a + b) % 256;

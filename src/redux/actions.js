@@ -1,7 +1,8 @@
 import { KitModel } from "../redux/models";
-import { Actions, Drive } from '../util/const'
-import { getGlobalStateFromDirectory, getKitAndPadsFromFile, openKitFileDialog, openDriveDirectoryDialog, saveKitToFile} from "../util/fileParser";
-import { storeLastLoadedDirectory } from "../util/storage";
+import { Actions } from '../util/const'
+import { openKitFileDialog, openDriveDirectoryDialog, openSampleFileDialog} from "../util/fileDialog";
+import { getGlobalStateFromDirectory, getKitAndPadsFromFile} from "../util/fileParser";
+import { storeLastLoadedDirectory, saveKitToFile, copySample } from "../util/storage";
 
 /** DRIVE ACTION CREATORS */
 /**
@@ -17,6 +18,31 @@ export function selectAndLoadDrive() {
 
         storeLastLoadedDirectory(result.filePaths[0]);
         dispatch(loadDrive(result.filePaths[0]));
+      })
+  }
+}
+/**
+ * Open a file dialog, and move the selected files into the drive
+ */
+export function importSamples() {
+  return (dispatch, getState) => {
+    openSampleFileDialog()
+      .then(result => {
+        if (result.canceled) {
+          return null;
+        }
+
+        let state = getState();
+
+        let newSamples = [];
+        result.filePaths.forEach((file) => {
+          let newSample = copySample(file, state.drive.rootPath);
+          if (newSample) {
+            newSamples.push(newSample);
+          }
+        })
+
+        dispatch({ type: Actions.ADD_SAMPLES, samples: newSamples });
       })
   }
 }

@@ -1,6 +1,7 @@
 export const Actions = {
   /* drive action types */
   LOAD_DRIVE: 'LOAD_DRIVE',
+  ADD_SAMPLES: 'ADD_SAMPLES',
 
   /* kit action types */
   ADD_KITS: 'ADD_KITS',
@@ -23,6 +24,7 @@ export const DragItemTypes = {
 };
 
 export const Drive = {
+  SAMPLE_FILE_TYPE: "wav",
   SAMPLE_EXTENSION: ".wav",
   KIT_EXTENSION: ".kit",
   KIT_FILE_TYPE: "kit",

@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux'
 import SampleComponent from './Sample'
 import SamplePlayerComponent from './SamplePlayer'
+import { importSamples } from '../redux/actions'
 
 import "../css/SampleList.css"
 
@@ -37,7 +38,7 @@ class SampleList extends React.Component {
                 </div>
 
                 <div className="level-right">
-                  <i className="is-size-7">({this.props.fileCount}/512)</i>
+                  <i className="is-size-7">({this.props.samples.length}/512)</i>
                 </div>
               </div>
             </div>
@@ -56,11 +57,11 @@ class SampleList extends React.Component {
                 this.props.samples && this.props.samples.map((file, index) => {
                   return (
                     <span key={index}>
-                       { file.name.toLowerCase().includes(this.state.filter.toLowerCase()) && (
+                       { file.toLowerCase().includes(this.state.filter.toLowerCase()) && (
                           <SamplePlayerComponent
-                            sampleFile={this.props.sampleRoot + "/" + file.name}>
+                            sampleFile={this.props.sampleRoot + "/" + file}>
                             <SampleComponent
-                              fileName={file.name}
+                              fileName={file}
                               highlightKeyword={this.state.filter}
                               draggable={true}
                             />
@@ -74,7 +75,7 @@ class SampleList extends React.Component {
             </div>
 
             <div className="panel-block">
-              <button className="button is-link is-outlined is-fullwidth">
+              <button className="button is-link is-outlined is-fullwidth" onClick={this.props.importSamples}>
                 Import Samples
               </button>
             </div>
@@ -86,14 +87,17 @@ class SampleList extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    fileCount: state.drive.fileCount,
     samples: state.drive.samples,
     sampleRoot: state.drive.rootPath
   }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-  return {}
+  return {
+    importSamples: () => {
+      dispatch(importSamples());
+    }
+  }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SampleList)

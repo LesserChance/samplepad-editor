@@ -7,7 +7,7 @@ import { updatePadSample } from '../redux/actions'
 
 const PadRowComponent = (props) => {
 
-  const [{ isOver, canDrop }, drop] = useDrop({
+  const [{ isOver }, drop] = useDrop({
     accept: DragItemTypes.SAMPLE,
     drop: (item) => props.updatePadSample(item),
     collect: mon => ({

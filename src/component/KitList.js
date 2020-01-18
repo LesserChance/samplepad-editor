@@ -14,8 +14,9 @@ const KitList = (props) => {
             onChange={(e) => props.setSelectedKit(e.target.value)}>
             <option disabled value="">Select a Kit</option>
             {
-              Object.keys(props.kits).map((kitId) => {
-                let kit = props.kits[kitId]
+              props.sortedKitIds.map((kitId) => {
+                let kit = props.kits[kitId];
+
                 return (
                   <option key={kit.id} value={kit.id}>
                     { kit.isNew && "<New> " + kit.kitName }
@@ -38,7 +39,8 @@ const KitList = (props) => {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    kits: state.kits,
+    kits: state.kits.models,
+    sortedKitIds: state.kits.ids,
     selectedKitId: state.app.selectedKitId
   }
 }

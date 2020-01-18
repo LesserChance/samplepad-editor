@@ -87,7 +87,8 @@ class SampleList extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    samples: state.drive.samples,
+    // its ok to sort samples on render because this will rarely change
+    samples: state.drive.samples.sort(),
     sampleRoot: state.drive.rootPath
   }
 }

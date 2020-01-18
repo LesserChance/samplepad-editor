@@ -59,7 +59,7 @@ const EditKit = (props) => {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  let kit = state.kits[ownProps.kitId];
+  let kit = state.kits.models[ownProps.kitId];
 
   return {
     showSaveAsNew: kit.isExisting,

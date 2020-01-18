@@ -3,16 +3,23 @@ import { Actions } from '../util/const'
 import update from 'immutability-helper';
 import { getGlobalStateFromDirectory } from "../util/fileParser";
 import { getLastLoadedDirectory } from "../util/storage";
+import { getSortedKitIds } from "./sortModels";
 
 let lastLoadedDirectory = getLastLoadedDirectory();
 let initialState = {
   drive: {},
-  kits: {}
+  kits: {
+    ids: [],
+    models: {}
+  }
 }
 
 if (lastLoadedDirectory) {
   try {
-    initialState = getGlobalStateFromDirectory(lastLoadedDirectory);
+    let loadState = getGlobalStateFromDirectory(lastLoadedDirectory);
+    initialState.drive = loadState.drive;
+    initialState.kits.ids = getSortedKitIds(loadState.kits);
+    initialState.kits.models = loadState.kits;
   } catch (err) {
     // ignore failed load
   }
@@ -57,8 +64,6 @@ function drive(state = initialDriveState, action) {
       });
 
     case Actions.ADD_SAMPLES:
-      console.log("Actions.ADD_SAMPLES");
-      console.log(action.samples);
       return update(state, {
         samples: {$push: action.samples}
       });
@@ -72,23 +77,36 @@ function kits(state = initialKitsState, action) {
   switch (action.type) {
     // load the list of kits into state from the SD card
     case Actions.ADD_KITS:
-      return update(state, {$merge: action.kits});
+      return update(state, {
+        models: {$merge: action.kits}
+      });
 
     case Actions.ADD_KIT:
       return update(state, {
-        [action.kit.id]: {$set: action.kit}
+        models: {[action.kit.id]: {$set: action.kit}}
       });
 
     case Actions.UPDATE_KIT_PROPERTY:
       return update(state, {
-        [action.kitId]: {
-          [action.property]: {$set: action.value}
+        models: {
+          [action.kitId]: {
+            [action.property]: {$set: action.value}
+          }
         }
       });
 
     case Actions.UPDATE_KIT_STATE:
       return update(state, {
-        [action.kitId]: {$merge: action.newState}
+        models: {
+          [action.kitId]: {$merge: action.newState}
+        }
+      });
+
+    // kits are sorted by name and isNew - if a kit would have one
+    // of these properties changed, you MUST sort kits afterwards
+    case Actions.SORT_KITS:
+      return update(state, {
+        ids: { $set: getSortedKitIds(state.models)}
       });
 
     default:

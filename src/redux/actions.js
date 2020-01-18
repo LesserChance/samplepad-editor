@@ -75,6 +75,7 @@ export function importKitFromFile() {
         dispatch({ type: Actions.ADD_KIT, kit: kit });
         dispatch({ type: Actions.SET_SELECTED_KIT_ID, kitId: kit.id });
         dispatch({ type: Actions.SET_ACTIVE_KIT_ID, kitId: kit.id });
+        dispatch({ type: Actions.SORT_KITS });
       })
   }
 }
@@ -85,7 +86,7 @@ export function importKitFromFile() {
 export function loadKitDetails(kitId) {
   return (dispatch, getState) => {
     let state = getState();
-    let kit = state.kits[kitId];
+    let kit = state.kits.models[kitId];
 
     if (!kit.isLoaded) {
       let kitFile = kit.filePath + "/" + kit.fileName;
@@ -97,6 +98,7 @@ export function loadKitDetails(kitId) {
         "kitName": result.kit.kitName,
         "pads": result.kit.pads
       }));
+      dispatch({ type: Actions.SORT_KITS });
     }
   }
 }
@@ -110,6 +112,7 @@ export function loadNewKit() {
     dispatch({ type: Actions.ADD_KIT, kit: kit });
     dispatch({ type: Actions.SET_SELECTED_KIT_ID, kitId: kit.id });
     dispatch({ type: Actions.SET_ACTIVE_KIT_ID, kitId: kit.id });
+    dispatch({ type: Actions.SORT_KITS });
   }
 }
 /**
@@ -119,7 +122,7 @@ export function loadNewKit() {
 export function saveKit(kitId, asNew=false) {
   return (dispatch, getState) => {
     let state = getState();
-    let kit = state.kits[kitId];
+    let kit = state.kits.models[kitId];
 
     let fileName = saveKitToFile(kit, asNew);
 
@@ -129,6 +132,7 @@ export function saveKit(kitId, asNew=false) {
       originalKitName: kit.kitName,
       fileName: fileName
     }));
+    dispatch({ type: Actions.SORT_KITS });
   }
 }
 /**
@@ -139,6 +143,7 @@ export function saveKit(kitId, asNew=false) {
 export function updateKitName(kitId, value) {
   return (dispatch, getState) => {
     dispatch(updateKitProperty(kitId, 'kitName', value));
+    dispatch({ type: Actions.SORT_KITS });
   }
 }
 /**

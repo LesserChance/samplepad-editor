@@ -4,6 +4,7 @@ export const Actions = {
   ADD_SAMPLES: 'ADD_SAMPLES',
 
   /* kit action types */
+  SORT_KITS: 'SORT_KITS',
   ADD_KITS: 'ADD_KITS',
   ADD_KIT: 'ADD_KIT',
   UPDATE_KIT_PROPERTY: 'UPDATE_KIT_PROPERTY',

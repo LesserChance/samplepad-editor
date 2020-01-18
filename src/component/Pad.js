@@ -60,7 +60,7 @@ const PadComponent = (props) => {
 
             <span className="velocityIcon has-tooltip-bottom" data-tooltip={"Velocity: " + pad.velocityMin + "-" + pad.velocityMax}><span className="is-small">({pad.velocityMin}-{pad.velocityMax})</span></span>
 
-            <span className="mgrpIcon has-tooltip-left" style={{color: getMgrpForegroundColor(mgrp),backgroundColor: getMgrpBackgroundColor(mgrp)}} data-tooltip={"Mute Group: " + (mgrp > 0 ? mgrp : 'off')}>{mgrp > 0 ? mgrp : '-'}</span>
+            <span className={"mgrpIcon has-tooltip-left " + getMgrpForegroundClass(mgrp)} style={{backgroundColor: getMgrpBackgroundColor(mgrp)}} data-tooltip={"Mute Group: " + (mgrp > 0 ? mgrp : 'off')}>{mgrp > 0 ? mgrp : '-'}</span>
           </div>
         </div>
       </div>
@@ -100,14 +100,14 @@ const getMgrpBackgroundColor = (value) => {
   ][value];
 }
 
-const getMgrpForegroundColor = (value) => {
+const getMgrpForegroundClass = (value) => {
   if ([2,3,8,9,11,13,15,16].indexOf(value) > -1) {
     // these background colors require light text
-    return '#ffffff';
+    return 'has-text-white';
   }
 
   // other background colors require dark text
-  return 'rgba(0, 0, 0, 0.7)';
+  return 'has-text-black';
 }
 
 const mapStateToProps = (state, ownProps) => {

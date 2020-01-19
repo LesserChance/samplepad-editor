@@ -21,7 +21,7 @@ export const Actions = {
 };
 
 export const DragItemTypes = {
-  SAMPLE: 'sample',
+  SAMPLE: 'sample'
 };
 
 export const Drive = {

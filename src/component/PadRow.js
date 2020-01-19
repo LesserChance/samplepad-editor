@@ -11,8 +11,7 @@ const PadRowComponent = (props) => {
     accept: DragItemTypes.SAMPLE,
     drop: (item) => props.updatePadSample(item),
     collect: mon => ({
-      isOver: !!mon.isOver(),
-      canDrop: !!mon.canDrop(),
+      isOver: !!mon.isOver()
     }),
   })
 

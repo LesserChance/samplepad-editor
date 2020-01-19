@@ -2,18 +2,14 @@ import React from 'react';
 import { connect } from 'react-redux'
 import SamplePlayerComponent from './SamplePlayer'
 import SampleComponent from './Sample'
-import MidiNoteSelectComponent from './MidiNoteSelect'
-import { updatePadIntProperty, updatePadSensitivity } from '../redux/actions'
+import MidiNoteSelectComponent from './PadControl/MidiNoteSelect'
+import KnobComponent from './PadControl/Knob'
+import SlideComponent from './PadControl/Slide'
+import { updatePadIntProperty, updatePadSensitivity, updatePadStringProperty } from '../redux/actions'
 
 const PadComponent = (props) => {
   let pad = props.pad;
-  let mgrp = Math.floor((Math.random() * 17));
-  let reverb = Math.floor((Math.random() * 11));
-  let pan = Math.floor((Math.random() * 9) - 4);
-  let tune = Math.floor((Math.random() * 9) - 4);
-  let level = Math.floor((Math.random() * 11));
-  let mode = Math.floor((Math.random() * 7));
-  let sensitivity = Math.floor((Math.random() * 9));
+  let mgrp = pad.mgrp;//Math.floor((Math.random() * 17));
 
   return (
     <div className="container">
@@ -36,27 +32,73 @@ const PadComponent = (props) => {
 
         <div className="level-right">
           <div className="level-item">
-            <span className="dataIcon has-tooltip-bottom" data-tooltip={"Tune: " + tune}><i className="glyphicon glyphicon-off" aria-hidden="true" style={{transform: getRotateTransform(tune)}} /></span>
+            <KnobComponent
+              min={-4}
+              max={4}
+              tooltip={'Tune: '}
+              icon={'off'}
+              value={pad.tune}
+              stepDistance={50}
+              onChange={(value) => props.updatePadIntProperty("tune", value)}/>
 
-            <span className="dataIcon has-tooltip-bottom" data-tooltip={"Sensitivity: " + sensitivity}><i className="glyphicon glyphicon-screenshot" aria-hidden="true" style={{color: getSensitivityForground(sensitivity)}}/></span>
+            <SlideComponent
+              min={0}
+              max={8}
+              tooltip={'Sensitivity: '}
+              icon={'screenshot'}
+              value={pad.sensitivity}
+              stepDistance={100}
+              overlayProperty='color'
+              onChange={(value) => props.updatePadSensitivity(value)}/>
 
-            <span className="dataIcon has-tooltip-bottom" data-tooltip={"Pan: " + pan}><i className="glyphicon glyphicon-upload" aria-hidden="true" style={{transform: getRotateTransform(pan)}}/></span>
+            <KnobComponent
+              min={-4}
+              max={4}
+              tooltip={'Pan: '}
+              icon={'upload'}
+              value={pad.pan}
+              stepDistance={50}
+              onChange={(value) => props.updatePadIntProperty("pan", value)}/>
 
-            <span className="overlapIcon has-tooltip-bottom" data-tooltip={"Reverb: " + reverb}>
-              <div className="overlapContainer">
-                <div><i className="glyphicon glyphicon-signal has-text-grey-lighter" aria-hidden="true" /></div>
-                <div><i className="glyphicon glyphicon-signal overlapValue" style={{width: getOverlapWidth(reverb, 10)}} aria-hidden="true" /></div>
+            <SlideComponent
+              min={0}
+              max={10}
+              tooltip={'Reverb: '}
+              icon={'signal'}
+              value={pad.reverb}
+              stepDistance={100}
+              overlayProperty='width'
+              onChange={(value) => props.updatePadIntProperty("reverb", value)}/>
+
+            <SlideComponent
+              min={0}
+              max={10}
+              tooltip={'Level: '}
+              icon={'volume-up'}
+              value={pad.level}
+              stepDistance={100}
+              overlayProperty='width'
+              onChange={(value) => props.updatePadIntProperty("level", value)}/>
+
+            <span className="modeIcon">
+              <div className="field">
+                <div className="control">
+                  <div className="select is-small">
+                    <select
+                      value={pad.mode || ""}
+                      onChange={(e) => props.updatePadIntProperty('mode', e.target.value)}>
+                      <option value='0'>POLY</option>
+                      <option value='1'>MONO</option>
+                      <option value='2'>LOOP</option>
+                      <option value='3'>STOP</option>
+                      <option value='4'>TMP</option>
+                      <option value='5'>CLK</option>
+                      <option value='6'>HAT</option>
+                    </select>
+                  </div>
+                </div>
               </div>
             </span>
-
-            <span className="overlapIcon has-tooltip-bottom" data-tooltip={"Level: " + level}>
-              <div className="overlapContainer">
-                <div><i className="glyphicon glyphicon-volume-up has-text-grey-lighter" aria-hidden="true" /></div>
-                <div><i className="glyphicon glyphicon-volume-up overlapValue" style={{width: getOverlapWidth(level, 10)}} aria-hidden="true" /></div>
-              </div>
-            </span>
-
-            <span className="modeIcon has-tooltip-bottom" data-tooltip={"Mode: " + getMode(mode)}><span className="is-small">{getMode(mode)}</span></span>
 
             <span className="velocityIcon has-tooltip-bottom" data-tooltip={"Velocity: " + pad.velocityMin + "-" + pad.velocityMax}><span className="is-small">({pad.velocityMin}-{pad.velocityMax})</span></span>
 
@@ -66,27 +108,6 @@ const PadComponent = (props) => {
       </div>
     </div>
   );
-}
-
-const getRotateTransform = (value) => {
-  // -4 to 4 => -90 to 90
-  let rotate = 'rotate(' + (22.5 * value) + 'deg)';
-  let translate = 'translate(0, ' + Math.abs(.025 * value) + 'em)';
-  return rotate + ' ' + translate ;
-}
-
-const getSensitivityForground = (value) => {
-  let color = (240 - (value * 30)).toString(16);
-  return '#' + color + color + color;
-}
-
-const getOverlapWidth = (value, max) => {
-  // 0 to 10, 0 to ~1.2
-  return (value * (1.2/max)) + 'em';
-}
-
-const getMode = (value) => {
-  return ['POLY','MONO','LOOP','STOP','TMP','CLK','HAT'][value];
 }
 
 const getMgrpBackgroundColor = (value) => {
@@ -121,10 +142,13 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     updatePadIntProperty: (property, value) => {
-      dispatch(updatePadIntProperty(property, value));
+      dispatch(updatePadIntProperty(ownProps.padId, property, value));
+    },
+    updatePadStringProperty: (property, value) => {
+      dispatch(updatePadIntProperty(ownProps.padId, property, value));
     },
     updatePadSensitivity: (value) => {
-      dispatch(updatePadSensitivity(value));
+      dispatch(updatePadSensitivity(ownProps.padId, value));
     }
   }
 }

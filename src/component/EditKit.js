@@ -5,7 +5,6 @@ import { saveKit, updateKitName } from '../redux/actions'
 import "../css/EditKit.css"
 
 const EditKit = (props) => {
-  console.log("e");
   return (
     <section>
       <div className="kit">
@@ -30,7 +29,7 @@ const EditKit = (props) => {
 
         <div className="pad-table">
           {
-            [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1].map((i) => {
+            [1, 1, 1, 1, 1,1, 1, 1, 1, 1,1, 1, 1, 1, 1,1, 1, 1, 1, 1,1, 1, 1, 1, 1].map((i) => {
               return props.pads.map((padId) => {
                 return (
                   <PadRowComponent padId={padId} key={padId} mgrp={i} />

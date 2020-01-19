@@ -1,5 +1,5 @@
 import React from 'react';
-import { MidiMap } from '../util/const'
+import { MidiMap } from '../../util/const'
 
 const MidiNoteSelect = (props) => {
   return (

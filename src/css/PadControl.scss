@@ -1,0 +1,43 @@
+.knobContainer {
+  width: 1.5em;
+  height: 1.5em;
+  overflow: hidden;
+  padding-left: .2em;
+  cursor: pointer;
+
+  .rc-slider-rail, .rc-slider-track, .rc-slider-step, .rc-slider-mark {
+    display: none;
+  }
+
+  .overlapContainer {
+    position: absolute;
+    top: 0;
+
+    .glyphicon.overlapValue {
+      overflow: hidden;
+      top: 2px;
+    }
+
+    .overlapHandle {
+      width:1.5em;
+    }
+  }
+}
+
+.height-25 {
+  .rc-slider, .rc-slider-rail, .rc-slider-mark {
+    height: 25px !important;
+  }
+}
+
+.height-50 {
+  .rc-slider, .rc-slider-rail, .rc-slider-mark {
+    height: 50px !important;
+  }
+}
+
+.height-100 {
+  .rc-slider, .rc-slider-rail, .rc-slider-mark {
+    height: 100px !important;
+  }
+}

@@ -11,35 +11,24 @@
 .pad-table {
   max-height: 27.5em;
   overflow-y: scroll;
-  padding-right: 1em; }
+  padding-right: 1em;
+  padding-bottom: 2em; }
 
 .dataIcon {
   width: 1.5em;
-  text-align: center; }
+  padding-left: .2em; }
 
 .modeIcon {
-  width: 3em;
-  text-align: left; }
+  padding-left: .2em; }
+  .modeIcon select {
+    padding-left: .25em !important;
+    padding-right: .25em !important; }
+  .modeIcon .select::after {
+    display: none !important; }
 
 .velocityIcon {
   width: 5em;
   text-align: center; }
-
-.levelIcon {
-  width: 2.3em;
-  padding-left: .2em;
-  text-align: left; }
-
-.overlapIcon {
-  width: 1.5em;
-  height: 1.5em;
-  text-align: left; }
-  .overlapIcon .overlapContainer div {
-    position: absolute;
-    left: .2em; }
-    .overlapIcon .overlapContainer div .glyphicon.overlapValue {
-      overflow: hidden;
-      top: 2px; }
 
 .mgrpIcon {
   border-radius: 2px;

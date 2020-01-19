@@ -41,7 +41,7 @@ export const PadModel = (midiNote = null, fileName = "", displayName = "", veloc
 
     reverb: reverb,
     level: level,
-    mode: mode,
+    mode: 0,//mode,
     mgrp: mgrp,
     tune: tune,
     sensitivity: sensitivity,

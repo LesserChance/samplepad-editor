@@ -1,4 +1,4 @@
-import { Drive, KitBuffer, MidiMap } from "../util/const";
+import { Drive, KitBuffer, MidiMap } from "./const";
 import { RootModel, KitModel, PadModel } from "../redux/models";
 
 const fs = window.require('fs');
@@ -76,6 +76,7 @@ export const getGlobalStateFromDirectory = (rootPath) => {
  */
 export const getKitPadsFromFile = (kitFile) => {
   let pads = {};
+
   let buffer = fs.readFileSync(kitFile);
 
   let checksum = buffer.readUInt8(KitBuffer.CHECKSUM_BYTE);

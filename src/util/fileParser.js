@@ -83,38 +83,40 @@ export const getKitPadsFromFile = (kitFile) => {
     throw new Error("Invalid .kit file")
   }
 
-  Object.keys(KitBuffer.PAD_MAP).forEach(function(padType) {
+  Object.keys(KitBuffer.PAD_MEMORY_BLOCK_LOCATIONS).forEach(function(padType) {
     let padProps = PadModel(padType);
-    let blockLocations = KitBuffer.PAD_MAP[padType];
+    let blockLocations = KitBuffer.PAD_MEMORY_BLOCK_LOCATIONS[padType];
 
-    // read from block 1
+    // read from block 1/2
     KitBuffer.PAD_PARAM_READ_BLOCKS.forEach(function(blockParams, blockIndex) {
       let blockStart = blockLocations[blockIndex];
 
       blockParams.forEach(function(blockParam) {
-        let paramLocation = KitBuffer.PAD_PARAM_START_MAP[blockParam];
+        let paramLocation = KitBuffer.PAD_PARAM_MEMORY_LOCATION[blockIndex][blockParam];
         let bufferStart = blockStart + paramLocation;
         padProps[blockParam] = buffer.readUInt8(bufferStart);
       });
     });
 
+    // now that we have string length, read the file and display name params
+    const fileBlockIndex = 1;
     if (padProps.fileNameLength) {
-      //read the filename from block 4
-      let fileNameBufferStart = blockLocations[3] + KitBuffer.PAD_PARAM_START_MAP.fileName;
+      //read the filename
+      let fileNameBufferStart = blockLocations[fileBlockIndex] + KitBuffer.PAD_PARAM_MEMORY_LOCATION[fileBlockIndex].fileName;
       padProps.fileName = buffer.toString("utf-8", fileNameBufferStart, fileNameBufferStart + padProps.fileNameLength) + Drive.SAMPLE_EXTENSION;
 
-      // read the display name from block 4
-      let displayNameBufferStart = blockLocations[3] + KitBuffer.PAD_PARAM_START_MAP.displayName;
+      // read the display name
+      let displayNameBufferStart = blockLocations[fileBlockIndex] + KitBuffer.PAD_PARAM_MEMORY_LOCATION[fileBlockIndex].displayName;
       padProps.displayName = buffer.toString("utf-8", displayNameBufferStart, displayNameBufferStart + padProps.fileNameLength);
     }
 
     if (padProps.fileNameLengthB) {
-      //read the filename from block 4
-      let fileNameBufferStartB = blockLocations[3] + KitBuffer.PAD_PARAM_START_MAP.fileNameB;
+      //read the filename
+      let fileNameBufferStartB = blockLocations[fileBlockIndex] + KitBuffer.PAD_PARAM_MEMORY_LOCATION[fileBlockIndex].fileNameB;
       padProps.fileNameB = buffer.toString("utf-8", fileNameBufferStartB, fileNameBufferStartB + padProps.fileNameLengthB) + Drive.SAMPLE_EXTENSION;
 
-      // read the display name from block 4
-      let displayNameBufferStartB = blockLocations[3] + KitBuffer.PAD_PARAM_START_MAP.displayNameB;
+      // read the display name
+      let displayNameBufferStartB = blockLocations[fileBlockIndex] + KitBuffer.PAD_PARAM_MEMORY_LOCATION[fileBlockIndex].displayNameB;
       padProps.displayNameB = buffer.toString("utf-8", displayNameBufferStartB, displayNameBufferStartB + padProps.fileNameLengthB);
     }
 

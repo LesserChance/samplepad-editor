@@ -1,5 +1,5 @@
-import { Drive, KitBuffer } from "../util/const";
-import { calculateChecksumFromBuffer } from "../util/fileParser";
+import { Drive } from "../util/const";
+import { getKitFileBuffer } from "../util/kitFile";
 
 const fs = window.require('fs');
 const path = window.require('path');
@@ -21,7 +21,6 @@ export function storeLastLoadedDirectory(directory) {
 export function getLastLoadedDirectory() {
   return store.get('lastLoadedDirectory');
 }
-
 
 /**
  * Copy a source sample to the sample directory
@@ -48,10 +47,11 @@ export function copySample(source, destinationDirectory) {
 
 /**
  * @param {KitModel} kit
+ * @param {PadModel[]} pads
  * @param {Boolean} asNew
  * @returns {String} the file name the kit was stored as
  */
-export const saveKitToFile = (kit, asNew = false) => {
+export const saveKitToFile = (kit, pads, asNew = false) => {
   if(!fs.existsSync(kit.filePath)) {
     // need to create the kits directory
     fs.mkdirSync(kit.filePath);
@@ -65,64 +65,20 @@ export const saveKitToFile = (kit, asNew = false) => {
   }
 
   let kitFile = kit.filePath + "/" + fileName;
+  try {
+    // if(!fs.existsSync(kitFile)) {
+      fs.open(kitFile, "w", (err, fd) => {
+        if (err) throw err;
 
-  if(!fs.existsSync(kitFile)) {
-    fs.open(kitFile, "w", (err, fd) => {
-      if (err) throw err;
-
-      // write the kit name
-      // todo
-
-      // write the notes
-      for (let midiNote in KitBuffer.NOTE_MAP) {
-        let pad = getPadWithNote(kit, midiNote);
-
-        Object.keys(KitBuffer.PROP_MAP_KEY).forEach(function(prop) {
-          let buffer_length = KitBuffer.PROP_LENGTH[prop] || 1;
-          let write_buffer = Buffer.alloc(buffer_length)
-
-          if (pad && pad[prop]) {
-              switch (KitBuffer.PROP_TYPE[prop]) {
-                case 'uint8':
-                  write_buffer.writeUInt8(pad[prop], 0);
-                  break;
-                case 'string':
-                  write_buffer.write(pad[prop]);
-                  break;
-                default:
-                  break;
-              }
-          }
-
-          let buffer_start = KitBuffer.NOTE_MAP[midiNote][KitBuffer.PROP_MAP_KEY[prop]];
-          fs.writeSync(fd, write_buffer, 0, buffer_length, buffer_start);
-        });
-      }
-
-      // write the checksum
-      let buffer = fs.readFileSync(kitFile);
-      let checksum = calculateChecksumFromBuffer(buffer);
-      let checksum_buffer = Buffer.from(Array(1));
-      checksum_buffer.writeUInt8(checksum, 0);
-      fs.writeSync(fd, checksum_buffer, 0, 1, KitBuffer.CHECKSUM_BYTE);
-    });
+        // write the kit file
+        let buffer = getKitFileBuffer(kit, pads);
+        fs.writeSync(fd, buffer, 0, buffer.length);
+      });
+    // }
+  } catch (err) {
+    console.error(err);
+    return;
   }
 
   return fileName;
 }
-
-/*
- * @returns {PadModel|null}
- */
-const getPadWithNote = (kit, midiNote) => {
-  let padWithNote = null
-  Object.keys(kit.pads).forEach(function(padId) {
-    let pad = kit.pads[padId];
-    if (pad.midiNote === midiNote) {
-      padWithNote = pad;
-    }
-  })
-
-  return padWithNote;
-}
-

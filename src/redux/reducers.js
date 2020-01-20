@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux'
 import { Actions } from '../util/const'
 import update from 'immutability-helper';
-import { getGlobalStateFromDirectory } from "../util/fileParser";
+import { getGlobalStateFromDirectory } from "../util/globalState";
 import { getLastLoadedDirectory } from "../util/storage";
 import { getSortedKitIds } from "./sortModels";
 

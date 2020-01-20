@@ -22,13 +22,11 @@ export const KitModel = (filePath = "", fileName = "", isNew = false, isExisting
   };
 }
 
-export const PadModel = (padType = "", location = "", level = 0, tune = 0, pan = 0, reverb = 0, midiNote = 0, mode = 0, sensitivity = 0, mgrp = 0, velocityMin = 0, velocityMax = 1, fileNameLength = 0, displayName = "", fileName = "", velocityMinB = 0, velocityMaxB = 1, fileNameLengthB = 0, displayNameB = "", fileNameB = "") => {
+export const PadModel = (padType = "", location = "", level = 0, tune = 0, pan = 0, reverb = 0, midiNote = 0, mode = 0, sensitivity = 1, mgrp = 0, velocityMin = 0, velocityMax = 127, fileName = "", velocityMinB = 0, velocityMaxB = 127, fileNameB = "") => {
   return {
     id: uuidv1(),
     padType: padType,
     location: location,
-
-    // blocks 2 and 3
     level: level,
     tune: tune,
     pan: pan,
@@ -37,17 +35,11 @@ export const PadModel = (padType = "", location = "", level = 0, tune = 0, pan =
     mode: mode,
     sensitivity: sensitivity,
     mgrp: mgrp,
-
-    // block 4
     velocityMin: velocityMin,
     velocityMax: velocityMax,
-    fileNameLength: fileNameLength,
-    displayName: displayName,
     fileName: fileName,
     velocityMinB: velocityMinB,
     velocityMaxB: velocityMaxB,
-    fileNameLengthB: fileNameLengthB,
-    displayNameB: displayNameB,
     fileNameB: fileNameB
   };
 }

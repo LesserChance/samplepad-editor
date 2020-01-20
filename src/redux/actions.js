@@ -1,7 +1,8 @@
 import { KitModel } from "../redux/models";
 import { Actions } from '../util/const'
 import { openKitFileDialog, openDriveDirectoryDialog, openSampleFileDialog} from "../util/fileDialog";
-import { getGlobalStateFromDirectory, getKitAndPadsFromFile} from "../util/fileParser";
+import { getGlobalStateFromDirectory} from "../util/globalState";
+import { getKitAndPadsFromFile } from "../util/kitFile";
 import { storeLastLoadedDirectory, saveKitToFile, copySample } from "../util/storage";
 
 /** DRIVE ACTION CREATORS */
@@ -90,15 +91,21 @@ export function loadKitDetails(kitId) {
 
     if (!kit.isLoaded) {
       let kitFile = kit.filePath + "/" + kit.fileName;
-      let result = getKitAndPadsFromFile(kitFile);
 
-      dispatch({ type: Actions.ADD_PADS, pads: result.pads });
-      dispatch(updateKitState(kitId, {
-        "isLoaded": true,
-        "kitName": result.kit.kitName,
-        "pads": result.kit.pads
-      }));
-      dispatch({ type: Actions.SORT_KITS });
+      try {
+        let result = getKitAndPadsFromFile(kitFile);
+
+        dispatch({ type: Actions.ADD_PADS, pads: result.pads });
+        dispatch(updateKitState(kitId, {
+          "isLoaded": true,
+          "kitName": result.kit.kitName,
+          "pads": result.kit.pads
+        }));
+        dispatch({ type: Actions.SORT_KITS });
+      } catch (err) {
+        // failed kit load - load the default empty kit
+        dispatch(loadNewKit());
+      }
     }
   }
 }
@@ -123,8 +130,7 @@ export function saveKit(kitId, asNew=false) {
   return (dispatch, getState) => {
     let state = getState();
     let kit = state.kits.models[kitId];
-
-    let fileName = saveKitToFile(kit, asNew);
+    let fileName = saveKitToFile(kit, state.pads, asNew);
 
     dispatch(updateKitState(kitId, {
       isNew: false,
@@ -173,7 +179,6 @@ export function updateKitState(kitId, newState) {
 export function updatePadSample(padId, value) {
   return (dispatch, getState) => {
     dispatch(updatePadProperty(padId, "fileName", value));
-    dispatch(updatePadProperty(padId, "displayName", value));
   }
 }
 /**

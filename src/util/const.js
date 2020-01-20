@@ -34,6 +34,7 @@ export const Drive = {
 
 export const KitBuffer = {
   CHECKSUM_BYTE: 0x08,
+  DIVIDER_PAD_TYPE: 'XXX',
 
   // pads are written to the kit file in this order, XXX is a placeholder for the two 256b sections that get stuck in the middle
   PAD_FILE_ORDER: [
@@ -94,19 +95,17 @@ export const KitBuffer = {
       'velocityMin':    0x82,
       'velocityMax':    0x83,
       'fileNameLength': 0x87,
-      'displayName':    0x88,
       'fileName':       0x90,
       'velocityMinB':   0xa2,
       'velocityMaxB':   0xa3,
       'fileNameLengthB':0xa7,
-      'displayNameB':   0xa8,
       'fileNameB':      0xb0,
     }
   ],
 
   /*
    * Map of which params to read from which blocks
-   * leaves out filename and displayName, since they require the length to read
+   * leaves out filenames, since they require the length to read
    */
   PAD_PARAM_READ_BLOCKS: [
     ['location','level','tune','pan','reverb','midiNote','mode','sensitivity','mgrp'],

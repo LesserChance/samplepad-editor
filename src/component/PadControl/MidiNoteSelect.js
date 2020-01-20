@@ -3,17 +3,19 @@ import { MidiMap } from '../../util/const'
 
 const MidiNoteSelect = (props) => {
   return (
-    <div className="field">
+    <div className="field midiNote">
       <div className="control has-icons-left">
         <div className="select is-small">
           <select
             value={props.value || ""}
             onChange={(e) => props.onChange(e.target.value)}>
             {
-              Object.keys(MidiMap).map((midiNote) => {
+              [...Array(127).keys()].map((midiNote) => {
+                midiNote = midiNote + 1;
+                let defaultNote = MidiMap[props.padType][1];
                 return (
                   <option key={midiNote} value={midiNote}>
-                    {midiNote} &lt;{MidiMap[midiNote]}&gt;
+                    {midiNote}{(midiNote===defaultNote) ? '*' : ''}
                   </option>
                 );
               })

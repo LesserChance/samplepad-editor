@@ -22,29 +22,32 @@ export const KitModel = (filePath = "", fileName = "", isNew = false, isExisting
   };
 }
 
-export const PadModel = (midiNote = null, fileName = "", displayName = "", velocityMin = 0, velocityMax = 127, fileName_b = "", displayName_b = "", velocityMin_b = 0, velocityMax_b = 127, reverb = 0, level = 0, mode = null, mgrp = 0, tune = 0, sensitivity = 8, pan = 0) => {
+export const PadModel = (padType = "", location = "", level = 0, tune = 0, pan = 0, reverb = 0, midiNote = 0, mode = 0, sensitivity = 0, mgrp = 0, velocityMin = 0, velocityMax = 1, fileNameLength = 0, displayName = "", fileName = "", velocityMinB = 0, velocityMaxB = 1, fileNameLengthB = 0, displayNameB = "", fileNameB = "") => {
   return {
     id: uuidv1(),
-    midiNote: midiNote,
+    padType: padType,
+    location: location,
 
-    // First Layer
-    fileName: fileName,
-    displayName: displayName,
+    // blocks 2 and 3
+    level: level,
+    tune: tune,
+    pan: pan,
+    reverb: reverb,
+    midiNote: midiNote,
+    mode: mode,
+    sensitivity: sensitivity,
+    mgrp: mgrp,
+
+    // block 4
     velocityMin: velocityMin,
     velocityMax: velocityMax,
-
-    // Second Layer
-    fileName_b: fileName_b,
-    displayName_b: displayName_b,
-    velocityMin_b: velocityMin_b,
-    velocityMax_b: velocityMax_b,
-
-    reverb: reverb,
-    level: level,
-    mode: 0,//mode,
-    mgrp: mgrp,
-    tune: tune,
-    sensitivity: sensitivity,
-    pan: pan
+    fileNameLength: fileNameLength,
+    displayName: displayName,
+    fileName: fileName,
+    velocityMinB: velocityMinB,
+    velocityMaxB: velocityMaxB,
+    fileNameLengthB: fileNameLengthB,
+    displayNameB: displayNameB,
+    fileNameB: fileNameB
   };
 }

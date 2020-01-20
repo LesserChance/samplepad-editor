@@ -1,4 +1,4 @@
-import { Drive, KitBuffer } from "../util/const";
+import { Drive, KitBuffer, MidiMap } from "../util/const";
 import { RootModel, KitModel, PadModel } from "../redux/models";
 
 const fs = window.require('fs');
@@ -83,33 +83,58 @@ export const getKitPadsFromFile = (kitFile) => {
     throw new Error("Invalid .kit file")
   }
 
-  for (let midiNote in KitBuffer.NOTE_MAP) {
-    let padProps = PadModel(midiNote);
+  Object.keys(KitBuffer.PAD_MAP).forEach(function(padType) {
+    let padProps = PadModel(padType);
+    let blockLocations = KitBuffer.PAD_MAP[padType];
 
-    // parse the file buffer into properties for the pad
-    Object.keys(KitBuffer.PROP_MAP_KEY).forEach(function(prop) {
-      padProps[prop] = (() => {
-        let buffer_start = KitBuffer.NOTE_MAP[midiNote][KitBuffer.PROP_MAP_KEY[prop]];
+    // read from block 1
+    KitBuffer.PAD_PARAM_READ_BLOCKS.forEach(function(blockParams, blockIndex) {
+      let blockStart = blockLocations[blockIndex];
 
-        switch (KitBuffer.PROP_TYPE[prop]) {
-          case 'uint8':
-            return buffer.readUInt8(buffer_start);
-          case 'string':
-            return buffer.toString("utf-8", buffer_start, buffer_start + KitBuffer.PROP_LENGTH[prop]).replace(/\0/g, '').trim();
-          default:
-            return null;
-        }
-      })();
+      blockParams.forEach(function(blockParam) {
+        let paramLocation = KitBuffer.PAD_PARAM_START_MAP[blockParam];
+        let bufferStart = blockStart + paramLocation;
+        padProps[blockParam] = buffer.readUInt8(bufferStart);
+      });
     });
 
-    if (padProps.fileName) {
-      // the file name parsed does not have the extensions
-      padProps.fileName = (padProps.fileName + Drive.SAMPLE_EXTENSION);
-      pads[padProps.id] = padProps;
-    }
-  }
+    if (padProps.fileNameLength) {
+      //read the filename from block 4
+      let fileNameBufferStart = blockLocations[3] + KitBuffer.PAD_PARAM_START_MAP.fileName;
+      padProps.fileName = buffer.toString("utf-8", fileNameBufferStart, fileNameBufferStart + padProps.fileNameLength) + Drive.SAMPLE_EXTENSION;
 
-  return pads;
+      // read the display name from block 4
+      let displayNameBufferStart = blockLocations[3] + KitBuffer.PAD_PARAM_START_MAP.displayName;
+      padProps.displayName = buffer.toString("utf-8", displayNameBufferStart, displayNameBufferStart + padProps.fileNameLength);
+    }
+
+    if (padProps.fileNameLengthB) {
+      //read the filename from block 4
+      let fileNameBufferStartB = blockLocations[3] + KitBuffer.PAD_PARAM_START_MAP.fileNameB;
+      padProps.fileNameB = buffer.toString("utf-8", fileNameBufferStartB, fileNameBufferStartB + padProps.fileNameLengthB) + Drive.SAMPLE_EXTENSION;
+
+      // read the display name from block 4
+      let displayNameBufferStartB = blockLocations[3] + KitBuffer.PAD_PARAM_START_MAP.displayNameB;
+      padProps.displayNameB = buffer.toString("utf-8", displayNameBufferStartB, displayNameBufferStartB + padProps.fileNameLengthB);
+    }
+
+    pads[padProps.padType] = padProps;
+  });
+
+  //sort the pads by pad type and insert any missing ones
+  let sortedPads = [];
+  Object.keys(MidiMap).forEach(function(padType) {
+    let pad = pads[padType];
+
+    if (!pad) {
+      // if for some reason the pad doesnt exist, create a blank one
+      pad = PadModel(padType);
+    }
+
+    sortedPads[pad.id] = pad;
+  });
+
+  return sortedPads;
 }
 
 /*

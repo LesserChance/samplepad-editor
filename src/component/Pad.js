@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux'
+import { MidiMap } from '../util/const'
 import SamplePlayerComponent from './SamplePlayer'
 import SampleComponent from './Sample'
 import MidiNoteSelectComponent from './PadControl/MidiNoteSelect'
@@ -9,14 +10,21 @@ import { updatePadIntProperty, updatePadSensitivity, updatePadStringProperty } f
 
 const PadComponent = (props) => {
   let pad = props.pad;
-  let mgrp = pad.mgrp;//Math.floor((Math.random() * 17));
+  let padName = MidiMap[pad.padType][0]
 
   return (
     <div className="container">
       <div className="level">
         <div className="level-left">
           <div className="level-item">
+            <span className="is-size-7 has-background-grey-lighter padName">
+              {padName}:
+            </span>
+          </div>
+
+          <div className="level-item">
             <MidiNoteSelectComponent
+              padType={pad.padType}
               value={pad.midiNote}
               onChange={(midiNote) => props.updatePadIntProperty("midiNote", midiNote)} />
           </div>
@@ -102,7 +110,13 @@ const PadComponent = (props) => {
 
             <span className="velocityIcon has-tooltip-bottom" data-tooltip={"Velocity: " + pad.velocityMin + "-" + pad.velocityMax}><span className="is-small">({pad.velocityMin}-{pad.velocityMax})</span></span>
 
-            <span className={"mgrpIcon has-tooltip-left " + getMgrpForegroundClass(mgrp)} style={{backgroundColor: getMgrpBackgroundColor(mgrp)}} data-tooltip={"Mute Group: " + (mgrp > 0 ? mgrp : 'off')}>{mgrp > 0 ? mgrp : '-'}</span>
+            <span className={"mgrpIcon has-tooltip-left " + getMgrpForegroundClass(pad.mgrp)} style={{backgroundColor: getMgrpBackgroundColor(pad.mgrp)}} data-tooltip={"Mute Group: " + (pad.mgrp > 0 ? pad.mgrp : 'off')}>{pad.mgrp > 0 ? pad.mgrp : '-'}</span>
+
+            <div className="dataIcon">
+              { !!pad.fileNameB &&
+                <i className="glyphicon glyphicon-chevron-down" aria-hidden="true" />
+              }
+            </div>
           </div>
         </div>
       </div>

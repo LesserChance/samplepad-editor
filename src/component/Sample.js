@@ -8,9 +8,11 @@ const SampleComponent = (props) => {
     canDrag: monitor => (props.draggable)
   });
 
+  let hasSample = !!props.fileName;
+
   // highlight the search term in the sample name
   let displayName = props.fileName;
-  if (props.highlightKeyword) {
+  if (hasSample && props.highlightKeyword) {
     var start=displayName.toLowerCase().indexOf(props.highlightKeyword.toLowerCase());
 
     displayName = displayName.substr(0,start)
@@ -22,12 +24,17 @@ const SampleComponent = (props) => {
 
   return (
     <div ref={drag}>
-      <a href="#" className="panel-block sample" onClick={(e) => props.playSample()}>
+      <a href="#" className="panel-block sample" onClick={(e) => {if(hasSample) {props.playSample()}}}>
         <span className="panel-icon">
           <i className={"glyphicon " + ((props.playingSample) ? "glyphicon-stop" : "glyphicon-play")} aria-hidden="true" />
         </span>
         <span className={((props.playingSample) ? "has-text-primary" : "")}>
-          <div dangerouslySetInnerHTML={{ __html: displayName }} />
+          { hasSample &&
+            <div dangerouslySetInnerHTML={{ __html: displayName }} />
+          }
+          { !hasSample &&
+            <span>&lt;Empty&gt;</span>
+          }
         </span>
       </a>
     </div>

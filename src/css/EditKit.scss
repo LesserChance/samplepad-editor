@@ -16,9 +16,21 @@
   padding-bottom: 2em;
 }
 
-.dataIcon {
-  width: 1.5em;
-  padding-left: .2em;
+.padName {
+  width: 9em;
+  padding: .5em;
+  border-radius: 5px;
+}
+.midiNote {
+  margin-left: -1em;
+
+  select {
+    padding-left: 2em !important;
+    padding-right: .25em !important;
+  }
+  .select::after {
+    display: none !important;
+  }
 }
 .modeIcon {
   padding-left: .2em;
@@ -35,7 +47,6 @@
   width: 5em;
   text-align: center;
 }
-
 .mgrpIcon {
   border-radius: 2px;
   box-shadow: 0 2px 3px 0 rgba(0,0,0,.1),inset 0 0 0 1px rgba(0,0,0,.1);
@@ -43,6 +54,10 @@
   height: 1.5em;
   width: 1.5em;
   text-align: center;
+}
+.dataIcon {
+  width: 1.5em;
+  padding: .2em 0 0 .2em;
 }
 
 .sampleDrop {

@@ -29,12 +29,10 @@ const EditKit = (props) => {
 
         <div className="pad-table">
           {
-            [1, 1, 1, 1, 1,1, 1, 1, 1, 1,1, 1, 1, 1, 1,1, 1, 1, 1, 1,1, 1, 1, 1, 1].map((i) => {
-              return props.pads.map((padId) => {
-                return (
-                  <PadRowComponent padId={padId} key={padId} mgrp={i} />
-                );
-              })
+            props.pads.map((padId) => {
+              return (
+                <PadRowComponent padId={padId} key={padId} />
+              );
             })
           }
         </div>

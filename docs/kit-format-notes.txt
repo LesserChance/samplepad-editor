@@ -2,7 +2,7 @@ Example Pad: Kick
     00000000  00 01 02 03 04 05 06 07  08 09 0a 0b 0c 0d 0e 0f
 
 BLOCK ONE
-00  00000f80  4b 49 54 49 01 00 00 01  00 00 00 00 00 00 00 ??  |KITI............| (07)location, (08-09)either 00 or aa, (0f)length of string in f90-f97
+00  00000f80  4b 49 54 49 01 00 00 01  ?? ?? 00 00 00 00 00 ??  |KITI............| (07)location, (08-09)either 00 or aa, (0f)length of string in f90-f97
 01  00000f90  ?? ?? ?? ?? ?? ?? ?? ??  ?? ?? ?? ?? ?? ?? ?? ??  |????????........| (00-0f)references a file either internal or external - can be all 0’s if f8f is 0
 02  00000fa0  00 00 00 18 00 09 00 00  00 XX 00 0a 01 XX 04 08  |................| (09)level, (0d)tune
 03  00000fb0  02 XX 04 08 03 XX 00 0a  08 XX 00 7f 09 XX 00 05  |.........%......| (01)pan, (05)reverb, (09)midi_note, (0d)mode

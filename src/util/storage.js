@@ -76,7 +76,6 @@ export const saveKitToFile = (kit, pads, asNew = false) => {
       fs.writeSync(fd, buffer, 0, buffer.length);
     });
 
-
     if (currentFileName && desiredFileName !== currentFileName && !asNew) {
       // we need to rename the file, too
       fs.renameSync(

@@ -72,6 +72,10 @@ export function importKitFromFile() {
         }
 
         let {kit, pads} = getKitAndPadsFromFile(result.filePaths[0]);
+
+        // remove the filename, as a new one will get created
+        kit.fileName = null;
+
         dispatch({ type: Actions.ADD_PADS, pads: pads });
         dispatch({ type: Actions.ADD_KIT, kit: kit });
         dispatch({ type: Actions.SET_SELECTED_KIT_ID, kitId: kit.id });

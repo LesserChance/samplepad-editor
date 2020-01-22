@@ -1,6 +1,6 @@
 import React from 'react';
 import Slider from 'rc-slider';
-import "../../css/PadControl.css"
+import "../../css/PadControl/Slider.css"
 
 const SlideComponent = (props) => {
 

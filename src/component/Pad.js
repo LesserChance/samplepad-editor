@@ -6,6 +6,8 @@ import SampleComponent from './Sample'
 import MidiNoteSelectComponent from './PadControl/MidiNoteSelect'
 import KnobComponent from './PadControl/Knob'
 import SlideComponent from './PadControl/Slide'
+import VelocityComponent from './PadControl/Velocity'
+import MuteGroupComponent from './PadControl/MuteGroup'
 import { updatePadIntProperty, updatePadSensitivity, updatePadStringProperty } from '../redux/actions'
 
 const PadComponent = (props) => {
@@ -108,9 +110,18 @@ const PadComponent = (props) => {
               </div>
             </span>
 
-            <span className="velocityIcon has-tooltip-bottom" data-tooltip={"Velocity: " + pad.velocityMin + "-" + pad.velocityMax}><span className="is-small">({pad.velocityMin}-{pad.velocityMax})</span></span>
+            <VelocityComponent
+              min={pad.velocityMin}
+              max={pad.velocityMax}
+              tooltip={"Velocity: " + pad.velocityMin + "-" + pad.velocityMax}
+              onChangeMin={(value) => props.updatePadIntProperty('velocityMin', value)}
+              onChangeMax={(value) => props.updatePadIntProperty('velocityMax', value)} />
 
-            <span className={"mgrpIcon has-tooltip-left " + getMgrpForegroundClass(pad.mgrp)} style={{backgroundColor: getMgrpBackgroundColor(pad.mgrp)}} data-tooltip={"Mute Group: " + (pad.mgrp > 0 ? pad.mgrp : 'off')}>{pad.mgrp > 0 ? pad.mgrp : '-'}</span>
+            <MuteGroupComponent
+              mgrp={pad.mgrp}
+              max={pad.velocityMax}
+              tooltip={"Mute Group: " + (pad.mgrp > 0 ? pad.mgrp : 'off')}
+              onChange={(value) => props.updatePadIntProperty('mgrp', value)} />
 
             <div className="dataIcon">
               { !!pad.fileNameB &&
@@ -124,26 +135,6 @@ const PadComponent = (props) => {
   );
 }
 
-const getMgrpBackgroundColor = (value) => {
-  // 0 to 16
-  return [
-    '#ffffff',
-    '#73dc32','#d12394','#2394d1','#ffb3b3',
-    '#79ff57','#dd57ff','#ffdd57','#d16023',
-    '#5779ff','#00d1b2','#d1001f','#d1b200',
-    '#3273dc','#dc9b32','#9b32dc','#001fd1'
-  ][value];
-}
-
-const getMgrpForegroundClass = (value) => {
-  if ([2,3,8,9,11,13,15,16].indexOf(value) > -1) {
-    // these background colors require light text
-    return 'has-text-white';
-  }
-
-  // other background colors require dark text
-  return 'has-text-black';
-}
 
 const mapStateToProps = (state, ownProps) => {
   let pad = state.pads[ownProps.padId];

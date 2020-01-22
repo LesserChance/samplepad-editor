@@ -188,6 +188,10 @@ export function updatePadSample(padId, value) {
  * @param {?} value
  */
 export function updatePadIntProperty(padId, property, value) {
+  if (value === "") {
+    // dont cast empty value, let it be empty
+    return updatePadProperty(padId, property, value);
+  }
   return updatePadProperty(padId, property, parseInt(value, 10));
 }
 /**

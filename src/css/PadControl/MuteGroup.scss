@@ -1,0 +1,35 @@
+.mgrpContainer {
+  position: relative;
+
+  .mgrpIcon {
+    border-radius: 2px;
+    box-shadow: 0 2px 3px 0 rgba(0,0,0,.1),inset 0 0 0 1px rgba(0,0,0,.1);
+    display: inline-block;
+    height: 1.5em;
+    width: 1.5em;
+    text-align: center;
+  }
+
+  & > div {
+    z-index: 10;
+    left: -5.3em !important;
+
+    & > div {
+      left: 6em !important;
+    }
+  }
+
+  .selectMgrp {
+    a {
+      width: 100%;
+      text-align: center;
+      display: inline-block;
+      margin-top:-.3em;
+      padding-bottom: .3em;
+    }
+    .mgrpIcon {
+      cursor: pointer;
+      margin: .1em;
+    }
+  }
+}

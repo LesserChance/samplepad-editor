@@ -1,0 +1,23 @@
+.mgrpContainer {
+  position: relative; }
+  .mgrpContainer .mgrpIcon {
+    border-radius: 2px;
+    box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.1), inset 0 0 0 1px rgba(0, 0, 0, 0.1);
+    display: inline-block;
+    height: 1.5em;
+    width: 1.5em;
+    text-align: center; }
+  .mgrpContainer > div {
+    z-index: 10;
+    left: -5.3em !important; }
+    .mgrpContainer > div > div {
+      left: 6em !important; }
+  .mgrpContainer .selectMgrp a {
+    width: 100%;
+    text-align: center;
+    display: inline-block;
+    margin-top: -.3em;
+    padding-bottom: .3em; }
+  .mgrpContainer .selectMgrp .mgrpIcon {
+    cursor: pointer;
+    margin: .1em; }

@@ -44,6 +44,7 @@ export const getKitAndPadsFromFile = (kitFile) => {
   let kitPath = path.parse(kitFile);
   let buffer = fs.readFileSync(kitFile);
   let checksum = buffer.readUInt8(KitBuffer.CHECKSUM_BYTE);
+
   if (checksum !== calculateChecksumFromBuffer(buffer)) {
     throw new Error("Invalid .kit file")
   }
@@ -185,7 +186,7 @@ const getPadFromBufferBlocks = (padType, block1, block2) => {
     fileNameB = block2.toString("utf-8", MEMLOC.fileNameB, MEMLOC.fileNameB + fileLength) + Drive.SAMPLE_EXTENSION;
   }
 
-  return PadModel(padType, location, level, tune, pan, reverb, midiNote, mode, sens, mgrp, velocityMin, velocityMax, fileName, velocityMinB, velocityMaxB, fileNameB);
+  return PadModel.fromFile(padType, location, level, tune, pan, reverb, midiNote, mode, sens, mgrp, velocityMin, velocityMax, fileName, velocityMinB, velocityMaxB, fileNameB);
 }
 
 /**
@@ -203,6 +204,11 @@ const getPadWithType = (kit, pads, padType) => {
       returnPad = pad;
     }
   })
+
+  if (!returnPad) {
+    // for some reason we couldnt find a valid pad, return a default one
+    return PadModel.getPad(padType);
+  }
 
   return returnPad;
 }
@@ -272,11 +278,11 @@ const getPadBlock1 = (pad) => {
   block.splice(MEMLOC.midiNote, 1,    pad.midiNote);
   block.splice(MEMLOC.location, 1,    pad.location);
   block.splice(MEMLOC.level, 1,       pad.level);
-  block.splice(MEMLOC.tune, 1,        pad.tune);
-  block.splice(MEMLOC.pan, 1,         pad.pan);
+  block.splice(MEMLOC.tune, 1,        PadModel.getUIntFileValue(pad.tune));
+  block.splice(MEMLOC.pan, 1,         PadModel.getUIntFileValue(pad.pan));
   block.splice(MEMLOC.reverb, 1,      pad.reverb);
   block.splice(MEMLOC.mode, 1,        pad.mode);
-  block.splice(MEMLOC.sensitivity, 1, pad.sensitivity);
+  block.splice(MEMLOC.sensitivity, 1, PadModel.getSensitivityFileValue(pad.sensitivity));
   block.splice(MEMLOC.mgrp, 1,        pad.mgrp);
 
   return block;
@@ -310,11 +316,11 @@ const getPadBlock2 = (pad) => {
   block.splice(MEMLOC.midiNote, 1,     pad.midiNote);
   block.splice(MEMLOC.location, 1,     pad.location);
   block.splice(MEMLOC.level, 1,        pad.level);
-  block.splice(MEMLOC.tune, 1,         pad.tune);
-  block.splice(MEMLOC.pan, 1,          pad.pan);
+  block.splice(MEMLOC.tune, 1,         PadModel.getUIntFileValue(pad.tune));
+  block.splice(MEMLOC.pan, 1,          PadModel.getUIntFileValue(pad.pan));
   block.splice(MEMLOC.reverb, 1,       pad.reverb);
   block.splice(MEMLOC.mode, 1,         pad.mode);
-  block.splice(MEMLOC.sensitivity, 1,  pad.sensitivity);
+  block.splice(MEMLOC.sensitivity, 1,  PadModel.getSensitivityFileValue(pad.sensitivity));
   block.splice(MEMLOC.mgrp, 1,         pad.mgrp);
   block.splice(MEMLOC.velocityMin, 1,  pad.velocityMin);
   block.splice(MEMLOC.velocityMax, 1,  pad.velocityMax);

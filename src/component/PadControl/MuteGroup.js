@@ -74,6 +74,7 @@ class MuteGroupComponent extends React.Component {
             {
               [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16].map((mgrp) => {
                 return <span
+                  key={mgrp}
                   className={"mgrpIcon " + this.getMgrpForegroundClass(mgrp)}
                   onClick={(e) => {this.props.onChange(mgrp);this.handleClose();}}
                   style={{backgroundColor: this.getMgrpBackgroundColor(mgrp)}}>

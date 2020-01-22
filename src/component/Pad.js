@@ -52,7 +52,7 @@ const PadComponent = (props) => {
               onChange={(value) => props.updatePadIntProperty("tune", value)}/>
 
             <SlideComponent
-              min={0}
+              min={1}
               max={8}
               tooltip={'Sensitivity: '}
               icon={'screenshot'}

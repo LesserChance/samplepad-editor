@@ -57,28 +57,37 @@ export const saveKitToFile = (kit, pads, asNew = false) => {
     fs.mkdirSync(kit.filePath);
   }
 
-  let fileName = kit.fileName;
+  let desiredFileName = kit.kitName + Drive.KIT_EXTENSION;
+  let currentFileName = kit.fileName;
 
-  // if the kit hasnt been stored, or we want to store it as a new kit, use the kit name as the file name
-  if (!fileName || asNew) {
-    fileName = kit.kitName + Drive.KIT_EXTENSION;
+  if (asNew) {
+    // the kit is being stored as a new kit, drop the reference to the old file
+    currentFileName = null;
   }
 
-  let kitFile = kit.filePath + "/" + fileName;
+  let kitFile = kit.filePath + "/" + desiredFileName;
   try {
-    // if(!fs.existsSync(kitFile)) {
-      fs.open(kitFile, "w", (err, fd) => {
-        if (err) throw err;
+    // open the file
+    fs.open(kitFile, "w", (err, fd) => {
+      if (err) throw err;
 
-        // write the kit file
-        let buffer = getKitFileBuffer(kit, pads);
-        fs.writeSync(fd, buffer, 0, buffer.length);
-      });
-    // }
+      // write the kit file
+      let buffer = getKitFileBuffer(kit, pads);
+      fs.writeSync(fd, buffer, 0, buffer.length);
+    });
+
+
+    if (currentFileName && desiredFileName !== currentFileName && !asNew) {
+      // we need to rename the file, too
+      fs.renameSync(
+        kit.filePath + "/" + currentFileName,
+        kit.filePath + "/" + desiredFileName
+      );
+    }
   } catch (err) {
     console.error(err);
     return;
   }
 
-  return fileName;
+  return desiredFileName;
 }

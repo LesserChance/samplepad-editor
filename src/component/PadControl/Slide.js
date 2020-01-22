@@ -16,9 +16,8 @@ const SlideComponent = (props) => {
 
   const getColor = (value) => {
     let range = max - min
-    let step = 200/range;
-
-    let color = (200 - (value * step)).toString(16);
+    let step = 255/range;
+    let color = Math.floor((255 - (value * step))).toString(16);
     return '#' + color + color + color;
   }
 

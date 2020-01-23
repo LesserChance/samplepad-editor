@@ -1,5 +1,5 @@
-import { KitModel } from "../redux/models";
-import { Actions } from '../util/const'
+import { KitModel, PadModel } from "../redux/models";
+import { Actions, MidiMap } from '../util/const'
 import { openKitFileDialog, openDriveDirectoryDialog, openSampleFileDialog} from "../util/fileDialog";
 import { getGlobalStateFromDirectory} from "../util/globalState";
 import { getKitAndPadsFromFile } from "../util/kitFile";
@@ -119,7 +119,28 @@ export function loadKitDetails(kitId) {
 export function loadNewKit() {
   return (dispatch, getState) => {
     let state = getState();
-    var kit = KitModel(state.drive.kitPath, null, true, false, true);
+
+    // create a default set of samples
+    let pads = {};
+
+    Object.keys(MidiMap).forEach((padType) => {
+      let midiNote = MidiMap[padType][1];
+      let pad = PadModel.getPad(padType)
+      pad.midiNote = midiNote;
+      pads[pad.id] = pad;
+    });
+
+    var kit = KitModel(
+      state.drive.kitPath,
+      null,
+      true,
+      false,
+      true,
+      "",
+      Object.keys(pads)
+    );
+
+    dispatch({ type: Actions.ADD_PADS, pads: pads });
     dispatch({ type: Actions.ADD_KIT, kit: kit });
     dispatch({ type: Actions.SET_SELECTED_KIT_ID, kitId: kit.id });
     dispatch({ type: Actions.SET_ACTIVE_KIT_ID, kitId: kit.id });

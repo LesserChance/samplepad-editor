@@ -1,43 +1,32 @@
 import React from 'react';
-import { connect } from 'react-redux'
-import PadComponent from './Pad';
-import { DragItemTypes } from "../util/const";
-import { useDrop } from 'react-dnd';
-import { updatePadSample } from '../redux/actions'
+import PadSampleDropTargetComponent from './PadSampleDropTarget'
 
-const PadRowComponent = (props) => {
+class PadRowComponent extends React.Component {
+  /*
+   * @constructor
+   * @param {Object} props
+   */
+  constructor(props) {
+    super(props);
 
-  const [{ isOver }, drop] = useDrop({
-    accept: DragItemTypes.SAMPLE,
-    drop: (item) => props.updatePadSample(item),
-    collect: mon => ({
-      isOver: !!mon.isOver()
-    }),
-  })
+    this.state = {
+      showLayerB: false
+    };
 
-  return (
-    <div
-      className="sampleDrop"
-      ref={drop} >
-      <PadComponent padId={props.padId} />
-      {isOver && (
-        <div className="sampleDropHighlight has-background-warning"/>
-      )}
-    </div>
-  );
-};
+    this.toggleLayerB = this.toggleLayerB.bind(this);
+  }
 
+  toggleLayerB(filter) {
+    this.setState({showLayerB: !this.state.showLayerB})
+  }
 
-const mapStateToProps = (state, ownProps) => {
-  return {}
-}
-
-const mapDispatchToProps = (dispatch, ownProps) => {
-  return {
-    updatePadSample: (item) => {
-      dispatch(updatePadSample(ownProps.padId, item.fileName));
-    },
+  render() {
+    return <PadSampleDropTargetComponent
+      padId={this.props.padId}
+      showLayerB={this.state.showLayerB}
+      toggleLayerB={this.toggleLayerB}
+    />;
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(PadRowComponent)
+export default PadRowComponent

@@ -197,16 +197,6 @@ export function updateKitState(kitId, newState) {
 
 /** PAD ACTION CREATORS */
 /**
- * Update the sample property of a pad
- * @param {String} padId
- * @param {String} value
- */
-export function updatePadSample(padId, value) {
-  return (dispatch, getState) => {
-    dispatch(updatePadProperty(padId, "fileName", value));
-  }
-}
-/**
  * Update an integer property of a pad, value is cast to an int
  * @param {String} padId
  * @param {String} property

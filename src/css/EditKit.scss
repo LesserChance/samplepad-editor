@@ -12,8 +12,20 @@
 .pad-table {
   max-height: 27.5em;
   overflow-y: scroll;
-  padding-right: 1em;
+  padding-right: .2em;
   padding-bottom: 2em;
+}
+
+.level {
+  margin-bottom:0 !important;
+}
+.layerB {
+  margin: 0 3em 0 0;
+
+  .padName {
+    width: 12.9em;
+    text-align: right;
+  }
 }
 
 .padName {
@@ -43,9 +55,10 @@
     display: none !important;
   }
 }
-.dataIcon {
+.layerBIcon {
+  cursor: pointer;
   width: 1.5em;
-  padding: .2em 0 0 .2em;
+  padding: .2em 0 0 .4em;
 }
 
 .sampleDrop {

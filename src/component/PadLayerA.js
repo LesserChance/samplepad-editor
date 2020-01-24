@@ -8,14 +8,15 @@ import KnobComponent from './PadControl/Knob'
 import SlideComponent from './PadControl/Slide'
 import VelocityComponent from './PadControl/Velocity'
 import MuteGroupComponent from './PadControl/MuteGroup'
-import { updatePadIntProperty, updatePadSensitivity, updatePadStringProperty } from '../redux/actions'
+import { updatePadIntProperty, updatePadSensitivity } from '../redux/actions'
 
 const PadComponent = (props) => {
+
   let pad = props.pad;
   let padName = MidiMap[pad.padType][0]
 
   return (
-    <div className="container">
+    <div className="">
       <div className="level">
         <div className="level-left">
           <div className="level-item">
@@ -123,10 +124,11 @@ const PadComponent = (props) => {
               tooltip={"Mute Group: " + (pad.mgrp > 0 ? pad.mgrp : 'off')}
               onChange={(value) => props.updatePadIntProperty('mgrp', value)} />
 
-            <div className="dataIcon">
-              { !!pad.fileNameB &&
-                <i className="glyphicon glyphicon-chevron-down" aria-hidden="true" />
-              }
+            <div
+              className={"layerBIcon has-tooltip-left " + ((!props.showLayerB && pad.fileNameB !== "") ? 'has-text-link' : '')}
+              data-tooltip="Toggle Layer B"
+              onClick={props.toggleLayerB}>
+              <i className={"glyphicon glyphicon-chevron-" + (props.showLayerB ? 'up' : 'down')} aria-hidden="true" />
             </div>
           </div>
         </div>
@@ -134,7 +136,6 @@ const PadComponent = (props) => {
     </div>
   );
 }
-
 
 const mapStateToProps = (state, ownProps) => {
   let pad = state.pads[ownProps.padId];

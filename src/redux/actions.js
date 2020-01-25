@@ -108,8 +108,17 @@ export function loadKitDetails(kitId) {
         }));
         dispatch({ type: Actions.SORT_KITS });
       } catch (err) {
-        // failed kit load - load the default empty kit
-        dispatch(loadNewKit());
+        // failed kit load - load a default empty kit
+        dispatch(loadNewKit({
+          id: kit.id,
+          isNew: kit.isNew,
+          isExisting: kit.isExisting,
+          isLoaded: kit.isLoaded,
+          filePath: kit.filePath,
+          fileName: kit.fileName,
+          kitName: kit.kitName,
+          originalKitName: kit.kitName,
+        }));
       }
     }
   }
@@ -117,7 +126,7 @@ export function loadKitDetails(kitId) {
 /**
  * create an empty kit and add it to the kit list
  */
-export function loadNewKit() {
+export function loadNewKit(presetData=null) {
   return (dispatch, getState) => {
     let state = getState();
 
@@ -131,7 +140,7 @@ export function loadNewKit() {
       pads[pad.id] = pad;
     });
 
-    var kit = KitModel(
+    let kit = KitModel(
       state.drive.kitPath,
       null,
       true,
@@ -140,6 +149,11 @@ export function loadNewKit() {
       "",
       Object.keys(pads)
     );
+
+    if (presetData) {
+      // right now this is only used in the case where an existing kit load failure occurs
+      kit = {...kit, ...presetData};
+    }
 
     dispatch({ type: Actions.ADD_PADS, pads: pads });
     dispatch({ type: Actions.ADD_KIT, kit: kit });

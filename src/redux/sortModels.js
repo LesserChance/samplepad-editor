@@ -1,3 +1,6 @@
+/* App imports */
+import { MidiMap } from "util/const";
+
 export const getSortedKitIds = (kits) => {
   return Object.keys(kits)
     .map((kitId) => {
@@ -28,4 +31,21 @@ export const getSortedKitIds = (kits) => {
     }).map((kit) => {
       return kit.id
     });
+}
+
+export const getSortedPadIds = (pads) => {
+  let padPriority = Object.keys(MidiMap);
+
+  let ret = Object.keys(pads)
+    .map((padId) => {
+      let pad = pads[padId];
+      return {id: padId, type: pad.padType}
+    })
+    .sort((a, b) => {
+      return (padPriority.indexOf(a.type) > padPriority.indexOf(b.type)) ? 1 : -1;
+    }).map((pad) => {
+      return pad.id
+    });
+
+    return ret;
 }

@@ -1,6 +1,7 @@
 /* App imports */
 import { KitBuffer, Drive } from "util/const";
 import { KitModel, PadModel } from "redux/models";
+import { getSortedPadIds } from "redux/sortModels";
 
 /* Electron imports */
 const fs = window.require('fs');
@@ -60,7 +61,7 @@ export const getKitAndPadsFromFile = (kitFile) => {
     false,
     true,
     kitPath.name,
-    Object.keys(pads)
+    getSortedPadIds(pads)
   );
 
   return {kit, pads};

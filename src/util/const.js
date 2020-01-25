@@ -117,7 +117,10 @@ export const KitBuffer = {
   ]
 };
 
-/* map pad types to the pad name and default midi note */
+/*
+ * Map pad types to the pad name and default midi note
+ * This is also used to determine the order we want to display the pads
+ */
 export const MidiMap = {
   kick:   ["Bass Drum 1", 36],
   snr_a:  ["Snare Drum 1", 38],

@@ -1,5 +1,9 @@
+/* Global imports */
 import React from 'react';
-import PadSampleDropTargetComponent from './PadSampleDropTarget'
+
+/* Component imports */
+import PadSampleDropTargetComponent from 'component/Pad/SampleDropTarget'
+import "css/Pad.css"
 
 class PadRowComponent extends React.Component {
   /*

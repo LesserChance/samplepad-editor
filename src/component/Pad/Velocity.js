@@ -1,5 +1,8 @@
+/* Global imports */
 import React from 'react';
-import "../../css/PadControl/Velocity.css"
+
+/* Component imports */
+import "css/Pad/Velocity.css"
 
 class VelocityComponent extends React.Component {
 
@@ -29,7 +32,7 @@ class VelocityComponent extends React.Component {
 
   render() {
     return (
-      <span className="velocityIcon has-tooltip-bottom" data-tooltip={this.props.tooltip}>
+      <span className="velocityContainer has-tooltip-bottom" data-tooltip={this.props.tooltip}>
         <span className="is-small">
           (
           {this.state.editingMin &&

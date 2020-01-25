@@ -1,18 +1,18 @@
-.knobContainer {
+.controlContainer {
   width: 1.5em;
   height: 1.5em;
   overflow: hidden;
   padding-left: .2em;
   cursor: pointer; }
-  .knobContainer .rc-slider-rail, .knobContainer .rc-slider-track, .knobContainer .rc-slider-step, .knobContainer .rc-slider-mark {
+  .controlContainer .rc-slider-rail, .controlContainer .rc-slider-track, .controlContainer .rc-slider-step, .controlContainer .rc-slider-mark {
     display: none; }
-  .knobContainer .overlapContainer {
+  .controlContainer .overlapContainer {
     position: absolute;
     top: 0; }
-    .knobContainer .overlapContainer .glyphicon.overlapValue {
+    .controlContainer .overlapContainer .glyphicon.overlapValue {
       overflow: hidden;
       top: 2px; }
-    .knobContainer .overlapContainer .overlapHandle {
+    .controlContainer .overlapContainer .overlapHandle {
       width: 1.5em; }
 
 .height-25 .rc-slider, .height-25 .rc-slider-rail, .height-25 .rc-slider-mark {

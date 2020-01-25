@@ -1,6 +1,10 @@
+/* Global imports */
 import React from 'react';
-import { DragItemTypes } from "../util/const";
 import { useDrag } from 'react-dnd';
+
+/* App imports */
+import { DragItemTypes } from "util/const";
+
 
 const SampleComponent = (props) => {
   let [, drag] = useDrag({

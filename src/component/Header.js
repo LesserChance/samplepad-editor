@@ -1,6 +1,9 @@
+/* Global imports */
 import React from 'react';
 import { connect } from 'react-redux'
-import { selectAndLoadDrive } from '../redux/actions'
+
+/* App imports */
+import { selectAndLoadDrive } from 'redux/actions'
 
 const HeaderComponent = (props) => {
   return (

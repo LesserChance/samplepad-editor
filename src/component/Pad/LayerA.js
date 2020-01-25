@@ -1,16 +1,21 @@
+/* Global imports */
 import React from 'react';
 import { connect } from 'react-redux'
-import { MidiMap } from '../util/const'
-import SamplePlayerComponent from './SamplePlayer'
-import SampleComponent from './Sample'
-import MidiNoteSelectComponent from './PadControl/MidiNoteSelect'
-import KnobComponent from './PadControl/Knob'
-import SlideComponent from './PadControl/Slide'
-import VelocityComponent from './PadControl/Velocity'
-import MuteGroupComponent from './PadControl/MuteGroup'
-import { updatePadIntProperty, updatePadSensitivity } from '../redux/actions'
 
-const PadComponent = (props) => {
+/* App imports */
+import { MidiMap } from 'util/const'
+import { updatePadIntProperty, updatePadSensitivity } from 'redux/actions'
+
+/* Component imports */
+import SamplePlayerComponent from 'component/SamplePlayer'
+import SampleComponent from 'component/Sample'
+import MidiNoteSelectComponent from 'component/Pad/MidiNoteSelect'
+import KnobComponent from 'component/Pad/KnobControl'
+import SlideComponent from 'component/Pad/SlideControl'
+import VelocityComponent from 'component/Pad/Velocity'
+import MuteGroupComponent from 'component/Pad/MuteGroup'
+
+const PadLayerAComponent = (props) => {
 
   let pad = props.pad;
   let padName = MidiMap[pad.padType][0]
@@ -159,4 +164,4 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(PadComponent)
+export default connect(mapStateToProps, mapDispatchToProps)(PadLayerAComponent)

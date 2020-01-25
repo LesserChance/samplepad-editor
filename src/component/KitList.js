@@ -1,6 +1,9 @@
+/* Global imports */
 import React from 'react';
-import { importKitFromFile, selectKit, loadNewKit } from '../redux/actions'
 import { connect } from 'react-redux'
+
+/* App imports */
+import { importKitFromFile, selectKit, loadNewKit } from 'redux/actions'
 
 const KitList = (props) => {
   return (

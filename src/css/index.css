@@ -1,6 +1,6 @@
-@import url(./bulma.min.css);
-@import url(./bulma-tooltip.min.css);
-@import url(./icons.css);
+@import url(bulma.min.css);
+@import url(bulma-tooltip.min.css);
+@import url(icons.css);
 html, body {
   height: 100%; }
 

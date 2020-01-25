@@ -1,6 +1,8 @@
-import { Drive } from "../util/const";
-import { getKitFileBuffer } from "../util/kitFile";
+/* App imports */
+import { Drive } from "util/const";
+import { getKitFileBuffer } from "util/kitFile";
 
+/* Electron imports */
 const fs = window.require('fs');
 const path = window.require('path');
 const Store = window.require('electron-store');

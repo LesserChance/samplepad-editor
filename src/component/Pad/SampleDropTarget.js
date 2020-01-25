@@ -1,10 +1,15 @@
+/* Global imports */
 import React from 'react';
 import { connect } from 'react-redux'
-import PadLayerAComponent from './PadLayerA';
-import PadLayerBComponent from './PadLayerB';
-import { DragItemTypes } from "../util/const";
 import { useDrop } from 'react-dnd';
-import { updatePadStringProperty } from '../redux/actions'
+
+/* App imports */
+import { DragItemTypes } from "util/const";
+import { updatePadStringProperty } from 'redux/actions'
+
+/* Component imports */
+import PadLayerAComponent from 'component/Pad/LayerA';
+import PadLayerBComponent from 'component/Pad/LayerB';
 
 const PadSampleDropTargetComponent = (props) => {
 
@@ -25,7 +30,7 @@ const PadSampleDropTargetComponent = (props) => {
   })
 
   return (
-    <div>
+    <div className="Pad">
       <div className="sampleDrop" ref={drop}>
         <PadLayerAComponent
           padId={props.padId}

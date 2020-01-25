@@ -1,5 +1,8 @@
+/* Global imports */
 import React from 'react';
-import SamplePlayerUtil from '../util/samplePlayer'
+
+/* App imports */
+import SamplePlayerUtil from 'util/samplePlayer'
 
 class SamplePlayerComponent extends React.Component {
 

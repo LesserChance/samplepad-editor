@@ -1,11 +1,14 @@
+/* Global imports */
 import React from 'react';
 import { connect } from 'react-redux'
 import { DndProvider } from 'react-dnd'
 import Backend from 'react-dnd-html5-backend'
-import EditKitComponent from './EditKit'
-import HeaderComponent from './Header'
-import SampleListComponent from './SampleList'
-import KitListComponent from './KitList'
+
+/* Component imports */
+import EditKitComponent from 'component/EditKit'
+import HeaderComponent from 'component/Header'
+import SampleListComponent from 'component/SampleList'
+import KitListComponent from 'component/KitList'
 
 const AppComponent = (props) => {
   return (

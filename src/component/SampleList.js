@@ -1,10 +1,15 @@
+/* Global imports */
 import React from 'react';
 import { connect } from 'react-redux'
-import SampleComponent from './Sample'
-import SamplePlayerComponent from './SamplePlayer'
-import { importSamples } from '../redux/actions'
 
-import "../css/SampleList.css"
+/* App imports */
+import { importSamples } from 'redux/actions'
+
+/* Component imports */
+import SampleComponent from 'component/Sample'
+import SamplePlayerComponent from 'component/SamplePlayer'
+
+import "css/SampleList.css"
 
 class SampleList extends React.Component {
   /*

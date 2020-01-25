@@ -4,75 +4,9 @@
 .kitHeader {
   margin: 1em 0 .7em 0 !important;
 }
-
-.panel-block.sample {
-  border-radius: 6px;
-  padding: .2em .5em;
-}
 .pad-table {
   max-height: 27.5em;
   overflow-y: scroll;
   padding-right: .2em;
   padding-bottom: 2em;
-}
-
-.level {
-  margin-bottom:0 !important;
-}
-.layerB {
-  margin: 0 3em 0 0;
-
-  .padName {
-    width: 12.9em;
-    text-align: right;
-  }
-}
-
-.padName {
-  width: 9em;
-  padding: .5em;
-  border-radius: 5px;
-}
-.midiNote {
-  margin-left: -1em;
-
-  select {
-    padding-left: 2em !important;
-    padding-right: .25em !important;
-  }
-  .select::after {
-    display: none !important;
-  }
-}
-.modeIcon {
-  padding-left: .2em;
-
-  select {
-    padding-left: .25em !important;
-    padding-right: .25em !important;
-  }
-  .select::after {
-    display: none !important;
-  }
-}
-.layerBIcon {
-  cursor: pointer;
-  width: 1.5em;
-  padding: .2em 0 0 .4em;
-}
-
-.sampleDrop {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  margin-bottom: .24em;
-}
-.sampleDropHighlight {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  z-index: 1;
-  opacity: 0.5;
 }

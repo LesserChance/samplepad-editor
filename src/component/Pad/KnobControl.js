@@ -1,6 +1,9 @@
+/* Global imports */
 import React from 'react';
 import Slider from 'rc-slider';
-import "../../css/PadControl/Slider.css"
+
+/* Component imports */
+import "css/Pad/Control.css"
 
 const KnobComponent = (props) => {
 
@@ -31,7 +34,7 @@ const KnobComponent = (props) => {
   }
 
   return (
-    <span className="knobContainer has-tooltip-bottom"
+    <span className="controlContainer has-tooltip-bottom"
       data-tooltip={props.tooltip + props.value} >
       <span className={'height-' + (props.stepDistance)}>
         <Slider

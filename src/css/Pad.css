@@ -1,0 +1,53 @@
+.Pad .panel-block.sample {
+  border-radius: 6px;
+  padding: .2em .5em; }
+
+.Pad .level {
+  margin-bottom: 0 !important; }
+
+.Pad .layerB {
+  margin: 0 3em 0 0; }
+  .Pad .layerB .padName {
+    width: 12.9em;
+    text-align: right; }
+
+.Pad .padName {
+  width: 9em;
+  padding: .5em;
+  border-radius: 5px; }
+
+.Pad .midiNote {
+  margin-left: -1em; }
+  .Pad .midiNote select {
+    padding-left: 2em !important;
+    padding-right: .25em !important; }
+  .Pad .midiNote .select::after {
+    display: none !important; }
+
+.Pad .modeIcon {
+  padding-left: .2em; }
+  .Pad .modeIcon select {
+    padding-left: .25em !important;
+    padding-right: .25em !important; }
+  .Pad .modeIcon .select::after {
+    display: none !important; }
+
+.Pad .layerBIcon {
+  cursor: pointer;
+  width: 1.5em;
+  padding: .2em 0 0 .4em; }
+
+.Pad .sampleDrop {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  margin-bottom: .24em; }
+
+.Pad .sampleDropHighlight {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 1;
+  opacity: 0.5; }

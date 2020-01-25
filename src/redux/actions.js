@@ -1,9 +1,10 @@
-import { KitModel, PadModel } from "../redux/models";
-import { Actions, MidiMap } from '../util/const'
-import { openKitFileDialog, openDriveDirectoryDialog, openSampleFileDialog} from "../util/fileDialog";
-import { getGlobalStateFromDirectory} from "../util/globalState";
-import { getKitAndPadsFromFile } from "../util/kitFile";
-import { storeLastLoadedDirectory, saveKitToFile, copySample } from "../util/storage";
+/* App imports */
+import { KitModel, PadModel } from "redux/models";
+import { Actions, MidiMap } from 'util/const'
+import { openKitFileDialog, openDriveDirectoryDialog, openSampleFileDialog} from "util/fileDialog";
+import { getGlobalStateFromDirectory} from "util/globalState";
+import { getKitAndPadsFromFile } from "util/kitFile";
+import { storeLastLoadedDirectory, saveKitToFile, copySample } from "util/storage";
 
 /** DRIVE ACTION CREATORS */
 /**

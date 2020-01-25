@@ -1,4 +1,5 @@
-const uuidv1 = require('uuid/v1');
+/* Global imports */
+import uuidv1 from 'uuid/v1';
 
 export const RootModel = (rootPath = "", kitPath = "", samples = []) => {
   return {

@@ -1,8 +1,13 @@
+/* Global imports */
 import React from 'react';
 import { connect } from 'react-redux'
-import PadRowComponent from './PadRow'
-import { saveKit, updateKitName } from '../redux/actions'
-import "../css/EditKit.css"
+
+/* App imports */
+import { saveKit, updateKitName } from 'redux/actions'
+
+/* Component imports */
+import PadRowComponent from 'component/Pad/Row'
+import "css/EditKit.css"
 
 const EditKit = (props) => {
   return (

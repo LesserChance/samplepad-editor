@@ -1,6 +1,8 @@
-import { KitBuffer, Drive } from "./const";
-import { KitModel, PadModel } from "../redux/models";
+/* App imports */
+import { KitBuffer, Drive } from "util/const";
+import { KitModel, PadModel } from "redux/models";
 
+/* Electron imports */
 const fs = window.require('fs');
 const path = window.require('path');
 

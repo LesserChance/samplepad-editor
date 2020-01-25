@@ -1,9 +1,14 @@
+/* Global imports */
 import React from 'react';
 import { connect } from 'react-redux'
-import SamplePlayerComponent from './SamplePlayer'
-import SampleComponent from './Sample'
-import VelocityComponent from './PadControl/Velocity'
-import { updatePadIntProperty } from '../redux/actions'
+
+/* App imports */
+import { updatePadIntProperty } from 'redux/actions'
+
+/* Component imports */
+import SamplePlayerComponent from 'component/SamplePlayer'
+import SampleComponent from 'component/Sample'
+import VelocityComponent from 'component/Pad/Velocity'
 
 const PadLayerBComponent = (props) => {
   let pad = props.pad;

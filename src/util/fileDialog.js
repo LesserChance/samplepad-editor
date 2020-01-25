@@ -1,4 +1,7 @@
-import { Drive } from "../util/const";
+/* App imports */
+import { Drive } from "util/const";
+
+/* Electron imports */
 const remote = window.require('electron').remote;
 
 /**

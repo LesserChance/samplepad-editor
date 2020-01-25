@@ -1,6 +1,9 @@
+/* Global imports */
 import React from 'react';
 import Popover from 'react-simple-popover';
-import "../../css/PadControl/MuteGroup.css"
+
+/* Component imports */
+import "css/Pad/MuteGroup.css"
 
 class MuteGroupComponent extends React.Component {
 

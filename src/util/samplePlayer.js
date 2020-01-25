@@ -1,3 +1,4 @@
+/* Electron imports */
 const remote = window.require('electron').remote;
 const spawn = window.require('child_process').spawn;
 

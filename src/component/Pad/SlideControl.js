@@ -1,6 +1,9 @@
+/* Global imports */
 import React from 'react';
 import Slider from 'rc-slider';
-import "../../css/PadControl/Slider.css"
+
+/* Component imports */
+import "css/Pad/Control.css"
 
 const SlideComponent = (props) => {
 
@@ -43,7 +46,7 @@ const SlideComponent = (props) => {
   }
 
   return (
-    <span className="knobContainer has-tooltip-bottom" data-tooltip={props.tooltip + props.value} >
+    <span className="controlContainer has-tooltip-bottom" data-tooltip={props.tooltip + props.value} >
       <div><i className={"glyphicon glyphicon-" + props.icon + " has-text-grey-lighter"} aria-hidden="true" /></div>
       <span className={'overlapContainer height-' + (props.stepDistance)}>
         <Slider

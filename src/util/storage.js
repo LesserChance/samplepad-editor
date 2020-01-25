@@ -61,7 +61,7 @@ export const kitWillOverwriteExisting = (kit, asNew = false) => {
   let currentFileName = kit.fileName;
   let kitFile = kit.filePath + "/" + desiredFileName;
 
-  if (currentFileName.toUpperCase() !== desiredFileName.toUpperCase()) {
+  if (!currentFileName || currentFileName.toUpperCase() !== desiredFileName.toUpperCase()) {
     return fs.existsSync(kitFile);
   }
 

@@ -12,7 +12,6 @@ const ModalComponent = (props) => {
         <div className="modal is-active">
           <div className="modal-background"></div>
           <div className="modal-content">
-
             <div className="message is-warning">
               <div className="message-header">
                 <p>Are you sure?</p>
@@ -29,9 +28,7 @@ const ModalComponent = (props) => {
                 <div className="is-clearfix" />
               </div>
             </div>
-
           </div>
-          <button className="modal-close is-large" aria-label="close"></button>
         </div>
       }
     </div>

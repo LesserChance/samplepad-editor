@@ -5,6 +5,7 @@ import { DndProvider } from 'react-dnd'
 import Backend from 'react-dnd-html5-backend'
 
 /* Component imports */
+import ModalComponent from 'component/Modal'
 import EditKitComponent from 'component/EditKit'
 import HeaderComponent from 'component/Header'
 import SampleListComponent from 'component/SampleList'
@@ -14,6 +15,7 @@ const AppComponent = (props) => {
   return (
     <DndProvider backend={Backend}>
       <div className="App">
+        <ModalComponent />
         <HeaderComponent />
 
         <section className="columns">

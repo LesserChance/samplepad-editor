@@ -49,6 +49,27 @@ export function copySample(source, destinationDirectory) {
 
 /**
  * @param {KitModel} kit
+ * @param {Boolean} asNew
+ * @returns {Boolean} true if the kit would clobber another
+ */
+export const kitWillOverwriteExisting = (kit, asNew = false) => {
+  if(!fs.existsSync(kit.filePath)) {
+    return false;
+  }
+
+  let desiredFileName = kit.kitName + Drive.KIT_EXTENSION;
+  let currentFileName = kit.fileName;
+  let kitFile = kit.filePath + "/" + desiredFileName;
+
+  if (currentFileName.toUpperCase() !== desiredFileName.toUpperCase()) {
+    return fs.existsSync(kitFile);
+  }
+
+  return false;
+}
+
+/**
+ * @param {KitModel} kit
  * @param {PadModel[]} pads
  * @param {Boolean} asNew
  * @returns {String} the file name the kit was stored as

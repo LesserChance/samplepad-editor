@@ -10,6 +10,10 @@ import { getSortedKitIds } from "redux/sortModels";
 
 let lastLoadedDirectory = getLastLoadedDirectory();
 let initialState = {
+  modals: {
+    confirmOverwriteVisible: false,
+    confirmOverwriteCallback: null
+  },
   drive: {},
   kits: {
     ids: [],
@@ -28,6 +32,7 @@ if (lastLoadedDirectory) {
   }
 }
 
+const initialModalState = initialState.modals;
 const initialAppState = {
   selectedKitId: null,
   activeKitId: null
@@ -49,6 +54,24 @@ function app(state = initialAppState, action) {
     case Actions.SET_ACTIVE_KIT_ID:
       return update(state, {
         activeKitId: {$set: action.kitId}
+      });
+
+    default:
+      return state;
+  }
+}
+
+function modals(state = initialModalState, action) {
+  switch (action.type) {
+    case Actions.SHOW_MODAL_CONFIRM_OVERWRITE:
+      return update(state, {
+        confirmOverwriteVisible: {$set: true},
+        confirmOverwriteCallback: {$set: action.callback}
+      });
+
+    case Actions.HIDE_MODAL_CONFIRM_OVERWRITE:
+      return update(state, {
+        confirmOverwriteVisible: {$set: false}
       });
 
     default:
@@ -141,6 +164,7 @@ function pads(state = {}, action) {
 
 export default combineReducers({
   app,
+  modals,
   drive,
   kits,
   pads

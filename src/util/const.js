@@ -18,6 +18,10 @@ export const Actions = {
   /* app action types */
   SET_SELECTED_KIT_ID: 'SET_SELECTED_KIT_ID',
   SET_ACTIVE_KIT_ID: 'SET_ACTIVE_KIT_ID',
+
+  /* modal action types */
+  SHOW_MODAL_CONFIRM_OVERWRITE: 'SHOW_MODAL_CONFIRM_OVERWRITE',
+  HIDE_MODAL_CONFIRM_OVERWRITE: 'HIDE_MODAL_CONFIRM_OVERWRITE',
 };
 
 export const DragItemTypes = {
@@ -27,8 +31,8 @@ export const DragItemTypes = {
 export const Drive = {
   SAMPLE_FILE_TYPE: "wav",
   SAMPLE_EXTENSION: ".wav",
-  KIT_EXTENSION: ".kit",
-  KIT_FILE_TYPE: "kit",
+  KIT_EXTENSION: ".KIT",
+  KIT_FILE_TYPE: "KIT",
   KIT_DIRECTORY: "KITS"
 };
 

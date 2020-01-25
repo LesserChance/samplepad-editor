@@ -4,7 +4,7 @@ import { Actions, MidiMap } from 'util/const'
 import { openKitFileDialog, openDriveDirectoryDialog, openSampleFileDialog} from "util/fileDialog";
 import { getGlobalStateFromDirectory} from "util/globalState";
 import { getKitAndPadsFromFile } from "util/kitFile";
-import { storeLastLoadedDirectory, saveKitToFile, copySample } from "util/storage";
+import { storeLastLoadedDirectory, saveKitToFile, copySample, kitWillOverwriteExisting } from "util/storage";
 
 /** DRIVE ACTION CREATORS */
 /**
@@ -152,10 +152,28 @@ export function loadNewKit() {
  * save a kit to disk
  * @param {boolean} asNew=false - if true, save this kit as a new kit on disk, do not overwrite the exitings
  */
-export function saveKit(kitId, asNew=false) {
+export function saveKit(kitId, asNew=false, confirmedOverwrite=false) {
   return (dispatch, getState) => {
     let state = getState();
     let kit = state.kits.models[kitId];
+
+    if (!confirmedOverwrite) {
+      // if this kit would overwrite an existing one - confirm first
+      let confirm = kitWillOverwriteExisting(kit, asNew);
+
+      if (confirm) {
+        // show the warning modal - on confirm, save the kit
+        dispatch(confirmFileOverwrite((result) => {
+          return (dispatch, getState) => {
+            if (result) {
+              dispatch(saveKit(kitId, asNew, true));
+            }
+          }
+        }));
+        return;
+      }
+    }
+
     let fileName = saveKitToFile(kit, state.pads, asNew);
 
     dispatch(updateKitState(kitId, {
@@ -252,3 +270,20 @@ export function selectKit(kitId) {
     dispatch({ type: Actions.SET_ACTIVE_KIT_ID, kitId: kitId });
   }
 }
+
+/** MODAL ACTION CREATORS */
+export function confirmFileOverwrite(callback) {
+  return (dispatch, getState) => {
+    dispatch({ type: Actions.SHOW_MODAL_CONFIRM_OVERWRITE, callback: callback });
+  }
+}
+export function confirmFileOverwriteAction(result) {
+  return (dispatch, getState) => {
+    let state = getState();
+    let callback = state.modals.confirmOverwriteCallback;
+
+    dispatch({ type: Actions.HIDE_MODAL_CONFIRM_OVERWRITE });
+    dispatch(callback(result));
+  }
+}
+

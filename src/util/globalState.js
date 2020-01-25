@@ -32,7 +32,7 @@ export const getGlobalStateFromDirectory = (rootPath) => {
     let kitFiles = fs.readdirSync(kitPath, {withFileTypes: true})
       .filter((dirent, index, arr) => {
         return dirent.isFile()
-          && path.extname(dirent.name).toLowerCase() === Drive.KIT_EXTENSION
+          && path.extname(dirent.name).toUpperCase() === Drive.KIT_EXTENSION
           && !(/(^|\/)\.[^/.]/g).test(dirent.name)
       })
 

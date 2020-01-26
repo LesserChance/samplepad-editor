@@ -8,7 +8,7 @@ Download SamplePad Kit Editor on the GitHub [releases](https://github.com/Lesser
 ## Overview
 SamplePad Kit Editor is an application that allows you to create and edit custom drum kits for the [Alesis SamplePad Pro](https://www.alesis.com/products/view2/samplepad-pro) directly on your Mac or PC. It uses an intuitive drap and drop interface to quickly and easily create custom drum kits. All pad parameters are available to edit, and it's significantly easier than scrolling through all the details on the SamplePad itself.
 
-<img src="https://raw.githubusercontent.com/LesserChance/samplepad-editor/master/docs/SamplePad%20Kit%20Editor%20v1.png" alt="v.1 screenshot" width="400">
+<img src="https://raw.githubusercontent.com/LesserChance/samplepad-editor/master/docs/SamplePad%20Kit%20Editor%20v2.png" alt="v.1 screenshot" width="400">
 
 ## How to use SamplePad Kit Editor
 ### Getting Started

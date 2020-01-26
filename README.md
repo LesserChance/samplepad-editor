@@ -22,7 +22,8 @@ This will load any existing samples and kits on the SD card for you to edit
 1. Select a kit from the dropdown to edit an existing kit. You can also import a kit from an existing `.kit` not on the SD card, or create a kit from scratch
 1. Search through samples on the left, and drag them on to an individual pad to set that pad's sample
 1. Tweak pad parameters by twisting knobs (click, hold, and drag an icon up and down to adjust values)
-1. Access Layer B Sample and velocity parameters by clicking on the dropdown icon on the right
+1. Change mute groups by selecting 1 of 16 possible groups
+1. Access Layer B sample and velocity parameters by clicking on the dropdown icon on the right
 
 Once you're satisfied, save your kit. Saving it as a new kit will create a new `.kit` file and not affect the original. Put it into your SamplePad and try it out!
 

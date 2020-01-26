@@ -7,4 +7,8 @@
     padding: .2em 0;
     height: 1.5em;
   }
+  &.has-tooltip-bottom::before {
+    width: 11em;
+    white-space: normal !important;
+  }
 }

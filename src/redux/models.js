@@ -42,7 +42,8 @@ export class PadModel {
       fileName: fileName,
       velocityMinB: velocityMinB,
       velocityMaxB: velocityMaxB,
-      fileNameB: fileNameB
+      fileNameB: fileNameB,
+      errors: []
     };
   }
 

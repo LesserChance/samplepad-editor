@@ -1,6 +1,6 @@
 /* App imports */
 import { KitModel, PadModel } from "redux/models";
-import { Actions, MidiMap } from 'util/const'
+import { Actions, MidiMap, PadErrors } from 'util/const'
 import { openKitFileDialog, openDriveDirectoryDialog, openSampleFileDialog} from "util/fileDialog";
 import { getGlobalStateFromDirectory} from "util/globalState";
 import { getKitAndPadsFromFile } from "util/kitFile";
@@ -171,8 +171,17 @@ export function saveKit(kitId, asNew=false, confirmedOverwrite=false) {
     let state = getState();
     let kit = state.kits.models[kitId];
 
+    // validate the kit
+    for (let i = 0; i < kit.pads.length; i++) {
+      let pad = state.pads[kit.pads[i]];
+      if (pad.errors.length) {
+        dispatch({ type: Actions.SHOW_MODAL_KIT_ERRORS });
+        return;
+      }
+    }
+
+    // if this kit would overwrite an existing one - confirm first
     if (!confirmedOverwrite) {
-      // if this kit would overwrite an existing one - confirm first
       let confirm = kitWillOverwriteExisting(kit, asNew);
 
       if (confirm) {
@@ -266,7 +275,36 @@ export function updatePadSensitivity(padId, value) {
  * @param {?} value
  */
 export function updatePadProperty(padId, property, value) {
-  return { type: Actions.UPDATE_PAD_PROPERTY, padId: padId, property: property, value: value }
+  return (dispatch, getState) => {
+    dispatch({ type: Actions.UPDATE_PAD_PROPERTY, padId: padId, property: property, value: value });
+
+    dispatch(validatePad(padId));
+  }
+}
+export function validatePad(padId) {
+  return (dispatch, getState) => {
+    let state = getState();
+    let pad = state.pads[padId];
+    let prevErrors = pad.errors;
+    let errors = [];
+
+    if (pad.velocityMin > pad.velocityMax) {
+      errors.push(PadErrors.VELOCITY_SWAPPED_A)
+    }
+    if (pad.velocityMin > 127 || pad.velocityMax > 127) {
+      errors.push(PadErrors.VELOCITY_TOO_HIGH_A);
+    }
+    if (pad.velocityMinB > pad.velocityMaxB) {
+      errors.push(PadErrors.VELOCITY_SWAPPED_B)
+    }
+    if (pad.velocityMinB > 127 || pad.velocityMaxB > 127) {
+      errors.push(PadErrors.VELOCITY_TOO_HIGH_B);
+    }
+
+    if (prevErrors.length || errors.length) {
+      dispatch({ type: Actions.UPDATE_PAD_PROPERTY, padId: padId, property: 'errors', value: errors });
+    }
+  }
 }
 
 /** APP ACTION CREATORS */
@@ -298,6 +336,11 @@ export function confirmFileOverwriteAction(result) {
 
     dispatch({ type: Actions.HIDE_MODAL_CONFIRM_OVERWRITE });
     dispatch(callback(result));
+  }
+}
+export function closeFixKitErrors() {
+  return (dispatch, getState) => {
+    dispatch({ type: Actions.HIDE_MODAL_KIT_ERRORS });
   }
 }
 

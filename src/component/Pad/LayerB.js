@@ -3,6 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux'
 
 /* App imports */
+import { PadErrors, PadErrorStrings } from 'util/const'
 import { updatePadIntProperty, updatePadProperty } from 'redux/actions'
 
 /* Component imports */
@@ -39,7 +40,8 @@ const PadLayerBComponent = (props) => {
           <VelocityComponent
             min={pad.velocityMinB}
             max={pad.velocityMaxB}
-            tooltip={"Velocity: " + pad.velocityMinB + "-" + pad.velocityMaxB}
+            tooltip={props.velocityTooltip}
+            hasError={props.hasVelocityError}
             onChangeMin={(value) => props.updatePadIntProperty('velocityMinB', value)}
             onChangeMax={(value) => props.updatePadIntProperty('velocityMaxB', value)} />
         </div>
@@ -50,9 +52,22 @@ const PadLayerBComponent = (props) => {
 
 const mapStateToProps = (state, ownProps) => {
   let pad = state.pads[ownProps.padId];
+  let velocityTooltip = "Velocity: " + pad.velocityMinB + "-" + pad.velocityMaxB;
+
+  let hasVelocityError = false;
+  if (pad.errors.indexOf(PadErrors.VELOCITY_SWAPPED_B) > -1) {
+    hasVelocityError = true;
+    velocityTooltip = "Error: " + PadErrorStrings.VELOCITY_SWAPPED_B;
+  } else if (pad.errors.indexOf(PadErrors.VELOCITY_TOO_HIGH_B) > -1) {
+    hasVelocityError = true;
+    velocityTooltip = "Error: " + PadErrorStrings.VELOCITY_TOO_HIGH_B;
+  }
+
   return {
     pad: pad,
     sampleFile: state.drive.rootPath + "/" +  pad.fileNameB,
+    hasVelocityError: hasVelocityError,
+    velocityTooltip: velocityTooltip
   }
 }
 

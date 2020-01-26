@@ -12,7 +12,8 @@ let lastLoadedDirectory = getLastLoadedDirectory();
 let initialState = {
   modals: {
     confirmOverwriteVisible: false,
-    confirmOverwriteCallback: null
+    confirmOverwriteCallback: null,
+    fixKitErrorsVisible: false
   },
   drive: {},
   kits: {
@@ -72,6 +73,16 @@ function modals(state = initialModalState, action) {
     case Actions.HIDE_MODAL_CONFIRM_OVERWRITE:
       return update(state, {
         confirmOverwriteVisible: {$set: false}
+      });
+
+    case Actions.SHOW_MODAL_KIT_ERRORS:
+      return update(state, {
+        fixKitErrorsVisible: {$set: true}
+      });
+
+    case Actions.HIDE_MODAL_KIT_ERRORS:
+      return update(state, {
+        fixKitErrorsVisible: {$set: false}
       });
 
     default:

@@ -90,6 +90,11 @@ export const saveKitToFile = (kit, pads, asNew = false) => {
 
   let kitFile = kit.filePath + "/" + desiredFileName;
   try {
+    if (currentFileName && desiredFileName !== currentFileName && !asNew) {
+      // we need to rename the file first
+      fs.renameSync(kit.filePath + "/" + currentFileName, kitFile);
+    }
+
     // open the file
     fs.open(kitFile, "w", (err, fd) => {
       if (err) throw err;
@@ -98,14 +103,6 @@ export const saveKitToFile = (kit, pads, asNew = false) => {
       let buffer = getKitFileBuffer(kit, pads);
       fs.writeSync(fd, buffer, 0, buffer.length);
     });
-
-    if (currentFileName && desiredFileName !== currentFileName && !asNew) {
-      // we need to rename the file, too
-      fs.renameSync(
-        kit.filePath + "/" + currentFileName,
-        kit.filePath + "/" + desiredFileName
-      );
-    }
   } catch (err) {
     console.error(err);
     return;

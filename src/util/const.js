@@ -22,6 +22,25 @@ export const Actions = {
   /* modal action types */
   SHOW_MODAL_CONFIRM_OVERWRITE: 'SHOW_MODAL_CONFIRM_OVERWRITE',
   HIDE_MODAL_CONFIRM_OVERWRITE: 'HIDE_MODAL_CONFIRM_OVERWRITE',
+
+  SHOW_MODAL_KIT_ERRORS: 'SHOW_MODAL_KIT_ERRORS',
+  HIDE_MODAL_KIT_ERRORS: 'HIDE_MODAL_KIT_ERRORS'
+};
+
+export const PadErrors = {
+  VELOCITY_SWAPPED_A: 'VELOCITY_SWAPPED_A',
+  VELOCITY_TOO_HIGH_A: 'VELOCITY_TOO_HIGH_A',
+  VELOCITY_SWAPPED_B: 'VELOCITY_SWAPPED_B',
+  VELOCITY_TOO_HIGH_B: 'VELOCITY_TOO_HIGH_B',
+  DUPLICATE_MIDI_NOTE: 'DUPLICATE_MIDI_NOTE',
+};
+
+export const PadErrorStrings = {
+  VELOCITY_SWAPPED_A: 'Velocity must be in order (min-max)',
+  VELOCITY_TOO_HIGH_A: 'Velocity values must be 127 or lower',
+  VELOCITY_SWAPPED_B: 'Velocity must be in order (min-max)',
+  VELOCITY_TOO_HIGH_B: 'Velocity values must be 127 or lower',
+  DUPLICATE_MIDI_NOTE: 'Midi Note must be unique'
 };
 
 export const DragItemTypes = {

@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux'
 
 /* App imports */
-import { MidiMap } from 'util/const'
+import { MidiMap, PadErrors, PadErrorStrings } from 'util/const'
 import { updatePadIntProperty, updatePadProperty, updatePadSensitivity } from 'redux/actions'
 
 /* Component imports */
@@ -121,7 +121,8 @@ const PadLayerAComponent = (props) => {
             <VelocityComponent
               min={pad.velocityMin}
               max={pad.velocityMax}
-              tooltip={"Velocity: " + pad.velocityMin + "-" + pad.velocityMax}
+              tooltip={props.velocityTooltip}
+              hasError={props.hasVelocityError}
               onChangeMin={(value) => props.updatePadIntProperty('velocityMin', value)}
               onChangeMax={(value) => props.updatePadIntProperty('velocityMax', value)} />
 
@@ -132,7 +133,11 @@ const PadLayerAComponent = (props) => {
               onChange={(value) => props.updatePadIntProperty('mgrp', value)} />
 
             <div
-              className={"layerBIcon has-tooltip-left " + ((!props.showLayerB && pad.fileNameB !== "") ? 'has-text-link' : '')}
+              className={
+                "layerBIcon has-tooltip-left " +
+                ((!props.showLayerB && pad.fileNameB !== "") ? 'has-text-link ' : ' ') +
+                ((!props.showLayerB && props.hasLayerBError) ? 'has-text-danger ' : ' ')
+              }
               data-tooltip="Toggle Layer B"
               onClick={props.toggleLayerB}>
               <i className={"glyphicon glyphicon-chevron-" + (props.showLayerB ? 'up' : 'down')} aria-hidden="true" />
@@ -146,9 +151,30 @@ const PadLayerAComponent = (props) => {
 
 const mapStateToProps = (state, ownProps) => {
   let pad = state.pads[ownProps.padId];
+  let velocityTooltip = "Velocity: " + pad.velocityMin + "-" + pad.velocityMax;
+
+  let hasVelocityError = false;
+  if (pad.errors.indexOf(PadErrors.VELOCITY_SWAPPED_A) > -1) {
+    hasVelocityError = true;
+    velocityTooltip = "Error: " + PadErrorStrings.VELOCITY_SWAPPED_A;
+  } else if (pad.errors.indexOf(PadErrors.VELOCITY_TOO_HIGH_A) > -1) {
+    hasVelocityError = true;
+    velocityTooltip = "Error: " + PadErrorStrings.VELOCITY_TOO_HIGH_A;
+  }
+
+  let hasLayerBError = false;
+  if (pad.errors.indexOf(PadErrors.VELOCITY_SWAPPED_B) > -1) {
+    hasLayerBError = true;
+  } else if (pad.errors.indexOf(PadErrors.VELOCITY_TOO_HIGH_B) > -1) {
+    hasLayerBError = true;
+  }
+
   return {
     pad: pad,
-    padSampleFile: state.drive.rootPath + "/" +  pad.fileName
+    padSampleFile: state.drive.rootPath + "/" +  pad.fileName,
+    hasVelocityError: hasVelocityError,
+    velocityTooltip: velocityTooltip,
+    hasLayerBError: hasLayerBError
   }
 }
 

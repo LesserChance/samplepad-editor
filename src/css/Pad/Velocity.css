@@ -5,3 +5,6 @@
     width: 1.8em;
     padding: .2em 0;
     height: 1.5em; }
+  .velocityContainer.has-tooltip-bottom::before {
+    width: 11em;
+    white-space: normal !important; }

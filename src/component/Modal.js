@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux'
 
 /* App imports */
-import { confirmFileOverwriteAction } from 'redux/actions'
+import { confirmFileOverwriteAction, closeFixKitErrors } from 'redux/actions'
 
 const ModalComponent = (props) => {
   return (
@@ -31,13 +31,37 @@ const ModalComponent = (props) => {
           </div>
         </div>
       }
+
+      {props.showFixKitErrors &&
+        <div className="modal is-active">
+          <div className="modal-background"></div>
+          <div className="modal-content">
+            <div className="message is-danger">
+              <div className="message-header">
+                <p>Cannot Save</p>
+              </div>
+              <div className="message-body">
+                <div className="is-clearfix">Please correct all errors before saving the kit.</div>
+
+                <div className="field is-grouped is-pulled-right is-marginless is-padingless">
+                  <div className="buttons control">
+                    <button className="button" onClick={props.closeFixKitErrors}>Ok</button>
+                  </div>
+                </div>
+                <div className="is-clearfix" />
+              </div>
+            </div>
+          </div>
+        </div>
+      }
     </div>
   );
 }
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    showConfirmOverwrite: state.modals.confirmOverwriteVisible
+    showConfirmOverwrite: state.modals.confirmOverwriteVisible,
+    showFixKitErrors: state.modals.fixKitErrorsVisible
   }
 }
 
@@ -48,6 +72,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     dispatchCallbackAndCloseConfirmOverwrite: () => {
       dispatch(confirmFileOverwriteAction(true));
+    },
+    closeFixKitErrors: () => {
+      dispatch(closeFixKitErrors());
     },
   }
 }

@@ -33,7 +33,7 @@ class VelocityComponent extends React.Component {
   render() {
     return (
       <span className="velocityContainer has-tooltip-bottom" data-tooltip={this.props.tooltip}>
-        <span className="is-small">
+        <span className={"is-small " + ((this.props.hasError) ? 'has-text-danger' : '')}>
           (
           {this.state.editingMin &&
             <input

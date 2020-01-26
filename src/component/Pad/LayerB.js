@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux'
 
 /* App imports */
-import { updatePadIntProperty } from 'redux/actions'
+import { updatePadIntProperty, updatePadProperty } from 'redux/actions'
 
 /* Component imports */
 import SamplePlayerComponent from 'component/SamplePlayer'
@@ -14,7 +14,7 @@ const PadLayerBComponent = (props) => {
   let pad = props.pad;
 
   return (
-    <div className="level layerB">
+    <div className="level PadLayer layerB">
       <div className="level-left">
         <div className="level-item">
           <span className="is-size-7 padName has-background-white-ter">
@@ -26,7 +26,9 @@ const PadLayerBComponent = (props) => {
           <SamplePlayerComponent sampleFile={props.sampleFile}>
             <SampleComponent
               draggable={false}
+              removable={true}
               fileName={pad.fileNameB}
+              removeSample={() => {props.removePadSample(null)}}
             />
           </SamplePlayerComponent>
         </div>
@@ -58,7 +60,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     updatePadIntProperty: (property, value) => {
       dispatch(updatePadIntProperty(ownProps.padId, property, value));
-    }
+    },
+    removePadSample: (value) => {
+      dispatch(updatePadProperty(ownProps.padId, 'fileNameB', null));
+    },
   }
 }
 

@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 
 /* App imports */
 import { MidiMap } from 'util/const'
-import { updatePadIntProperty, updatePadSensitivity } from 'redux/actions'
+import { updatePadIntProperty, updatePadProperty, updatePadSensitivity } from 'redux/actions'
 
 /* Component imports */
 import SamplePlayerComponent from 'component/SamplePlayer'
@@ -21,7 +21,7 @@ const PadLayerAComponent = (props) => {
   let padName = MidiMap[pad.padType][0]
 
   return (
-    <div className="">
+    <div className="PadLayer">
       <div className="level">
         <div className="level-left">
           <div className="level-item">
@@ -40,7 +40,9 @@ const PadLayerAComponent = (props) => {
             <SamplePlayerComponent sampleFile={props.padSampleFile}>
               <SampleComponent
                 draggable={false}
+                removable={true}
                 fileName={pad.fileName}
+                removeSample={() => {props.removePadSample(null)}}
               />
             </SamplePlayerComponent>
           </div>
@@ -155,8 +157,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     updatePadIntProperty: (property, value) => {
       dispatch(updatePadIntProperty(ownProps.padId, property, value));
     },
-    updatePadStringProperty: (property, value) => {
-      dispatch(updatePadIntProperty(ownProps.padId, property, value));
+    removePadSample: (value) => {
+      dispatch(updatePadProperty(ownProps.padId, 'fileName', null));
     },
     updatePadSensitivity: (value) => {
       dispatch(updatePadSensitivity(ownProps.padId, value));

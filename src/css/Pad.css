@@ -1,6 +1,21 @@
-.Pad .panel-block.sample {
+.Pad .sampleContainer .dragContainer {
+  display: inline-block; }
+
+.Pad .sampleContainer .panel-block.sample {
   border-radius: 6px;
   padding: .2em .5em; }
+
+.Pad .sampleContainer .removeSample {
+  display: none;
+  margin-left: .2em; }
+
+.Pad .PadLayer .level-left {
+  padding-right: 2em; }
+
+.Pad .PadLayer .level-left:hover {
+  padding-right: .8em; }
+  .Pad .PadLayer .level-left:hover .removeSample {
+    display: inline-block; }
 
 .Pad .level {
   margin-bottom: 0 !important; }

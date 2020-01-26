@@ -27,20 +27,31 @@ const SampleComponent = (props) => {
   }
 
   return (
-    <div ref={drag}>
-      <a href="#" className="panel-block sample" onClick={(e) => {if(hasSample) {props.playSample()}}}>
-        <span className="panel-icon">
-          <i className={"glyphicon " + ((props.playingSample) ? "glyphicon-stop" : "glyphicon-play")} aria-hidden="true" />
-        </span>
-        <span className={((props.playingSample) ? "has-text-primary" : "")}>
-          { hasSample &&
-            <div dangerouslySetInnerHTML={{ __html: displayName }} />
-          }
-          { !hasSample &&
-            <span>&lt;Empty&gt;</span>
-          }
-        </span>
-      </a>
+    <div className="sampleContainer">
+
+      <div ref={drag} className="dragContainer">
+        <a href="#" className="panel-block sample" onClick={(e) => {if(hasSample) {props.playSample()}}}>
+          <span className="panel-icon">
+            <i className={"glyphicon " + ((props.playingSample) ? "glyphicon-stop" : "glyphicon-play")} aria-hidden="true" />
+          </span>
+          <span className={((props.playingSample) ? "has-text-primary" : "")}>
+            { hasSample &&
+              <div dangerouslySetInnerHTML={{ __html: displayName }} />
+            }
+            { !hasSample &&
+              <span>&lt;Empty&gt;</span>
+            }
+          </span>
+        </a>
+      </div>
+
+      <div className="removeSample">
+        { hasSample && props.removable &&
+          <a href="#" onClick={props.removeSample}>
+            <i className="glyphicon glyphicon-trash" aria-hidden="true" />
+          </a>
+        }
+      </div>
     </div>
   );
 }

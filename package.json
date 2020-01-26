@@ -2,7 +2,7 @@
   "name": "samplepad-editor",
   "description": "Build drum kits for the Alesis SamplePad",
   "author": "Ryan Bateman",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "main": "public/electron.js",
   "homepage": "./",
@@ -32,7 +32,7 @@
     "react-simple-popover": "^0.2.4",
     "redux": "^4.0.4",
     "redux-thunk": "^2.3.0",
-    "uuid": "^3.3.3"
+    "uuid": "^3.4.0"
   },
   "devDependencies": {
     "concurrently": "^5.0.2",

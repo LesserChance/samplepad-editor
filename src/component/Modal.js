@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux'
 
 /* App imports */
-import { confirmFileOverwriteAction, closeFixKitErrors } from 'redux/actions'
+import { confirmFileOverwriteAction, closeFixKitErrors, closeDriveLoaded } from 'redux/actions'
 
 const ModalComponent = (props) => {
   return (
@@ -54,6 +54,29 @@ const ModalComponent = (props) => {
           </div>
         </div>
       }
+
+      {props.showDriveLoaded &&
+        <div className="modal is-active">
+          <div className="modal-background"></div>
+          <div className="modal-content">
+            <div className="message">
+              <div className="message-header">
+                <p>Drive Loaded</p>
+              </div>
+              <div className="message-body">
+                <div className="is-clearfix">SD card and any existing samples and kits have been successfully loaded.</div>
+
+                <div className="field is-grouped is-pulled-right is-marginless is-padingless">
+                  <div className="buttons control">
+                    <button className="button" onClick={props.closeDriveLoaded}>Ok</button>
+                  </div>
+                </div>
+                <div className="is-clearfix" />
+              </div>
+            </div>
+          </div>
+        </div>
+      }
     </div>
   );
 }
@@ -61,7 +84,8 @@ const ModalComponent = (props) => {
 const mapStateToProps = (state, ownProps) => {
   return {
     showConfirmOverwrite: state.modals.confirmOverwriteVisible,
-    showFixKitErrors: state.modals.fixKitErrorsVisible
+    showFixKitErrors: state.modals.fixKitErrorsVisible,
+    showDriveLoaded: state.modals.driveLoadedVisible
   }
 }
 
@@ -75,6 +99,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     closeFixKitErrors: () => {
       dispatch(closeFixKitErrors());
+    },
+    closeDriveLoaded: () => {
+      dispatch(closeDriveLoaded());
     },
   }
 }

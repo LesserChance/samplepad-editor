@@ -14,12 +14,14 @@ export function selectAndLoadDrive() {
   return (dispatch) => {
     openDriveDirectoryDialog()
       .then(result => {
+
         if (result.canceled) {
           return null;
         }
 
         storeLastLoadedDirectory(result.filePaths[0]);
         dispatch(loadDrive(result.filePaths[0]));
+        dispatch({ type: Actions.SHOW_DRIVE_LOADED });
       })
   }
 }
@@ -55,8 +57,10 @@ export function importSamples() {
 export function loadDrive(drivePath) {
   return (dispatch) => {
       let {drive, kits} = getGlobalStateFromDirectory(drivePath);
+
       dispatch({ type: Actions.LOAD_DRIVE, drive: drive });
       dispatch({ type: Actions.ADD_KITS, kits: kits });
+      dispatch({ type: Actions.SORT_KITS });
   }
 }
 
@@ -343,4 +347,10 @@ export function closeFixKitErrors() {
     dispatch({ type: Actions.HIDE_MODAL_KIT_ERRORS });
   }
 }
+export function closeDriveLoaded() {
+  return (dispatch, getState) => {
+    dispatch({ type: Actions.HIDE_DRIVE_LOADED });
+  }
+}
+
 

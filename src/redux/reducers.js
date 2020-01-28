@@ -13,7 +13,8 @@ let initialState = {
   modals: {
     confirmOverwriteVisible: false,
     confirmOverwriteCallback: null,
-    fixKitErrorsVisible: false
+    fixKitErrorsVisible: false,
+    driveLoadedVisible: false
   },
   drive: {},
   kits: {
@@ -83,6 +84,16 @@ function modals(state = initialModalState, action) {
     case Actions.HIDE_MODAL_KIT_ERRORS:
       return update(state, {
         fixKitErrorsVisible: {$set: false}
+      });
+
+    case Actions.SHOW_DRIVE_LOADED:
+      return update(state, {
+        driveLoadedVisible: {$set: true}
+      });
+
+    case Actions.HIDE_DRIVE_LOADED:
+      return update(state, {
+        driveLoadedVisible: {$set: false}
       });
 
     default:

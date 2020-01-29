@@ -3,7 +3,7 @@ import React from 'react';
 import Slider from 'rc-slider';
 
 /* Component imports */
-import "css/Pad/Control.css"
+import 'css/Pad/Control.css'
 
 const SlideComponent = (props) => {
 

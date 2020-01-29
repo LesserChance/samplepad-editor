@@ -3,10 +3,10 @@ import { combineReducers } from 'redux'
 import update from 'immutability-helper';
 
 /* App imports */
-import { Actions } from 'util/const'
-import { getGlobalStateFromDirectory } from "util/globalState";
-import { getLastLoadedDirectory } from "util/storage";
-import { getSortedKitIds } from "redux/sortModels";
+import { Actions } from 'const'
+import { getGlobalStateFromDirectory } from 'state/globalState';
+import { getSortedKitIds } from 'state/sortModels';
+import { getLastLoadedDirectory } from 'util/storage';
 
 let lastLoadedDirectory = getLastLoadedDirectory();
 let initialState = {

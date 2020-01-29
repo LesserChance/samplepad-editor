@@ -1,7 +1,7 @@
 /* App imports */
-import { KitBuffer, Drive } from "util/const";
-import { KitModel, PadModel } from "redux/models";
-import { getSortedPadIds } from "redux/sortModels";
+import { KitBuffer, Drive } from 'const';
+import { KitModel, PadModel } from 'state/models';
+import { getSortedPadIds } from 'state/sortModels';
 
 /* Electron imports */
 const fs = window.require('fs');

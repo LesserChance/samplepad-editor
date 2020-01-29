@@ -1,73 +1,11 @@
 /* App imports */
-import { KitModel, PadModel, NoticeModel } from "redux/models";
-import { Actions, MidiMap, PadErrors, KitErrors } from 'util/const'
-import { openKitFileDialog, openDriveDirectoryDialog, openSampleFileDialog} from "util/fileDialog";
-import { getGlobalStateFromDirectory} from "util/globalState";
-import { getKitAndPadsFromFile } from "util/kitFile";
-import { storeLastLoadedDirectory, saveKitToFile, copySample, kitWillOverwriteExisting } from "util/storage";
-
-/** DRIVE ACTION CREATORS */
-/**
- * Open a file dialog, and parse the resulting directory as a SamplePad drive
- */
-export function selectAndLoadDrive() {
-  return (dispatch) => {
-    openDriveDirectoryDialog()
-      .then(result => {
-
-        if (result.canceled) {
-          return null;
-        }
-
-        storeLastLoadedDirectory(result.filePaths[0]);
-        dispatch(loadDrive(result.filePaths[0]));
-        dispatch(
-          showNotice("is-success", "SD card and any existing samples and kits have been successfully loaded.")
-        );
-      })
-  }
-}
-/**
- * Open a file dialog, and move the selected files into the drive
- */
-export function importSamples() {
-  return (dispatch, getState) => {
-    openSampleFileDialog()
-      .then(result => {
-        if (result.canceled) {
-          return null;
-        }
-
-        let state = getState();
-
-        let newSamples = [];
-        result.filePaths.forEach((file) => {
-          let newSample = copySample(file, state.drive.rootPath);
-          if (newSample) {
-            newSamples.push(newSample);
-          }
-        })
-
-        dispatch({ type: Actions.ADD_SAMPLES, samples: newSamples });
-        dispatch(
-          showNotice("is-success", "Samples successfully imported.")
-        );
-      })
-  }
-}
-/**
- * Parse kits, samples, and drive details from the given directory
- * @param {String} drivePath - root path of the SamplePad drive
- */
-export function loadDrive(drivePath) {
-  return (dispatch) => {
-      let {drive, kits} = getGlobalStateFromDirectory(drivePath);
-
-      dispatch({ type: Actions.LOAD_DRIVE, drive: drive });
-      dispatch({ type: Actions.ADD_KITS, kits: kits });
-      dispatch({ type: Actions.SORT_KITS });
-  }
-}
+import { Actions, MidiMap, KitErrors } from 'const';
+import { confirmFileOverwrite } from 'actions/modal';
+import { showNotice } from 'actions/notice';
+import { KitModel, PadModel } from 'state/models';
+import { openKitFileDialog } from 'util/fileDialog';
+import { getKitAndPadsFromFile } from 'util/kitFile';
+import { saveKitToFile, kitWillOverwriteExisting } from 'util/storage';
 
 /** KIT ACTION CREATORS */
 /**
@@ -216,7 +154,15 @@ export function saveKit(kitId, asNew=false, confirmedOverwrite=false) {
       }
     }
 
-    let fileName = saveKitToFile(kit, state.pads, asNew);
+    let fileName = "";
+    try {
+      fileName = saveKitToFile(kit, state.pads, asNew);
+    } catch (err) {
+      dispatch(
+        showNotice("is-danger", "There was a problem saving the kit.")
+      );
+      return;
+    }
 
     dispatch(updateKitState(kitId, {
       isNew: false,
@@ -284,117 +230,3 @@ export function validateKit(kitId) {
     }
   }
 }
-
-/** PAD ACTION CREATORS */
-/**
- * Update an integer property of a pad, value is cast to an int
- * @param {String} padId
- * @param {String} property
- * @param {?} value
- */
-export function updatePadIntProperty(padId, property, value) {
-  if (value === "") {
-    // dont cast empty value, let it be empty
-    return updatePadProperty(padId, property, value);
-  }
-  return updatePadProperty(padId, property, parseInt(value, 10));
-}
-/**
- * Update an integer property of a pad, value is cast to a string
- * @param {String} padId
- * @param {String} property
- * @param {?} value
- */
-export function updatePadStringProperty(padId, property, value) {
-  return updatePadProperty(padId, property, '' + value);
-}
-/**
- * Update the sensitivity property of a pad
- * @param {String} padId
- * @param {String} value
- */
-export function updatePadSensitivity(padId, value) {
-  return updatePadProperty(padId, "sensitivity", value);
-}
-/**
- * Update an individual property of a pad
- * @param {String} padId
- * @param {String} property
- * @param {?} value
- */
-export function updatePadProperty(padId, property, value) {
-  return (dispatch, getState) => {
-    dispatch({ type: Actions.UPDATE_PAD_PROPERTY, padId: padId, property: property, value: value });
-
-    dispatch(validatePad(padId));
-  }
-}
-/**
- * Validate all pad params, update the pad state with any new errors
- * @param {String} padId
- */
-export function validatePad(padId) {
-  return (dispatch, getState) => {
-    let state = getState();
-    let pad = state.pads[padId];
-    let prevErrors = pad.errors;
-    let errors = [];
-
-    if (pad.velocityMin > pad.velocityMax) {
-      errors.push(PadErrors.VELOCITY_SWAPPED_A)
-    }
-    if (pad.velocityMin > 127 || pad.velocityMax > 127) {
-      errors.push(PadErrors.VELOCITY_TOO_HIGH_A);
-    }
-    if (pad.velocityMinB > pad.velocityMaxB) {
-      errors.push(PadErrors.VELOCITY_SWAPPED_B)
-    }
-    if (pad.velocityMinB > 127 || pad.velocityMaxB > 127) {
-      errors.push(PadErrors.VELOCITY_TOO_HIGH_B);
-    }
-
-    if (prevErrors.length || errors.length) {
-      dispatch({ type: Actions.UPDATE_PAD_PROPERTY, padId: padId, property: 'errors', value: errors });
-    }
-  }
-}
-
-/** APP ACTION CREATORS */
-/**
- * set the dropdown's selected kit and set it as currently active
- * @param {String} kitId
- */
-export function selectKit(kitId) {
-  return (dispatch, getState) => {
-    // if the kit isnt loaded, load it before activating it
-    dispatch(loadKitDetails(kitId));
-
-    // set it as the selected and active kit
-    dispatch({ type: Actions.SET_SELECTED_KIT_ID, kitId: kitId });
-    dispatch({ type: Actions.SET_ACTIVE_KIT_ID, kitId: kitId });
-  }
-}
-
-/** MODAL ACTION CREATORS */
-export function confirmFileOverwrite(callback) {
-  return (dispatch, getState) => {
-    dispatch({ type: Actions.SHOW_MODAL_CONFIRM_OVERWRITE, callback: callback });
-  }
-}
-export function confirmFileOverwriteAction(result) {
-  return (dispatch, getState) => {
-    let state = getState();
-    let callback = state.modals.confirmOverwriteCallback;
-
-    dispatch({ type: Actions.HIDE_MODAL_CONFIRM_OVERWRITE });
-    dispatch(callback(result));
-  }
-}
-
-/** NOTICE ACTION CREATORS */
-export function showNotice(style, text) {
-  return (dispatch, getState) => {
-    dispatch({ type: Actions.SHOW_NOTICE, notice: NoticeModel(style, text)});
-  }
-}
-

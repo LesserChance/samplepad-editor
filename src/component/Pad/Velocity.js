@@ -2,7 +2,7 @@
 import React from 'react';
 
 /* Component imports */
-import "css/Pad/Velocity.css"
+import 'css/Pad/Velocity.css'
 
 class VelocityComponent extends React.Component {
 

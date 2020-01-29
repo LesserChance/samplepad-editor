@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux'
 
 /* App imports */
-import { selectAndLoadDrive } from 'redux/actions'
+import { selectAndLoadDrive } from 'actions/drive'
 
 const HeaderComponent = (props) => {
   return (

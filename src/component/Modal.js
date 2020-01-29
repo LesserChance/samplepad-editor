@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux'
 
 /* App imports */
-import { confirmFileOverwriteAction } from 'redux/actions'
+import { confirmFileOverwriteAction } from 'actions/modal'
 
 const ModalComponent = (props) => {
   return (

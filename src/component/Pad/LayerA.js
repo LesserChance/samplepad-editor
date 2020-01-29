@@ -3,8 +3,8 @@ import React from 'react';
 import { connect } from 'react-redux'
 
 /* App imports */
-import { MidiMap, PadErrors, PadErrorStrings } from 'util/const'
-import { updatePadIntProperty, updatePadProperty, updatePadSensitivity } from 'redux/actions'
+import { MidiMap, PadErrors, PadErrorStrings } from 'const'
+import { updatePadIntProperty, updatePadProperty, updatePadSensitivity } from 'actions/pad'
 
 /* Component imports */
 import SamplePlayerComponent from 'component/SamplePlayer'

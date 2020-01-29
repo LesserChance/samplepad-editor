@@ -3,8 +3,8 @@ import React from 'react';
 import { connect } from 'react-redux'
 
 /* App imports */
-import { PadErrors, PadErrorStrings } from 'util/const'
-import { updatePadIntProperty, updatePadProperty } from 'redux/actions'
+import { PadErrors, PadErrorStrings } from 'const'
+import { updatePadIntProperty, updatePadProperty } from 'actions/pad'
 
 /* Component imports */
 import SamplePlayerComponent from 'component/SamplePlayer'

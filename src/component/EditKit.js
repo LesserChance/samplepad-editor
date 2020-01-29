@@ -3,12 +3,12 @@ import React from 'react';
 import { connect } from 'react-redux'
 
 /* App imports */
-import { KitErrors, KitErrorStrings } from 'util/const'
-import { saveKit, updateKitName } from 'redux/actions'
+import { KitErrors, KitErrorStrings } from 'const'
+import { saveKit, updateKitName } from 'actions/kit'
 
 /* Component imports */
 import PadRowComponent from 'component/Pad/Row'
-import "css/EditKit.css"
+import 'css/EditKit.css'
 
 const EditKit = (props) => {
   let kitNameControlProps = {};

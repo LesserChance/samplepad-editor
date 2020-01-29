@@ -2,7 +2,7 @@
 import React from 'react';
 
 /* App imports */
-import { MidiMap } from 'util/const'
+import { MidiMap } from 'const'
 
 const MidiNoteSelect = (props) => {
   return (

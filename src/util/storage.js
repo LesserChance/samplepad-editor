@@ -1,6 +1,6 @@
 /* App imports */
-import { Drive } from "util/const";
-import { getKitFileBuffer } from "util/kitFile";
+import { Drive } from 'const';
+import { getKitFileBuffer } from 'util/kitFile';
 
 /* Electron imports */
 const fs = window.require('fs');
@@ -43,7 +43,7 @@ export function copySample(source, destinationDirectory) {
     return sourcePath.base;
   } catch (err) {
     console.error(err)
-    return;
+    throw(err);
   }
 }
 
@@ -105,7 +105,7 @@ export const saveKitToFile = (kit, pads, asNew = false) => {
     });
   } catch (err) {
     console.error(err);
-    return;
+    throw(err);
   }
 
   return desiredFileName;

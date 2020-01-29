@@ -6,7 +6,7 @@ import { createStore, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk';
 
 /* App imports */
-import reducers from 'redux/reducers'
+import reducers from 'state/reducers'
 
 /* Component imports */
 import App from 'component/App'

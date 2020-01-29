@@ -3,7 +3,7 @@ import React from 'react';
 
 /* Component imports */
 import PadSampleDropTargetComponent from 'component/Pad/SampleDropTarget'
-import "css/Pad.css"
+import 'css/Pad.css'
 
 class PadRowComponent extends React.Component {
   /*

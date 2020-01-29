@@ -3,7 +3,7 @@ import React from 'react';
 import Popover from 'react-simple-popover';
 
 /* Component imports */
-import "css/Pad/MuteGroup.css"
+import 'css/Pad/MuteGroup.css'
 
 class MuteGroupComponent extends React.Component {
 

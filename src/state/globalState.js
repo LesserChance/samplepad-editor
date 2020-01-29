@@ -1,6 +1,6 @@
 /* App imports */
-import { Drive } from "util/const";
-import { RootModel, KitModel } from "redux/models";
+import { Drive } from 'const';
+import { RootModel, KitModel } from 'state/models';
 
 /* Electron imports */
 const fs = window.require('fs');

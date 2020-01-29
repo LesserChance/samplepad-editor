@@ -1,5 +1,5 @@
 /* App imports */
-import { MidiMap } from "util/const";
+import { MidiMap } from 'const';
 
 export const getSortedKitIds = (kits) => {
   return Object.keys(kits)

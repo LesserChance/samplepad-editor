@@ -3,7 +3,7 @@ import React from 'react';
 import { useDrag } from 'react-dnd';
 
 /* App imports */
-import { DragItemTypes } from "util/const";
+import { DragItemTypes } from 'const';
 
 
 const SampleComponent = (props) => {

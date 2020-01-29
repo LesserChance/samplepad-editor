@@ -3,7 +3,8 @@ import React from 'react';
 import { connect } from 'react-redux'
 
 /* App imports */
-import { importKitFromFile, selectKit, loadNewKit } from 'redux/actions'
+import { selectKit } from 'actions/app'
+import { importKitFromFile, loadNewKit } from 'actions/kit'
 
 const KitList = (props) => {
   return (

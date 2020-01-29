@@ -3,13 +3,12 @@ import React from 'react';
 import { connect } from 'react-redux'
 
 /* App imports */
-import { importSamples } from 'redux/actions'
+import { importSamples } from 'actions/drive'
 
 /* Component imports */
 import SampleComponent from 'component/Sample'
 import SamplePlayerComponent from 'component/SamplePlayer'
-
-import "css/SampleList.css"
+import 'css/SampleList.css'
 
 class SampleList extends React.Component {
   /*

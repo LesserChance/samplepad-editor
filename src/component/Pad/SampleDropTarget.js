@@ -4,8 +4,8 @@ import { connect } from 'react-redux'
 import { useDrop } from 'react-dnd';
 
 /* App imports */
-import { DragItemTypes } from "util/const";
-import { updatePadStringProperty } from 'redux/actions'
+import { DragItemTypes } from 'const';
+import { updatePadStringProperty } from 'actions/pad'
 
 /* Component imports */
 import PadLayerAComponent from 'component/Pad/LayerA';

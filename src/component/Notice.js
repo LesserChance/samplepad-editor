@@ -1,10 +1,9 @@
 /* Global imports */
 import React from 'react';
-import { connect } from 'react-redux'
 import update from 'immutability-helper';
 
 /* Component imports */
-import "css/Notice.css"
+import 'css/Notice.css'
 
 class NoticeComponent extends React.Component {
   /*

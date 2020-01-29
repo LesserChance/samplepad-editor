@@ -1,6 +1,6 @@
 /* App imports */
 import { KitModel, PadModel, NoticeModel } from "redux/models";
-import { Actions, MidiMap, PadErrors } from 'util/const'
+import { Actions, MidiMap, PadErrors, KitErrors } from 'util/const'
 import { openKitFileDialog, openDriveDirectoryDialog, openSampleFileDialog} from "util/fileDialog";
 import { getGlobalStateFromDirectory} from "util/globalState";
 import { getKitAndPadsFromFile } from "util/kitFile";
@@ -181,6 +181,14 @@ export function saveKit(kitId, asNew=false, confirmedOverwrite=false) {
     let kit = state.kits.models[kitId];
 
     // validate the kit
+    if (kit.errors.length) {
+      dispatch(
+        showNotice("is-danger", "Cannot Save. Please correct all errors before saving the kit.")
+      );
+      return;
+    }
+
+    // validate the pads
     for (let i = 0; i < kit.pads.length; i++) {
       let pad = state.pads[kit.pads[i]];
       if (pad.errors.length) {
@@ -240,7 +248,10 @@ export function updateKitName(kitId, value) {
  * @param {?} value
  */
 export function updateKitProperty(kitId, property, value) {
-  return { type: Actions.UPDATE_KIT_PROPERTY, kitId: kitId, property: property, value: value }
+  return (dispatch, getState) => {
+    dispatch({ type: Actions.UPDATE_KIT_PROPERTY, kitId: kitId, property: property, value: value });
+    dispatch(validateKit(kitId));
+  }
 }
 /**
  * Update multiple properties of a kit
@@ -248,7 +259,30 @@ export function updateKitProperty(kitId, property, value) {
  * @param {json} newState
  */
 export function updateKitState(kitId, newState) {
-  return { type: Actions.UPDATE_KIT_STATE, kitId: kitId, newState: newState }
+  return (dispatch, getState) => {
+    dispatch({ type: Actions.UPDATE_KIT_STATE, kitId: kitId, newState: newState });
+    dispatch(validateKit(kitId));
+  }
+}
+/**
+ * Validate all kit params, update the kit state with any new errors
+ * @param {String} kitId
+ */
+export function validateKit(kitId) {
+  return (dispatch, getState) => {
+    let state = getState();
+    let kit = state.kits.models[kitId];
+    let prevErrors = kit.errors;
+    let errors = [];
+
+    if (!/^[a-z0-9]+$/i.test(kit.kitName)) {
+      errors.push(KitErrors.INVALID_KIT_NAME)
+    }
+
+    if (prevErrors.length || errors.length) {
+      dispatch({ type: Actions.UPDATE_KIT_PROPERTY, kitId: kitId, property: 'errors', value: errors });
+    }
+  }
 }
 
 /** PAD ACTION CREATORS */
@@ -295,6 +329,10 @@ export function updatePadProperty(padId, property, value) {
     dispatch(validatePad(padId));
   }
 }
+/**
+ * Validate all pad params, update the pad state with any new errors
+ * @param {String} padId
+ */
 export function validatePad(padId) {
   return (dispatch, getState) => {
     let state = getState();

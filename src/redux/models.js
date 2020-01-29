@@ -27,7 +27,8 @@ export const KitModel = (filePath = "", fileName = "", isNew = false, isExisting
     fileName: fileName,
     kitName: kitName,
     originalKitName: kitName,
-    pads: pads
+    pads: pads,
+    errors: []
   };
 }
 

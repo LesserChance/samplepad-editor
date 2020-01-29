@@ -43,6 +43,14 @@ export const PadErrorStrings = {
   DUPLICATE_MIDI_NOTE: 'Midi Note must be unique'
 };
 
+export const KitErrors = {
+  INVALID_KIT_NAME: 'INVALID_KIT_NAME',
+};
+
+export const KitErrorStrings = {
+  INVALID_KIT_NAME: 'Kit name contains invalid characters (A-Z, a-z, 0-9 only)',
+};
+
 export const DragItemTypes = {
   SAMPLE: 'sample'
 };

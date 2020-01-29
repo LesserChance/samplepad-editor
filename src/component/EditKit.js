@@ -3,6 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux'
 
 /* App imports */
+import { KitErrors, KitErrorStrings } from 'util/const'
 import { saveKit, updateKitName } from 'redux/actions'
 
 /* Component imports */
@@ -10,15 +11,23 @@ import PadRowComponent from 'component/Pad/Row'
 import "css/EditKit.css"
 
 const EditKit = (props) => {
+  let kitNameControlProps = {};
+
+  if (props.hasKitNameError) {
+    kitNameControlProps = {
+      'data-tooltip': KitErrorStrings.INVALID_KIT_NAME
+    }
+  }
+
   return (
     <section>
       <div className="kit">
         <div className="is-size-3">Kit: {props.originalKitName}</div>
         <div className="field is-grouped">
-          <div className="control">
+          <div {...kitNameControlProps} className={"control " + ((props.hasKitNameError) ? 'has-tooltip-bottom' : '')}>
             <input
               type="text"
-              className="input kitName"
+              className={"input kitName " + ((props.hasKitNameError) ? 'is-danger' : '')}
               value={props.kitName}
               onChange={(e) => props.updateKitName(e.target.value)} />
           </div>
@@ -53,6 +62,7 @@ const mapStateToProps = (state, ownProps) => {
     showSaveAsNew: kit.isExisting,
     kitName: kit.kitName,
     originalKitName: kit.originalKitName,
+    hasKitNameError: (kit.errors.indexOf(KitErrors.INVALID_KIT_NAME) > -1),
     pads: kit.pads
   }
 }

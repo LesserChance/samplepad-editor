@@ -70,9 +70,9 @@ class MuteGroupComponent extends React.Component {
           onHide={this.handleClose}>
           <div className="selectMgrp">
             {this.props.mgrp > 0 &&
-              <a href="#" onClick={(e) => {this.props.onChange(0);this.handleClose();}}>
+              <button className="link has-text-link" onClick={(e) => {this.props.onChange(0);this.handleClose();}}>
                 Remove
-              </a>
+              </button>
             }
             {
               [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16].map((mgrp) => {

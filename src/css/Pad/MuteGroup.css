@@ -12,7 +12,7 @@
     left: -5.3em !important; }
     .mgrpContainer > div > div {
       left: 6em !important; }
-  .mgrpContainer .selectMgrp a {
+  .mgrpContainer .selectMgrp button {
     width: 100%;
     text-align: center;
     display: inline-block;

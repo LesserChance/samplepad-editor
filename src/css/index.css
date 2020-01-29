@@ -1,8 +1,10 @@
 @import url(bulma.min.css);
 @import url(bulma-tooltip.min.css);
 @import url(icons.css);
-html, body {
-  height: 100%; }
-
-#root {
-  height: 100%; }
+button.link {
+  background: none;
+  color: inherit;
+  border: none;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit; }

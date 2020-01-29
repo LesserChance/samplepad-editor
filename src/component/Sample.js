@@ -30,7 +30,7 @@ const SampleComponent = (props) => {
     <div className="sampleContainer">
 
       <div ref={drag} className="dragContainer">
-        <a href="#" className="panel-block sample" onClick={(e) => {if(hasSample) {props.playSample()}}}>
+        <button className="link panel-block sample" onClick={(e) => {if(hasSample) {props.playSample()}}}>
           <span className="panel-icon">
             <i className={"glyphicon " + ((props.playingSample) ? "glyphicon-stop" : "glyphicon-play")} aria-hidden="true" />
           </span>
@@ -42,14 +42,14 @@ const SampleComponent = (props) => {
               <span>&lt;Empty&gt;</span>
             }
           </span>
-        </a>
+        </button>
       </div>
 
       <div className="removeSample">
         { hasSample && props.removable &&
-          <a href="#" onClick={props.removeSample}>
+          <button className="link has-text-link is-paddingless" onClick={props.removeSample}>
             <i className="glyphicon glyphicon-trash" aria-hidden="true" />
-          </a>
+          </button>
         }
       </div>
     </div>

@@ -62,11 +62,11 @@ class NoticeComponent extends React.Component {
                 <div className="message-header">
                   {notice.text}
 
-                  <a href="#" onClick={() => {this.hideNotice(notice.id)}}>
+                  <button className="link" onClick={() => {this.hideNotice(notice.id)}}>
                     <i
                       className="glyphicon glyphicon-remove is-pulled-right"
                       aria-hidden="true" />
-                  </a>
+                  </button>
                 </div>
               </article>
             );

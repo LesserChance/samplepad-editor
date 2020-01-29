@@ -16,6 +16,7 @@ let initialState = {
     fixKitErrorsVisible: false,
     driveLoadedVisible: false
   },
+  notices: [],
   drive: {},
   kits: {
     ids: [],
@@ -63,6 +64,18 @@ function app(state = initialAppState, action) {
   }
 }
 
+function notices(state = [], action) {
+  switch (action.type) {
+    case Actions.SHOW_NOTICE:
+      return update(state, {
+        $push: [action.notice]
+      });
+
+    default:
+      return state;
+  }
+}
+
 function modals(state = initialModalState, action) {
   switch (action.type) {
     case Actions.SHOW_MODAL_CONFIRM_OVERWRITE:
@@ -74,26 +87,6 @@ function modals(state = initialModalState, action) {
     case Actions.HIDE_MODAL_CONFIRM_OVERWRITE:
       return update(state, {
         confirmOverwriteVisible: {$set: false}
-      });
-
-    case Actions.SHOW_MODAL_KIT_ERRORS:
-      return update(state, {
-        fixKitErrorsVisible: {$set: true}
-      });
-
-    case Actions.HIDE_MODAL_KIT_ERRORS:
-      return update(state, {
-        fixKitErrorsVisible: {$set: false}
-      });
-
-    case Actions.SHOW_DRIVE_LOADED:
-      return update(state, {
-        driveLoadedVisible: {$set: true}
-      });
-
-    case Actions.HIDE_DRIVE_LOADED:
-      return update(state, {
-        driveLoadedVisible: {$set: false}
       });
 
     default:
@@ -187,6 +180,7 @@ function pads(state = {}, action) {
 export default combineReducers({
   app,
   modals,
+  notices,
   drive,
   kits,
   pads

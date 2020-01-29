@@ -1,5 +1,5 @@
 /* App imports */
-import { KitModel, PadModel } from "redux/models";
+import { KitModel, PadModel, NoticeModel } from "redux/models";
 import { Actions, MidiMap, PadErrors } from 'util/const'
 import { openKitFileDialog, openDriveDirectoryDialog, openSampleFileDialog} from "util/fileDialog";
 import { getGlobalStateFromDirectory} from "util/globalState";
@@ -21,7 +21,9 @@ export function selectAndLoadDrive() {
 
         storeLastLoadedDirectory(result.filePaths[0]);
         dispatch(loadDrive(result.filePaths[0]));
-        dispatch({ type: Actions.SHOW_DRIVE_LOADED });
+        dispatch(
+          showNotice("is-success", "SD card and any existing samples and kits have been successfully loaded.")
+        );
       })
   }
 }
@@ -47,6 +49,9 @@ export function importSamples() {
         })
 
         dispatch({ type: Actions.ADD_SAMPLES, samples: newSamples });
+        dispatch(
+          showNotice("is-success", "Samples successfully imported.")
+        );
       })
   }
 }
@@ -179,7 +184,9 @@ export function saveKit(kitId, asNew=false, confirmedOverwrite=false) {
     for (let i = 0; i < kit.pads.length; i++) {
       let pad = state.pads[kit.pads[i]];
       if (pad.errors.length) {
-        dispatch({ type: Actions.SHOW_MODAL_KIT_ERRORS });
+        dispatch(
+          showNotice("is-danger", "Cannot Save. Please correct all errors before saving the kit.")
+        );
         return;
       }
     }
@@ -210,6 +217,9 @@ export function saveKit(kitId, asNew=false, confirmedOverwrite=false) {
       fileName: fileName
     }));
     dispatch({ type: Actions.SORT_KITS });
+    dispatch(
+      showNotice("is-success", "Kit saved.")
+    );
   }
 }
 /**
@@ -342,15 +352,11 @@ export function confirmFileOverwriteAction(result) {
     dispatch(callback(result));
   }
 }
-export function closeFixKitErrors() {
-  return (dispatch, getState) => {
-    dispatch({ type: Actions.HIDE_MODAL_KIT_ERRORS });
-  }
-}
-export function closeDriveLoaded() {
-  return (dispatch, getState) => {
-    dispatch({ type: Actions.HIDE_DRIVE_LOADED });
-  }
-}
 
+/** NOTICE ACTION CREATORS */
+export function showNotice(style, text) {
+  return (dispatch, getState) => {
+    dispatch({ type: Actions.SHOW_NOTICE, notice: NoticeModel(style, text)});
+  }
+}
 

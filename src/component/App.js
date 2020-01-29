@@ -6,6 +6,7 @@ import Backend from 'react-dnd-html5-backend'
 
 /* Component imports */
 import ModalComponent from 'component/Modal'
+import NoticeComponent from 'component/Notice'
 import EditKitComponent from 'component/EditKit'
 import HeaderComponent from 'component/Header'
 import SampleListComponent from 'component/SampleList'
@@ -16,6 +17,7 @@ const AppComponent = (props) => {
     <DndProvider backend={Backend}>
       <div className="App">
         <ModalComponent />
+        <NoticeComponent notices={props.notices} />
         <HeaderComponent />
 
         <section className="columns">
@@ -38,6 +40,7 @@ const AppComponent = (props) => {
 
 const mapStateToProps = (state, ownProps) => {
   return {
+    notices: state.notices,
     activeKitId: state.app.activeKitId,
     hasActiveKit: (state.app.activeKitId !== null)
   }

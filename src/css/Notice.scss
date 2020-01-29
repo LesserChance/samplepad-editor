@@ -1,0 +1,15 @@
+.Notice {
+  position: absolute;
+  width: 100%;
+  top: 0;
+  z-index:10;
+
+  -webkit-box-shadow: 15px 5px 15px 0px rgba(0,0,0,0.3);
+  -moz-box-shadow: 5px 5px 15px 0px rgba(0,0,0,0.3);
+  box-shadow: 5px 5px 15px 0px rgba(0,0,0,0.3);
+
+  &.hidden {
+    transition: transform .5s;
+    transform: translateY(-5em);
+  }
+}

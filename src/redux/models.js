@@ -1,6 +1,14 @@
 /* Global imports */
 import uuidv1 from 'uuid/v1';
 
+export const NoticeModel = (style = "", text = "") => {
+  return {
+    id: uuidv1(),
+    style: style,
+    text: text
+  };
+}
+
 export const RootModel = (rootPath = "", kitPath = "", samples = []) => {
   return {
     rootPath: rootPath,

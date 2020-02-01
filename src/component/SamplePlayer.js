@@ -3,6 +3,7 @@ import React from 'react';
 
 /* App imports */
 import SamplePlayerUtil from 'util/samplePlayer'
+import SampleStore from 'util/sampleStore'
 
 class SamplePlayerComponent extends React.Component {
 
@@ -54,7 +55,7 @@ class SamplePlayerComponent extends React.Component {
     });
 
     player
-      .play(this.props.sampleFile)
+      .play(SampleStore.getFileNameOnDisk(this.props.sampleFile))
       .then(() => {
         this.setState({playingSample: false});
       })

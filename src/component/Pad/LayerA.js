@@ -171,7 +171,7 @@ const mapStateToProps = (state, ownProps) => {
 
   return {
     pad: pad,
-    padSampleFile: state.drive.rootPath + "/" +  pad.fileName,
+    padSampleFile: pad.fileName,
     hasVelocityError: hasVelocityError,
     velocityTooltip: velocityTooltip,
     hasLayerBError: hasLayerBError

@@ -1,6 +1,7 @@
 /* App imports */
 import { Drive } from 'const';
 import { RootModel, KitModel } from 'state/models';
+import SampleStore from 'util/sampleStore';
 
 /* Electron imports */
 const fs = window.require('fs');
@@ -15,15 +16,7 @@ export const getGlobalStateFromDirectory = (rootPath) => {
     throw new Error("Invalid directory")
   }
 
-  let sampleFiles = fs.readdirSync(rootPath, {withFileTypes: true})
-    .filter((dirent, index, arr) => {
-      return dirent.isFile()
-        && path.extname(dirent.name).toLowerCase() === Drive.SAMPLE_EXTENSION
-        && !(/(^|\/)\.[^/.]/g).test(dirent.name)
-    })
-    .map((dirent) => {
-      return dirent.name
-    });
+  SampleStore.loadSamplesFromDirectory(rootPath)
 
   let kits = {};
   let kitPath = rootPath + "/" + Drive.KIT_DIRECTORY;
@@ -42,7 +35,7 @@ export const getGlobalStateFromDirectory = (rootPath) => {
     });
   }
 
-  let drive = RootModel(rootPath, kitPath, sampleFiles);
+  let drive = RootModel(rootPath, kitPath, SampleStore.getSamples());
 
   return {drive, kits};
 }

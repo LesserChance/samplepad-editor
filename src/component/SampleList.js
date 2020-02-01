@@ -63,7 +63,7 @@ class SampleList extends React.Component {
                     <span key={index}>
                        { file.toLowerCase().includes(this.state.filter.toLowerCase()) && (
                           <SamplePlayerComponent
-                            sampleFile={this.props.sampleRoot + "/" + file}>
+                            sampleFile={file}>
                             <SampleComponent
                               fileName={file}
                               highlightKeyword={this.state.filter}
@@ -90,15 +90,8 @@ class SampleList extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  let samples = [];
-
-  if (state.drive.samples) {
-    // its ok to sort samples on render because this will rarely change
-    samples = state.drive.samples.sort();
-  }
   return {
-    samples: samples,
-    sampleRoot: state.drive.rootPath
+    samples: Object.keys(state.drive.samples)
   }
 }
 

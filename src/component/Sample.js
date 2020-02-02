@@ -36,7 +36,7 @@ const SampleComponent = (props) => {
           </span>
           <span className={((props.playingSample) ? "has-text-primary" : "")}>
             { hasSample &&
-              <div dangerouslySetInnerHTML={{ __html: displayName }} />
+              <div className="sampleName" dangerouslySetInnerHTML={{ __html: displayName }} />
             }
             { !hasSample &&
               <span>&lt;Empty&gt;</span>

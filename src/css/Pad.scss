@@ -8,6 +8,13 @@
     .panel-block.sample {
       border-radius: 6px;
       padding: .2em .5em;
+
+      .sampleName {
+        text-overflow: ellipsis;
+        width: 10em;
+        overflow: hidden;
+        white-space: nowrap;
+      }
     }
 
     .removeSample {

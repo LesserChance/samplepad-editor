@@ -17,6 +17,13 @@ export const RootModel = (rootPath = "", kitPath = "", samples = []) => {
   };
 }
 
+export const Sample = (fileName = "", fileNameOnDisk = "") => {
+  return {
+    fileName: fileName,
+    fileNameOnDisk: fileNameOnDisk
+  };
+}
+
 export const KitModel = (filePath = "", fileName = "", isNew = false, isExisting = false, isLoaded = false, kitName = "", pads = []) => {
   return {
     id: uuidv1(),

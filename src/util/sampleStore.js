@@ -1,5 +1,9 @@
 /* App imports */
-import { Drive } from 'const'
+import { Actions, Drive } from 'const'
+import { showNotice } from 'actions/notice';
+import { Sample } from 'state/models';
+import { openSampleFileDialog } from 'util/fileDialog';
+import { copySample } from 'util/storage';
 
 /* Electron imports */
 const Store = window.require('electron-store')
@@ -42,6 +46,47 @@ class SampleStore extends Store {
   }
 
   /**
+   * Open a file dialog, and move the selected files into the drive
+   */
+  importSamples() {
+    return (dispatch, getState) => {
+      openSampleFileDialog()
+        .then(result => {
+          if (result.canceled) {
+            return null;
+          }
+
+          let hadCopyError = false;
+
+          result.filePaths.forEach((file) => {
+            let samplePath = path.parse(file);
+            let sample = this.addSample(samplePath.name, false)
+
+            try {
+              copySample(file, this.devicePath, sample.fileNameOnDisk);
+            } catch (err) {
+              hadCopyError = true
+            }
+          })
+
+          this._saveSamples()
+
+          dispatch({ type: Actions.RESET_SAMPLES, samples: this.deviceSamples });
+
+          if (hadCopyError) {
+            dispatch(
+              showNotice("is-warning", "There was a problem importing one or more samples.")
+            );
+          } else {
+            dispatch(
+              showNotice("is-success", "Samples successfully imported.")
+            );
+          }
+        })
+    }
+  }
+
+  /**
    * Given a directory, load the sample list from disk if it already exists
    * otherwise read all the samples and store it to disk
    * @param {String} devicePath
@@ -78,7 +123,7 @@ class SampleStore extends Store {
    * Add a new file to the current device
    * @param {String} fileName
    */
-  addSample(fileName) {
+  addSample(fileName, save=true) {
     // if the sample already exists, do we want to overwrite it?
     if (this._fileExists(fileName)) {
       // overwriting a sample - remove references to it so it can be overwritten
@@ -87,7 +132,11 @@ class SampleStore extends Store {
 
     this.deviceSamples[fileName] = this._getFormattedFileName(fileName)
 
-    return this.saveSamples()
+    if (save) {
+      this._saveSamples()
+    }
+
+    return Sample(fileName, this.deviceSamples[fileName])
   }
 
   _saveSamples() {
@@ -140,8 +189,8 @@ class SampleStore extends Store {
   }
 
   _removeFileReference(fileName) {
+    delete this.fileNamesOnDisk[this.deviceSamples[fileName].toLowerCase()]
     delete this.fileNames[(fileName).toLowerCase()]
-    delete this.fileNamesOnDisk[(fileName).toLowerCase()]
   }
 
   _getFormattedFileName(displayName) {

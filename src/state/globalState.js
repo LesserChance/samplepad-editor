@@ -35,7 +35,7 @@ export const getGlobalStateFromDirectory = (rootPath) => {
     });
   }
 
-  let drive = RootModel(rootPath, kitPath, SampleStore.getSamples());
+  let drive = RootModel(rootPath, kitPath, Object.keys(SampleStore.getSamples()));
 
   return {drive, kits};
 }

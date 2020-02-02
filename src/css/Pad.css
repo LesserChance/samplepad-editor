@@ -4,6 +4,11 @@
 .Pad .sampleContainer .panel-block.sample {
   border-radius: 6px;
   padding: .2em .5em; }
+  .Pad .sampleContainer .panel-block.sample .sampleName {
+    text-overflow: ellipsis;
+    width: 10em;
+    overflow: hidden;
+    white-space: nowrap; }
 
 .Pad .sampleContainer .removeSample {
   display: none;

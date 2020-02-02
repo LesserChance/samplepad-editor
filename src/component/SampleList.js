@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux'
 
 /* App imports */
-import { importSamples } from 'actions/drive'
+import SampleStore from 'util/sampleStore'
 
 /* Component imports */
 import SampleComponent from 'component/Sample'
@@ -91,14 +91,14 @@ class SampleList extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    samples: Object.keys(state.drive.samples)
+    samples: state.drive.samples
   }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     importSamples: () => {
-      dispatch(importSamples());
+      dispatch(SampleStore.importSamples());
     }
   }
 }

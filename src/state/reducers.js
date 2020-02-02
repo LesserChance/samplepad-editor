@@ -101,12 +101,12 @@ function drive(state = initialDriveState, action) {
       return update(state, {
         rootPath: {$set: action.drive.rootPath},
         kitPath: {$set: action.drive.kitPath},
-        samples: {$set: action.drive.samples}
+        samples: {$set: Object.keys(action.drive.samples)}
       });
 
-    case Actions.ADD_SAMPLES:
+    case Actions.RESET_SAMPLES:
       return update(state, {
-        samples: {$push: action.samples}
+        samples: {$set: Object.keys(action.samples)}
       });
 
     default:

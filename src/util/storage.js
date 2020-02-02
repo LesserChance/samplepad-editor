@@ -28,19 +28,25 @@ export function getLastLoadedDirectory() {
  * Copy a source sample to the sample directory
  * @param {String} source
  * @return {String} new sample file path
+ * @return {String} new sample file name
  */
-export function copySample(source, destinationDirectory) {
+export function copySample(source, destinationDirectory, newFileName=false) {
   let sourcePath = path.parse(source);
-  let destination = destinationDirectory + "/" + sourcePath.base;
 
-  if(fs.existsSync(destination)) {
-    // for now, dont overwrite files
-    return;
+  if (!newFileName) {
+    newFileName = sourcePath.base;
   }
+
+  let destination = destinationDirectory + "/" + newFileName;
+
+  // if(fs.existsSync(destination)) {
+  //   // for now, dont overwrite files
+  //   return;
+  // }
 
   try {
     fs.copyFileSync(source, destination);
-    return sourcePath.base;
+    return newFileName;
   } catch (err) {
     console.error(err)
     throw(err);

@@ -1,7 +1,7 @@
 export const Actions = {
   /* drive action types */
   LOAD_DRIVE: 'LOAD_DRIVE',
-  ADD_SAMPLES: 'ADD_SAMPLES',
+  RESET_SAMPLES: 'RESET_SAMPLES',
 
   /* kit action types */
   SORT_KITS: 'SORT_KITS',

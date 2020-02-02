@@ -2,7 +2,38 @@
   margin: .5em 0 0 .5em;
 
   .samples {
-    max-height: 30em;
+    width: 100%;
     overflow-y: scroll;
+    max-height: 30em;
+
+    button.sample {
+      text-align: left;
+    }
+
+    .sampleName {
+      text-overflow: ellipsis;
+      max-width: 10em;
+      overflow: hidden;
+      white-space: nowrap;
+      position: relative;
+    }
+
+    .sampleContainer:hover {
+      width: 100%;
+      background: white;
+
+      .sample {
+        width: 100%;
+        background: white;
+        border-radius: 2px;
+        box-shadow: 0 2px 3px 0 rgba(0,0,0,.1),inset 0 0 0 1px rgba(0,0,0,.1);
+
+        .sampleName {
+          background: white;
+          text-overflow: normal;
+          white-space: normal;
+        }
+      }
+    }
   }
 }

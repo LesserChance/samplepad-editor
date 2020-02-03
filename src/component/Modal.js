@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux'
 
 /* App imports */
-import { confirmFileOverwriteAction } from 'actions/modal'
+import { confirmFileOverwriteAction, confirmLoadCardAction } from 'actions/modal'
 
 const ModalComponent = (props) => {
   return (
@@ -31,6 +31,31 @@ const ModalComponent = (props) => {
           </div>
         </div>
       }
+
+
+      {props.showConfirmLoadCard &&
+        <div className="modal is-active">
+          <div className="modal-background"></div>
+          <div className="modal-content">
+            <div className="message is-warning">
+              <div className="message-header">
+                <p>Are you sure?</p>
+              </div>
+              <div className="message-body">
+                <div className="is-clearfix">You will lose any unsaved kit data when you load another card. Are you sure you want to do this?</div>
+
+                <div className="field is-grouped is-pulled-right is-marginless is-padingless">
+                  <div className="buttons control">
+                    <button className="button" onClick={props.closeConfirmLoadCard}>Cancel</button>
+                    <button className="button is-warning" onClick={props.dispatchCallbackAndCloseLoadCard}>Ok</button>
+                  </div>
+                </div>
+                <div className="is-clearfix" />
+              </div>
+            </div>
+          </div>
+        </div>
+      }
     </div>
   );
 }
@@ -38,8 +63,7 @@ const ModalComponent = (props) => {
 const mapStateToProps = (state, ownProps) => {
   return {
     showConfirmOverwrite: state.modals.confirmOverwriteVisible,
-    showFixKitErrors: state.modals.fixKitErrorsVisible,
-    showDriveLoaded: state.modals.driveLoadedVisible
+    showConfirmLoadCard: state.modals.confirmLoadCardVisible
   }
 }
 
@@ -50,6 +74,12 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     dispatchCallbackAndCloseConfirmOverwrite: () => {
       dispatch(confirmFileOverwriteAction(true));
+    },
+    closeConfirmLoadCard: () => {
+      dispatch(confirmLoadCardAction(false));
+    },
+    dispatchCallbackAndCloseLoadCard: () => {
+      dispatch(confirmLoadCardAction(true));
     }
   }
 }

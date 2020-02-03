@@ -1,30 +1,12 @@
 .Pad {
 
-  .sampleContainer {
-    .dragContainer {
-      display: inline-block;
-    }
-
-    .panel-block.sample {
-      border-radius: 6px;
-      padding: .2em .5em;
-
-      .sampleName {
-        text-overflow: ellipsis;
-        width: 10em;
-        overflow: hidden;
-        white-space: nowrap;
-      }
-    }
-
-    .removeSample {
-      display: none;
-      margin-left: .2em;
-    }
+  .level {
+    margin-bottom:0 !important;
   }
 
   .PadLayer .level-left{
     padding-right: 2em;
+    width: 22em;
   }
   .PadLayer .level-left:hover {
     padding-right: .8em;
@@ -33,9 +15,6 @@
     }
   }
 
-  .level {
-    margin-bottom:0 !important;
-  }
   .layerB {
     margin: 0 3em 0 0;
 
@@ -50,6 +29,31 @@
     padding: .5em;
     border-radius: 5px;
   }
+
+  .sampleContainer {
+    .dragContainer {
+      display: inline-block;
+    }
+
+    .panel-block.sample {
+      border-radius: 6px;
+      padding: .2em .5em;
+
+      .sampleName {
+        text-overflow: ellipsis;
+        text-align: left;
+        width: 8em;
+        overflow: hidden;
+        white-space: nowrap;
+      }
+    }
+
+    .removeSample {
+      display: none;
+      margin-left: .2em;
+    }
+  }
+
   .midiNote {
     margin-left: -1em;
 
@@ -61,6 +65,7 @@
       display: none !important;
     }
   }
+
   .modeIcon {
     padding-left: .2em;
 
@@ -72,6 +77,7 @@
       display: none !important;
     }
   }
+
   .layerBIcon {
     cursor: pointer;
     width: 1.5em;

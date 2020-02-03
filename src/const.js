@@ -5,7 +5,7 @@ export const Actions = {
 
   /* kit action types */
   SORT_KITS: 'SORT_KITS',
-  ADD_KITS: 'ADD_KITS',
+  RESET_KITS: 'RESET_KITS',
   ADD_KIT: 'ADD_KIT',
   UPDATE_KIT_PROPERTY: 'UPDATE_KIT_PROPERTY',
   UPDATE_KIT_STATE: 'UPDATE_KIT_STATE',
@@ -22,6 +22,8 @@ export const Actions = {
   /* modal action types */
   SHOW_MODAL_CONFIRM_OVERWRITE: 'SHOW_MODAL_CONFIRM_OVERWRITE',
   HIDE_MODAL_CONFIRM_OVERWRITE: 'HIDE_MODAL_CONFIRM_OVERWRITE',
+  SHOW_MODAL_CONFIRM_LOAD_CARD: 'SHOW_MODAL_CONFIRM_LOAD_CARD',
+  HIDE_MODAL_CONFIRM_LOAD_CARD: 'HIDE_MODAL_CONFIRM_LOAD_CARD',
 
   /* notice action types */
   SHOW_NOTICE: 'SHOW_NOTICE'
@@ -56,6 +58,7 @@ export const DragItemTypes = {
 };
 
 export const Drive = {
+  DEVICE_ID_FILE: ".sampleeditordevice",
   SAMPLE_FILE_TYPE: "wav",
   SAMPLE_EXTENSION: ".wav",
   KIT_EXTENSION: ".KIT",

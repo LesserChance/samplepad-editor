@@ -13,8 +13,8 @@ let initialState = {
   modals: {
     confirmOverwriteVisible: false,
     confirmOverwriteCallback: null,
-    fixKitErrorsVisible: false,
-    driveLoadedVisible: false
+    confirmLoadCardVisible: false,
+    confirmLoadCardCallback: null
   },
   notices: [],
   drive: {},
@@ -89,6 +89,17 @@ function modals(state = initialModalState, action) {
         confirmOverwriteVisible: {$set: false}
       });
 
+    case Actions.SHOW_MODAL_CONFIRM_LOAD_CARD:
+      return update(state, {
+        confirmLoadCardVisible: {$set: true},
+        confirmLoadCardCallback: {$set: action.callback}
+      });
+
+    case Actions.HIDE_MODAL_CONFIRM_LOAD_CARD:
+      return update(state, {
+        confirmLoadCardVisible: {$set: false}
+      });
+
     default:
       return state;
   }
@@ -101,12 +112,12 @@ function drive(state = initialDriveState, action) {
       return update(state, {
         rootPath: {$set: action.drive.rootPath},
         kitPath: {$set: action.drive.kitPath},
-        samples: {$set: Object.keys(action.drive.samples)}
+        samples: {$set: action.drive.samples}
       });
 
     case Actions.RESET_SAMPLES:
       return update(state, {
-        samples: {$set: Object.keys(action.samples)}
+        samples: {$set: action.samples}
       });
 
     default:
@@ -117,13 +128,15 @@ function drive(state = initialDriveState, action) {
 function kits(state = initialKitsState, action) {
   switch (action.type) {
     // load the list of kits into state from the SD card
-    case Actions.ADD_KITS:
+    case Actions.RESET_KITS:
       return update(state, {
-        models: {$merge: action.kits}
+        ids: {$set: Object.keys(action.kits)},
+        models: {$set: action.kits}
       });
 
     case Actions.ADD_KIT:
       return update(state, {
+        ids: {$push: [action.kit.id]},
         models: {[action.kit.id]: {$set: action.kit}}
       });
 

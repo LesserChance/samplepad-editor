@@ -36,11 +36,12 @@ const PadLayerAComponent = (props) => {
               value={pad.midiNote}
               onChange={(midiNote) => props.updatePadIntProperty("midiNote", midiNote)} />
           </div>
-          <div className="level-item">
-            <SamplePlayerComponent sampleFile={props.padSampleFile}>
+          <div className='level-item'>
+            <SamplePlayerComponent sampleFile={pad.fileName}>
               <SampleComponent
                 draggable={false}
                 removable={true}
+                useTooltip={true}
                 fileName={pad.fileName}
                 removeSample={() => {props.removePadSample(null)}}
               />
@@ -171,7 +172,6 @@ const mapStateToProps = (state, ownProps) => {
 
   return {
     pad: pad,
-    padSampleFile: pad.fileName,
     hasVelocityError: hasVelocityError,
     velocityTooltip: velocityTooltip,
     hasLayerBError: hasLayerBError

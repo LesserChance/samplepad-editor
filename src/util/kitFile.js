@@ -2,6 +2,7 @@
 import { KitBuffer, Drive } from 'const';
 import { KitModel, PadModel } from 'state/models';
 import { getSortedPadIds } from 'state/sortModels';
+import SampleStore from 'util/sampleStore'
 
 /* Electron imports */
 const fs = window.require('fs');
@@ -180,6 +181,7 @@ const getPadFromBufferBlocks = (padType, block1, block2) => {
   if (hasFileLayerA) {
     let fileLength = block2.readUInt8(MEMLOC.fileNameLength);
     fileName = block2.toString("utf-8", MEMLOC.fileName, MEMLOC.fileName + fileLength) + Drive.SAMPLE_EXTENSION;
+    fileName = SampleStore.getFileNameFromKitFile(fileName)
   }
 
   let hasFileLayerB = (block2.readUInt8(MEMLOC.hasFileLayerB) === 0xaa);
@@ -187,6 +189,7 @@ const getPadFromBufferBlocks = (padType, block1, block2) => {
   if (hasFileLayerB) {
     let fileLength = block2.readUInt8(MEMLOC.fileNameBLength);
     fileNameB = block2.toString("utf-8", MEMLOC.fileNameB, MEMLOC.fileNameB + fileLength) + Drive.SAMPLE_EXTENSION;
+    fileNameB = SampleStore.getFileNameFromKitFile(fileNameB)
   }
 
   return PadModel.fromFile(padType, location, level, tune, pan, reverb, midiNote, mode, sens, mgrp, velocityMin, velocityMax, fileName, velocityMinB, velocityMaxB, fileNameB);
@@ -331,7 +334,7 @@ const getPadBlock2 = (pad) => {
   block.splice(MEMLOC.velocityMaxB, 1, pad.velocityMaxB);
 
   // splice in the file information
-  let fileName = pad.fileName.replace(Drive.SAMPLE_EXTENSION, "");
+  let fileName = SampleStore.getWriteFileName(pad.fileName)
   let fileNameUpperBytes = unpack(fileName.toUpperCase(), 8, 0x20)
   let fileNameBytes = unpack(fileName, 8, 0x00)
   block.splice(MEMLOC.fileNameLength, 1, fileName.length);
@@ -340,7 +343,7 @@ const getPadBlock2 = (pad) => {
   block.splice(MEMLOC.hasFileLayerA, 1, ((fileName === "") ? 0xff : 0xaa));
 
   // splice in the file information for layer b
-  let fileNameB = pad.fileNameB.replace(Drive.SAMPLE_EXTENSION, "");
+  let fileNameB = SampleStore.getWriteFileName(pad.fileNameB)
   let fileNameBUpperBytes = unpack(fileNameB.toUpperCase(), 8, 0x20)
   let fileNameBBytes = unpack(fileNameB, 8, 0x00)
   block.splice(MEMLOC.fileNameBLength, 1, fileNameB.length);

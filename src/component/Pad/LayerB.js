@@ -28,6 +28,7 @@ const PadLayerBComponent = (props) => {
             <SampleComponent
               draggable={false}
               removable={true}
+              useTooltip={true}
               fileName={pad.fileNameB}
               removeSample={() => {props.removePadSample(null)}}
             />

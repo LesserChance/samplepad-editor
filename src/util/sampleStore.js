@@ -1,3 +1,6 @@
+/* Global imports */
+import uuidv1 from 'uuid/v1';
+
 /* App imports */
 import { Actions, Drive } from 'const'
 import { showNotice } from 'actions/notice';
@@ -46,6 +49,41 @@ class SampleStore extends Store {
   }
 
   /**
+   * Get the string to write to a kit file for the given file
+   * @param {String} fileName
+   * @return {String}
+   */
+  getWriteFileName(fileName) {
+    if (!fileName) {
+      return ""
+    }
+
+    return this.deviceSamples[fileName].replace(Drive.SAMPLE_EXTENSION, "")
+  }
+
+  getFileNameFromKitFile(fileName) {
+    if (!fileName) {
+      return ""
+    }
+
+    let reverseList = this._getFlippedDeviceSamples()
+
+    if (reverseList[fileName]) {
+      return reverseList[fileName];
+    }
+
+    return fileName;
+  }
+
+  _getFlippedDeviceSamples() {
+    let ret = {};
+    Object.keys(this.deviceSamples).forEach(key => {
+      ret[this.deviceSamples[key]] = key;
+    });
+    return ret;
+  }
+
+  /**
    * Open a file dialog, and move the selected files into the drive
    */
   importSamples() {
@@ -56,6 +94,8 @@ class SampleStore extends Store {
             return null;
           }
 
+          showNotice("is-success", "Import processing...")
+
           let hadCopyError = false;
 
           result.filePaths.forEach((file) => {
@@ -64,6 +104,9 @@ class SampleStore extends Store {
 
             try {
               copySample(file, this.devicePath, sample.fileNameOnDisk);
+
+              // add the sample to the filename lists, so any subsequent copies will know its there
+              this._addFileReference(sample.fileName);
             } catch (err) {
               hadCopyError = true
             }
@@ -71,7 +114,7 @@ class SampleStore extends Store {
 
           this._saveSamples()
 
-          dispatch({ type: Actions.RESET_SAMPLES, samples: this.deviceSamples });
+          dispatch({ type: Actions.RESET_SAMPLES, samples: Object.keys(this.deviceSamples) });
 
           if (hadCopyError) {
             dispatch(
@@ -92,7 +135,7 @@ class SampleStore extends Store {
    * @param {String} devicePath
    */
   loadSamplesFromDirectory(devicePath) {
-    let deviceId = fs.statSync(devicePath).dev
+    let deviceId = this._getDeviceIdFromDirectory(devicePath)
 
     if (this.samples[deviceId]) {
       // if we already have reference to this device, use the stored state
@@ -137,6 +180,21 @@ class SampleStore extends Store {
     }
 
     return Sample(fileName, this.deviceSamples[fileName])
+  }
+
+  _getDeviceIdFromDirectory(devicePath) {
+    let deviceId = uuidv1()
+    let deviceFile = devicePath + "/" + Drive.DEVICE_ID_FILE
+
+    // look for an existing device id on the card
+    if(fs.existsSync(deviceFile)) {
+      deviceId = fs.readFileSync(deviceFile, "utf8")
+    } else {
+      // write the device id to the
+      fs.writeFileSync(deviceFile, deviceId)
+    }
+
+    return deviceId
   }
 
   _saveSamples() {
@@ -191,6 +249,11 @@ class SampleStore extends Store {
   _removeFileReference(fileName) {
     delete this.fileNamesOnDisk[this.deviceSamples[fileName].toLowerCase()]
     delete this.fileNames[(fileName).toLowerCase()]
+  }
+
+  _addFileReference(fileName) {
+    this.fileNamesOnDisk[this.deviceSamples[fileName].toLowerCase()] = true
+    this.fileNames[(fileName).toLowerCase()] = true
   }
 
   _getFormattedFileName(displayName) {

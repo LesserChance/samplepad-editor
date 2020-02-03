@@ -26,9 +26,18 @@ const SampleComponent = (props) => {
       + displayName.substr(start + props.highlightKeyword.length)
   }
 
-  return (
-    <div className="sampleContainer">
+  let containerProps = {
+    'className': 'sampleContainer'
+  };
+  if (hasSample && props.useTooltip && props.fileName.length > 12) {
+    containerProps = {
+      'className': 'sampleContainer has-tooltip-bottom',
+      'data-tooltip': props.fileName
+    };
+  }
 
+  return (
+    <div {...containerProps}>
       <div ref={drag} className="dragContainer">
         <button className="link panel-block sample" onClick={(e) => {if(hasSample) {props.playSample()}}}>
           <span className="panel-icon">

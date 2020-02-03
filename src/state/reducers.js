@@ -41,6 +41,7 @@ const initialAppState = {
   activeKitId: null
 };
 const initialDriveState = {
+  deviceId: initialState.drive.deviceId,
   rootPath: initialState.drive.rootPath,
   kitPath: initialState.drive.kitPath,
   samples: initialState.drive.samples
@@ -110,6 +111,7 @@ function drive(state = initialDriveState, action) {
     // load data into state from the SD card
     case Actions.LOAD_DRIVE:
       return update(state, {
+        deviceId: {$set: action.drive.deviceId},
         rootPath: {$set: action.drive.rootPath},
         kitPath: {$set: action.drive.kitPath},
         samples: {$set: action.drive.samples}

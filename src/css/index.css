@@ -8,3 +8,9 @@ button.link {
   font: inherit;
   cursor: pointer;
   outline: inherit; }
+
+.splash p {
+  margin: auto;
+  max-width: 50%;
+  padding-top: 2em;
+  text-align: center; }

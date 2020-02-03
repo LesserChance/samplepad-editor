@@ -42,7 +42,7 @@ class SampleList extends React.Component {
                 </div>
 
                 <div className="level-right">
-                  <i className="is-size-7">({this.props.samples.length}/512)</i>
+                  <i className="is-size-7">({this.props.samples ? this.props.samples.length : 0}/512)</i>
                 </div>
               </div>
             </div>

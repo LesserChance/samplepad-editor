@@ -11,11 +11,10 @@
     }
 
     .sampleName {
-      text-overflow: ellipsis;
+      // text-overflow: ellipsis;
       max-width: 10em;
-      overflow: hidden;
-      white-space: nowrap;
-      position: relative;
+      // overflow: hidden;
+      // white-space: nowrap;
     }
 
     .sampleContainer:hover {

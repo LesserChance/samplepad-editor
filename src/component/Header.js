@@ -19,11 +19,13 @@ const HeaderComponent = (props) => {
               </div>
             </div>
 
-            <div className="level-right">
-              <p className="level-item">
-                <button className="button is-link is-outlined" onClick={props.loadCard}>Load SD Card</button>
-              </p>
-            </div>
+            {props.showLoadCard &&
+              <div className="level-right">
+                <p className="level-item">
+                  <button className="button is-link is-outlined" onClick={props.loadCard}>Load SD Card</button>
+                </p>
+              </div>
+            }
           </div>
         </div>
       </div>

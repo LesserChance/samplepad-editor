@@ -11,11 +11,12 @@ import { storeLastLoadedDirectory } from 'util/storage';
  * Open a file dialog, and parse the resulting directory as a SamplePad drive
  */
 export function selectAndLoadDrive(confirmedLoadCard=false) {
-  return (dispatch) => {
+  return (dispatch, getState) => {
+    let state = getState()
 
     // show the warning modal - on confirm, load the card
     // todo: only do this if some information hasnt been saved
-    if (!confirmedLoadCard) {
+    if (state.drive.deviceId && !confirmedLoadCard) {
       dispatch(confirmLoadCard((result) => {
         return (dispatch, getState) => {
           if (result) {

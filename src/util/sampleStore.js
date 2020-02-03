@@ -1,6 +1,3 @@
-/* Global imports */
-import uuidv1 from 'uuid/v1';
-
 /* App imports */
 import { Actions, Drive } from 'const'
 import { showNotice } from 'actions/notice';
@@ -75,14 +72,6 @@ class SampleStore extends Store {
     return fileName;
   }
 
-  _getFlippedDeviceSamples() {
-    let ret = {};
-    Object.keys(this.deviceSamples).forEach(key => {
-      ret[this.deviceSamples[key]] = key;
-    });
-    return ret;
-  }
-
   /**
    * Open a file dialog, and move the selected files into the drive
    */
@@ -94,37 +83,40 @@ class SampleStore extends Store {
             return null;
           }
 
-          showNotice("is-success", "Import processing...")
+          dispatch(showNotice("is-success", "Import processing..."))
 
-          let hadCopyError = false;
+          // run the import on a timeout to let the notice above show
+          setTimeout(() => {
+            let hadCopyError = false;
 
-          result.filePaths.forEach((file) => {
-            let samplePath = path.parse(file);
-            let sample = this.addSample(samplePath.name, false)
+            result.filePaths.forEach((file) => {
+              let samplePath = path.parse(file);
+              let sample = this.addSample(samplePath.name, false)
 
-            try {
-              copySample(file, this.devicePath, sample.fileNameOnDisk);
+              try {
+                copySample(file, this.devicePath, sample.fileNameOnDisk);
 
-              // add the sample to the filename lists, so any subsequent copies will know its there
-              this._addFileReference(sample.fileName);
-            } catch (err) {
-              hadCopyError = true
+                // add the sample to the filename lists, so any subsequent copies will know its there
+                this._addFileReference(sample.fileName);
+              } catch (err) {
+                hadCopyError = true
+              }
+            })
+
+            this._saveSamples()
+
+            dispatch({ type: Actions.RESET_SAMPLES, samples: Object.keys(this.deviceSamples) });
+
+            if (hadCopyError) {
+              dispatch(
+                showNotice("is-warning", "There was a problem importing one or more samples.")
+              );
+            } else {
+              dispatch(
+                showNotice("is-success", "Samples successfully imported.")
+              );
             }
-          })
-
-          this._saveSamples()
-
-          dispatch({ type: Actions.RESET_SAMPLES, samples: Object.keys(this.deviceSamples) });
-
-          if (hadCopyError) {
-            dispatch(
-              showNotice("is-warning", "There was a problem importing one or more samples.")
-            );
-          } else {
-            dispatch(
-              showNotice("is-success", "Samples successfully imported.")
-            );
-          }
+          },100)
         })
     }
   }
@@ -134,9 +126,7 @@ class SampleStore extends Store {
    * otherwise read all the samples and store it to disk
    * @param {String} devicePath
    */
-  loadSamplesFromDirectory(devicePath) {
-    let deviceId = this._getDeviceIdFromDirectory(devicePath)
-
+  loadSamplesFromDirectory(deviceId, devicePath) {
     if (this.samples[deviceId]) {
       // if we already have reference to this device, use the stored state
       this._loadDevice(deviceId)
@@ -182,19 +172,12 @@ class SampleStore extends Store {
     return Sample(fileName, this.deviceSamples[fileName])
   }
 
-  _getDeviceIdFromDirectory(devicePath) {
-    let deviceId = uuidv1()
-    let deviceFile = devicePath + "/" + Drive.DEVICE_ID_FILE
-
-    // look for an existing device id on the card
-    if(fs.existsSync(deviceFile)) {
-      deviceId = fs.readFileSync(deviceFile, "utf8")
-    } else {
-      // write the device id to the
-      fs.writeFileSync(deviceFile, deviceId)
-    }
-
-    return deviceId
+  _getFlippedDeviceSamples() {
+    let ret = {};
+    Object.keys(this.deviceSamples).forEach(key => {
+      ret[this.deviceSamples[key]] = key;
+    });
+    return ret;
   }
 
   _saveSamples() {

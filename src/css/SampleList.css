@@ -7,11 +7,7 @@
     .SampleList .samples button.sample {
       text-align: left; }
     .SampleList .samples .sampleName {
-      text-overflow: ellipsis;
-      max-width: 10em;
-      overflow: hidden;
-      white-space: nowrap;
-      position: relative; }
+      max-width: 10em; }
     .SampleList .samples .sampleContainer:hover {
       width: 100%;
       background: white; }

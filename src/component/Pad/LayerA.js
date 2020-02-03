@@ -36,6 +36,7 @@ const PadLayerAComponent = (props) => {
               value={pad.midiNote}
               onChange={(midiNote) => props.updatePadIntProperty("midiNote", midiNote)} />
           </div>
+
           <div className='level-item'>
             <SamplePlayerComponent sampleFile={pad.fileName}>
               <SampleComponent

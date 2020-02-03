@@ -4,6 +4,9 @@ import { connect } from 'react-redux'
 import { DndProvider } from 'react-dnd'
 import Backend from 'react-dnd-html5-backend'
 
+/* App imports */
+import { selectAndLoadDrive } from 'actions/drive'
+
 /* Component imports */
 import ModalComponent from 'component/Modal'
 import NoticeComponent from 'component/Notice'
@@ -15,31 +18,43 @@ import KitListComponent from 'component/KitList'
 const AppComponent = (props) => {
   return (
     <DndProvider backend={Backend}>
-      <div className="App">
-        <ModalComponent />
-        <NoticeComponent notices={props.notices} />
-        <HeaderComponent />
-
-        <section className="columns">
-          <div className="column is-one-quarter">
-            <SampleListComponent />
+        {props.showSplash &&
+          <div className="App">
+            <HeaderComponent showLoadCard={false} />
+            <div class="splash is-medium">
+              <p>Make sure your SamplePad SD card is inserted into your computer. Click the "Load SD Card" button below and select the root directory of the SD card</p>
+              <p><button className="button is-link is-medium" onClick={props.loadCard}>Load SD Card</button></p>
+            </div>
           </div>
+        }
 
-          <div className="column is-three-quarters">
-            <KitListComponent />
+        {!props.showSplash &&
+          <div className="App">
+            <ModalComponent />
+            <NoticeComponent notices={props.notices} />
+            <HeaderComponent showLoadCard={true} />
+            <section className="columns">
+              <div className="column is-one-quarter">
+                <SampleListComponent />
+              </div>
 
-            {props.hasActiveKit &&
-              <EditKitComponent kitId={props.activeKitId} />
-            }
+              <div className="column is-three-quarters">
+                <KitListComponent />
+
+                {props.hasActiveKit &&
+                  <EditKitComponent kitId={props.activeKitId} />
+                }
+              </div>
+            </section>
           </div>
-        </section>
-      </div>
+        }
     </DndProvider>
   );
 }
 
 const mapStateToProps = (state, ownProps) => {
   return {
+    showSplash: !state.drive.deviceId,
     notices: state.notices,
     activeKitId: state.app.activeKitId,
     hasActiveKit: (state.app.activeKitId !== null)
@@ -47,7 +62,11 @@ const mapStateToProps = (state, ownProps) => {
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-  return {}
+  return {
+    loadCard: () => {
+      dispatch(selectAndLoadDrive())
+    }
+  }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(AppComponent)

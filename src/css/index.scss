@@ -8,6 +8,13 @@ button.link {
   outline: inherit;
 }
 
+.splash p {
+  margin: auto;
+  max-width: 50%;
+  padding-top: 2em;
+  text-align: center;
+}
+
 @import 'bulma.min.css';
 @import 'bulma-tooltip.min.css';
 @import 'icons.css';

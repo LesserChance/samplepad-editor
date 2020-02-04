@@ -4,14 +4,54 @@
     margin-bottom:0 !important;
   }
 
-  .PadLayer .level-left{
-    padding-right: 2em;
+  .PadLayer .level-left {
     width: 22em;
+    padding-right: 2em;
+
+    .PadName {
+      .padName {
+        width: 9em;
+        padding: .5em;
+        border-radius: 5px;
+      }
+    }
+    .MidiNote {
+      margin-left: -1em;
+
+      select {
+        padding-left: 2em !important;
+        padding-right: .25em !important;
+      }
+      .select::after {
+        display: none !important;
+      }
+    }
   }
+
   .PadLayer .level-left:hover {
     padding-right: .8em;
     .removeSample {
       display: inline-block;
+    }
+  }
+
+  .PadLayer .level-right {
+    .modeIcon {
+      padding-left: .2em;
+
+      select {
+        padding-left: .25em !important;
+        padding-right: .25em !important;
+      }
+      .select::after {
+        display: none !important;
+      }
+    }
+
+    .layerBIcon {
+      cursor: pointer;
+      width: 1.5em;
+      padding: .2em 0 0 .4em;
     }
   }
 
@@ -20,14 +60,10 @@
 
     .padName {
       width: 12.9em;
+      padding: .5em;
+      border-radius: 5px;
       text-align: right;
     }
-  }
-
-  .padName {
-    width: 9em;
-    padding: .5em;
-    border-radius: 5px;
   }
 
   .sampleContainer {
@@ -40,8 +76,8 @@
       padding: .2em .5em;
 
       .sampleName {
-        text-overflow: ellipsis;
         text-align: left;
+        text-overflow: ellipsis;
         width: 8em;
         overflow: hidden;
         white-space: nowrap;
@@ -52,36 +88,6 @@
       display: none;
       margin-left: .2em;
     }
-  }
-
-  .midiNote {
-    margin-left: -1em;
-
-    select {
-      padding-left: 2em !important;
-      padding-right: .25em !important;
-    }
-    .select::after {
-      display: none !important;
-    }
-  }
-
-  .modeIcon {
-    padding-left: .2em;
-
-    select {
-      padding-left: .25em !important;
-      padding-right: .25em !important;
-    }
-    .select::after {
-      display: none !important;
-    }
-  }
-
-  .layerBIcon {
-    cursor: pointer;
-    width: 1.5em;
-    padding: .2em 0 0 .4em;
   }
 
   .sampleDrop {

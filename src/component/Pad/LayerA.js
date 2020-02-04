@@ -24,20 +24,20 @@ const PadLayerAComponent = (props) => {
     <div className="PadLayer">
       <div className="level">
         <div className="level-left">
-          <div className="level-item">
+          <div className="level-item PadName">
             <span className="is-size-7 has-background-grey-lighter padName">
               {padName}:
             </span>
           </div>
 
-          <div className="level-item">
+          <div className="level-item MidiNote">
             <MidiNoteSelectComponent
               padType={pad.padType}
               value={pad.midiNote}
               onChange={(midiNote) => props.updatePadIntProperty("midiNote", midiNote)} />
           </div>
 
-          <div className='level-item'>
+          <div className='level-item Sample'>
             <SamplePlayerComponent sampleFile={pad.fileName}>
               <SampleComponent
                 draggable={false}
@@ -107,8 +107,8 @@ const PadLayerAComponent = (props) => {
                     <select
                       value={pad.mode || ""}
                       onChange={(e) => props.updatePadIntProperty('mode', e.target.value)}>
-                      <option value='0'>POLY</option>
-                      <option value='1'>MONO</option>
+                      <option value='0'>MONO</option>
+                      <option value='1'>POLY</option>
                       <option value='2'>LOOP</option>
                       <option value='3'>STOP</option>
                       <option value='4'>TMP</option>

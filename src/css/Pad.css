@@ -2,24 +2,45 @@
   margin-bottom: 0 !important; }
 
 .Pad .PadLayer .level-left {
-  padding-right: 2em;
-  width: 22em; }
+  width: 22em;
+  padding-right: 2em; }
+  .Pad .PadLayer .level-left .PadName .padName {
+    width: 9em;
+    padding: .5em;
+    border-radius: 5px; }
+  .Pad .PadLayer .level-left .MidiNote {
+    margin-left: -1em; }
+    .Pad .PadLayer .level-left .MidiNote select {
+      padding-left: 2em !important;
+      padding-right: .25em !important; }
+    .Pad .PadLayer .level-left .MidiNote .select::after {
+      display: none !important; }
 
 .Pad .PadLayer .level-left:hover {
   padding-right: .8em; }
   .Pad .PadLayer .level-left:hover .removeSample {
     display: inline-block; }
 
+.Pad .PadLayer .level-right .modeIcon {
+  padding-left: .2em; }
+  .Pad .PadLayer .level-right .modeIcon select {
+    padding-left: .25em !important;
+    padding-right: .25em !important; }
+  .Pad .PadLayer .level-right .modeIcon .select::after {
+    display: none !important; }
+
+.Pad .PadLayer .level-right .layerBIcon {
+  cursor: pointer;
+  width: 1.5em;
+  padding: .2em 0 0 .4em; }
+
 .Pad .layerB {
   margin: 0 3em 0 0; }
   .Pad .layerB .padName {
     width: 12.9em;
+    padding: .5em;
+    border-radius: 5px;
     text-align: right; }
-
-.Pad .padName {
-  width: 9em;
-  padding: .5em;
-  border-radius: 5px; }
 
 .Pad .sampleContainer .dragContainer {
   display: inline-block; }
@@ -28,8 +49,8 @@
   border-radius: 6px;
   padding: .2em .5em; }
   .Pad .sampleContainer .panel-block.sample .sampleName {
-    text-overflow: ellipsis;
     text-align: left;
+    text-overflow: ellipsis;
     width: 8em;
     overflow: hidden;
     white-space: nowrap; }
@@ -37,27 +58,6 @@
 .Pad .sampleContainer .removeSample {
   display: none;
   margin-left: .2em; }
-
-.Pad .midiNote {
-  margin-left: -1em; }
-  .Pad .midiNote select {
-    padding-left: 2em !important;
-    padding-right: .25em !important; }
-  .Pad .midiNote .select::after {
-    display: none !important; }
-
-.Pad .modeIcon {
-  padding-left: .2em; }
-  .Pad .modeIcon select {
-    padding-left: .25em !important;
-    padding-right: .25em !important; }
-  .Pad .modeIcon .select::after {
-    display: none !important; }
-
-.Pad .layerBIcon {
-  cursor: pointer;
-  width: 1.5em;
-  padding: .2em 0 0 .4em; }
 
 .Pad .sampleDrop {
   position: relative;

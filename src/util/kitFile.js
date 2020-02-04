@@ -12,8 +12,8 @@ const path = window.require('path');
 const MEMLOC = {
   midiNote:     0x39,
   location:     0x07,
-  level:        0x19,
-  tune:         0x1d,
+  level:        0x29,
+  tune:         0x2d,
   pan:          0x31,
   reverb:       0x35,
   mode:         0x3d,

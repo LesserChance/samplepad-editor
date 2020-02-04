@@ -83,7 +83,7 @@ class SampleStore extends Store {
             return null;
           }
 
-          dispatch(showNotice("is-success", "Import processing..."))
+          dispatch(showNotice("is-warning", "Import processing..."))
 
           // run the import on a timeout to let the notice above show
           setTimeout(() => {
@@ -94,7 +94,7 @@ class SampleStore extends Store {
               let sample = this.addSample(samplePath.name, false)
 
               try {
-                copySample(file, this.devicePath, sample.fileNameOnDisk);
+                let sampleWav = copySample(file, this.devicePath, sample.fileNameOnDisk);
 
                 // add the sample to the filename lists, so any subsequent copies will know its there
                 this._addFileReference(sample.fileName);
@@ -243,7 +243,10 @@ class SampleStore extends Store {
     // drop the extension
     let fileName = displayName.substr(0, displayName.length - Drive.SAMPLE_EXTENSION.length)
 
-    //ideally, use the actual name or some portion of it, truncate it to a max length
+    // remove any non-alphanumeric characters
+    fileName = fileName.replace(/[^0-9a-z]/gi, '');
+
+    // ideally, use the actual name or some portion of it, truncate it to a max length
     fileName = fileName.substr(0, MAX_FILENAME_LENGTH)
     if (!this._fileExistsOnDisk(fileName + Drive.SAMPLE_EXTENSION)) {
       return fileName + Drive.SAMPLE_EXTENSION

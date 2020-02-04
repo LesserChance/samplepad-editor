@@ -1,3 +1,6 @@
+/* Global imports */
+import { WaveFile }  from 'wavefile'
+
 /* App imports */
 import { Drive } from 'const';
 import { getKitFileBuffer } from 'util/kitFile';
@@ -45,8 +48,20 @@ export function copySample(source, destinationDirectory, newFileName=false) {
   // }
 
   try {
-    fs.copyFileSync(source, destination);
-    return newFileName;
+    // The samples files must be 16-bit, mono or stereo .WAV files.
+    // with a sample rate of 48K, 44.1K, 32K, 22.05K, and 11.025K.
+    let wav = new WaveFile(fs.readFileSync(source));
+
+    if (parseInt(wav.bitDepth, 10) !== 16) {
+      wav.toBitDepth("16");
+    }
+
+    if (![48000,44100,32000,22050,11025].includes(wav.fmt.sampleRate)) {
+      wav.toSampleRate(44100);
+    }
+
+    fs.writeFileSync(destination, wav.toBuffer());
+    return destination;
   } catch (err) {
     console.error(err)
     throw(err);

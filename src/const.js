@@ -167,6 +167,7 @@ export const MidiMap = {
   cr2b:   ["Chinese Cymbal",52],
   ridea:  ["Ride Cymbal 1",51],
   rideb:  ["Ride Bell",53],
+  // note: theres a second ride b at 59, thats probably my mystery pad!
   hha_op: ["Open Hi-hat 1",46],
   hha_md: ["Mid Hi-hat 1",23],
   hha_cl: ["Closed Hi-hat 1",42],

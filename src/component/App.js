@@ -21,7 +21,7 @@ const AppComponent = (props) => {
         {props.showSplash &&
           <div className="App">
             <HeaderComponent showLoadCard={false} />
-            <div class="splash is-medium">
+            <div className="splash is-medium">
               <p>Make sure your SamplePad SD card is inserted into your computer. Click the "Load SD Card" button below and select the root directory of the SD card</p>
               <p><button className="button is-link is-medium" onClick={props.loadCard}>Load SD Card</button></p>
             </div>

@@ -41,7 +41,7 @@ export const KitModel = (filePath = "", fileName = "", isNew = false, isExisting
 }
 
 export class PadModel {
-  static getPad(padType = "", location = 1, level = 0, tune = 0, pan = 0, reverb = 0, midiNote = 0, mode = 0, sensitivity = 1, mgrp = 0, velocityMin = 0, velocityMax = 127, fileName = "", velocityMinB = 0, velocityMaxB = 127, fileNameB = "") {
+  static getPad(padType = "", location = 1, level = 10, tune = 0, pan = 0, reverb = 0, midiNote = 0, mode = 1, sensitivity = 1, mgrp = 0, velocityMin = 0, velocityMax = 127, fileName = "", velocityMinB = 0, velocityMaxB = 127, fileNameB = "") {
     return {
       id: uuidv1(),
       padType: padType,
@@ -116,18 +116,55 @@ export class PadModel {
 
   /*
    * sensitivity display is 1 to 8
-   * on file 20-27
    * @returns {Number}
    */
   static getSensitivityDisplayValue(sensitivity) {
-    return sensitivity - 19;
+    switch (sensitivity) {
+      case 0x0b:
+        return 1;
+      case 0x0e:
+        return 2;
+      case 0x11:
+        return 3;
+      case 0x14:
+        return 4;
+      case 0x17:
+        return 5;
+      case 0x1a:
+        return 6;
+      case 0x1d:
+        return 7;
+      case 0x20:
+        return 8;
+      default:
+        return 1;
+    }
   }
 
   /*
    * @param {Number} value
    */
   static getSensitivityFileValue(sensitivity) {
-    return sensitivity + 19;
+    switch (sensitivity) {
+      case 1:
+        return 0x0b;
+      case 2:
+        return 0x0e;
+      case 3:
+        return 0x11;
+      case 4:
+        return 0x14;
+      case 5:
+        return 0x17;
+      case 6:
+        return 0x1a;
+      case 7:
+        return 0x1d;
+      case 8:
+        return 0x20;
+      default:
+        return 0x00;
+    }
   }
 
 }

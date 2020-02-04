@@ -68,13 +68,11 @@ export const Drive = {
 
 export const KitBuffer = {
   CHECKSUM_BYTE: 0x08,
-  DIVIDER_PAD_TYPE: 'XXX',
 
-  // pads are written to the kit file in this order, XXX is a placeholder for the two 256b sections that get stuck in the middle
+  // pads are written to the kit file in this order
   PAD_FILE_ORDER: [
     'snr_a', 'snr_b', 'tom1a', 'tom1b', 'tom2a', 'tom2b', 'tom3a', 'tom3b', 'cr1a', 'cr1b', 'cr2a', 'cr2b', 'ridea',
-    'XXX',
-    'rideb', 'kick', 'hha_op', 'hhb_op', 'hha_md', 'hhb_md', 'hha_cl', 'hhb_cl', 'hh_chk', 'hh_spl'
+    'ride2', 'rideb', 'kick', 'hha_op', 'hhb_op', 'hha_md', 'hhb_md', 'hha_cl', 'hhb_cl', 'hh_chk', 'hh_spl'
   ],
 
   /* Map of each pad to its memory block start location: {pad: [block1_start, block2_start, block1_type]} */
@@ -93,6 +91,7 @@ export const KitBuffer = {
     cr2a:   [0x0A80, 0x2280],
     cr2b:   [0x0B80, 0x2380],
     ridea:  [0x0C80, 0x2480],
+    ride2:  [0x0D80, 0x2580],
     rideb:  [0x0E80, 0x2680],
     hha_op: [0x1080, 0x2880],
     hha_md: [0x1280, 0x2A80],
@@ -167,7 +166,7 @@ export const MidiMap = {
   cr2b:   ["Chinese Cymbal",52],
   ridea:  ["Ride Cymbal 1",51],
   rideb:  ["Ride Bell",53],
-  // note: theres a second ride b at 59, thats probably my mystery pad!
+  ride2:  ["Ride Cymbal 2",59],
   hha_op: ["Open Hi-hat 1",46],
   hha_md: ["Mid Hi-hat 1",23],
   hha_cl: ["Closed Hi-hat 1",42],

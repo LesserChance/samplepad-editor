@@ -2,7 +2,7 @@
   margin-bottom: 0 !important; }
 
 .Pad .PadLayer .level-left {
-  width: 22em;
+  width: 50%;
   padding-right: 2em; }
   .Pad .PadLayer .level-left .PadName .padName {
     width: 9em;
@@ -16,10 +16,8 @@
     .Pad .PadLayer .level-left .MidiNote .select::after {
       display: none !important; }
 
-.Pad .PadLayer .level-left:hover {
-  padding-right: .8em; }
-  .Pad .PadLayer .level-left:hover .removeSample {
-    display: inline-block; }
+.Pad .PadLayer .level-left:hover .removeSample {
+  display: inline-block; }
 
 .Pad .PadLayer .level-right .modeIcon {
   padding-left: .2em; }
@@ -42,22 +40,50 @@
     border-radius: 5px;
     text-align: right; }
 
-.Pad .sampleContainer .dragContainer {
-  display: inline-block; }
-
-.Pad .sampleContainer .panel-block.sample {
-  border-radius: 6px;
-  padding: .2em .5em; }
-  .Pad .sampleContainer .panel-block.sample .sampleName {
+.Pad .Sample {
+  width: 50%; }
+  .Pad .Sample > div {
+    width: 100%; }
+  .Pad .Sample .sampleContainer .dragContainer {
+    display: inline-block;
+    width: 100%; }
+  .Pad .Sample .sampleContainer .panel-block.sample {
+    border-radius: 6px;
+    padding: .2em .5em;
+    width: 100%; }
+  .Pad .Sample .sampleContainer .sampleNameContainer {
+    width: 100%;
+    text-align: left; }
+  .Pad .Sample .sampleContainer .sampleName {
     text-align: left;
     text-overflow: ellipsis;
-    width: 8em;
     overflow: hidden;
     white-space: nowrap; }
+  .Pad .Sample .sampleContainer .removeSample {
+    display: none;
+    position: absolute;
+    top: .3em;
+    right: -2em; }
 
-.Pad .sampleContainer .removeSample {
-  display: none;
-  margin-left: .2em; }
+@media (min-width: 950px) {
+  .Pad .Sample {
+    width: 65%; } }
+
+@media (min-width: 1000px) {
+  .Pad .Sample {
+    width: 70%; } }
+
+@media (min-width: 1050px) {
+  .Pad .Sample {
+    width: 75%; } }
+
+@media (min-width: 1100px) {
+  .Pad .Sample {
+    width: 80%; } }
+
+@media (min-width: 1150px) {
+  .Pad .Sample {
+    width: 85%; } }
 
 .Pad .sampleDrop {
   position: relative;

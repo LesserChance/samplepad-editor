@@ -40,17 +40,17 @@ const SampleComponent = (props) => {
     <div {...containerProps}>
       <div ref={drag} className="dragContainer">
         <button className="link panel-block sample" onClick={(e) => {if(hasSample) {props.playSample()}}}>
-          <span className="panel-icon">
+          <div className="panel-icon">
             <i className={"glyphicon " + ((props.playingSample) ? "glyphicon-stop" : "glyphicon-play")} aria-hidden="true" />
-          </span>
-          <span className={((props.playingSample) ? "has-text-primary" : "")}>
+          </div>
+          <div className={"sampleNameContainer " + ((props.playingSample) ? "has-text-primary" : "")}>
             { hasSample &&
               <div className="sampleName" dangerouslySetInnerHTML={{ __html: displayName }} />
             }
             { !hasSample &&
               <span>&lt;Empty&gt;</span>
             }
-          </span>
+          </div>
         </button>
       </div>
 

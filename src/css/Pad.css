@@ -34,6 +34,8 @@
 
 .Pad .layerB {
   margin: 0 3em 0 0; }
+  .Pad .layerB .level-left {
+    width: 85%; }
   .Pad .layerB .padName {
     width: 12.9em;
     padding: .5em;

@@ -54,13 +54,13 @@ const SampleComponent = (props) => {
         </button>
       </div>
 
-      <div className="removeSample">
-        { hasSample && props.removable &&
+      { hasSample && props.removable &&
+        <div className="removeSample">
           <button className="link has-text-link is-paddingless" onClick={props.removeSample}>
             <i className="glyphicon glyphicon-trash" aria-hidden="true" />
           </button>
-        }
-      </div>
+        </div>
+      }
     </div>
   );
 }

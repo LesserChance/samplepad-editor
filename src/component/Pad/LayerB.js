@@ -23,7 +23,7 @@ const PadLayerBComponent = (props) => {
           </span>
         </div>
 
-        <div className="level-item">
+        <div className="level-item Sample">
           <SamplePlayerComponent sampleFile={props.sampleFile}>
             <SampleComponent
               draggable={false}

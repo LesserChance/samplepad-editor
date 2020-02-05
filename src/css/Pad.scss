@@ -29,7 +29,6 @@
   }
 
   .PadLayer .level-left:hover {
-    // padding-right: .8em;
     .removeSample {
       display: inline-block;
     }
@@ -57,6 +56,10 @@
 
   .layerB {
     margin: 0 3em 0 0;
+
+    .level-left {
+      width: 85%;
+    }
 
     .padName {
       width: 12.9em;

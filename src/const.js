@@ -63,7 +63,8 @@ export const Drive = {
   SAMPLE_EXTENSION: ".wav",
   KIT_EXTENSION: ".KIT",
   KIT_FILE_TYPE: "KIT",
-  KIT_DIRECTORY: "KITS"
+  KIT_DIRECTORY: "KITS",
+  MAX_SAMPLES: 512
 };
 
 export const KitBuffer = {

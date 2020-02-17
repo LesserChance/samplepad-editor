@@ -25,7 +25,8 @@ export function openKitFileDialog() {
  */
 export function openSampleFileDialog() {
   return remote.dialog.showOpenDialog(remote.getCurrentWindow(), {
-    properties:["openFile", 'multiSelections'],
+    title: 'Directories will recursivley load samples',
+    properties:["openFile", 'multiSelections', 'openDirectory'],
     filters: [
       { name: 'wav (* .' + Drive.SAMPLE_FILE_TYPE + ')',
         extensions: [Drive.SAMPLE_FILE_TYPE] },

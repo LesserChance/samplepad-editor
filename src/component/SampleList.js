@@ -3,6 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux'
 
 /* App imports */
+import { Drive } from 'const'
 import SampleStore from 'util/sampleStore'
 
 /* Component imports */
@@ -42,7 +43,7 @@ class SampleList extends React.Component {
                 </div>
 
                 <div className="level-right">
-                  <i className="is-size-7">({this.props.samples ? this.props.samples.length : 0}/512)</i>
+                  <i className="is-size-7">({this.props.samples ? this.props.samples.length : 0}/{Drive.MAX_SAMPLES})</i>
                 </div>
               </div>
             </div>

@@ -1,16 +1,16 @@
 /* App imports */
 import { Actions, Drive } from 'const'
-import { showNotice } from 'actions/notice';
-import { Sample } from 'state/models';
-import { openSampleFileDialog } from 'util/fileDialog';
-import { copySample } from 'util/storage';
+import { showNotice } from 'actions/notice'
+import { Sample } from 'state/models'
+import { openSampleFileDialog } from 'util/fileDialog'
+import { copySample } from 'util/storage'
 
 /* Electron imports */
 const Store = window.require('electron-store')
 const fs = window.require('fs')
 const path = window.require('path')
 
-const MAX_FILENAME_LENGTH = 8;
+const MAX_FILENAME_LENGTH = 8
 
 /**
  * responsible for managing sample file and display names
@@ -25,7 +25,7 @@ const MAX_FILENAME_LENGTH = 8;
 class SampleStore extends Store {
 
   constructor(settings) {
-    super(settings);
+    super(settings)
 
     /** @var deviceId => path */
     this.devicePaths = this.get('devicePaths') || {}
@@ -66,10 +66,10 @@ class SampleStore extends Store {
     let reverseList = this._getFlippedDeviceSamples()
 
     if (reverseList[fileName]) {
-      return reverseList[fileName];
+      return reverseList[fileName]
     }
 
-    return fileName;
+    return fileName
   }
 
   /**
@@ -80,41 +80,66 @@ class SampleStore extends Store {
       openSampleFileDialog()
         .then(result => {
           if (result.canceled) {
-            return null;
+            return null
           }
 
           dispatch(showNotice("is-warning", "Import processing..."))
 
+          let state = getState()
+          let fileCount = state.drive.samples.length
+
           // run the import on a timeout to let the notice above show
           setTimeout(() => {
-            let hadCopyError = false;
+            let hadCopyError = false
 
-            result.filePaths.forEach((file) => {
-              let samplePath = path.parse(file);
-              let sample = this.addSample(samplePath.name, false)
+            let parseDirectory = (fileList) => {
+              fileList.forEach((file) => {
+                if (fileCount >= Drive.MAX_SAMPLES) {
+                  return
+                }
 
-              try {
-                let sampleWav = copySample(file, this.devicePath, sample.fileNameOnDisk);
+                let stats = fs.statSync(file)
+                if (stats.isDirectory()) {
+                  // read directories recursively
+                  let dirFileList = fs.readdirSync(file)
+                    .map((dirFile) => {
+                      return file + "/" + dirFile
+                    })
 
-                // add the sample to the filename lists, so any subsequent copies will know its there
-                this._addFileReference(sample.fileName);
-              } catch (err) {
-                hadCopyError = true
-              }
-            })
+                  parseDirectory(dirFileList)
+                } else {
+                  let samplePath = path.parse(file)
 
+                  if (samplePath.ext === Drive.SAMPLE_EXTENSION) {
+                    let sample = this.addSample(samplePath.name, false)
+
+                    try {
+                      copySample(file, this.devicePath, sample.fileNameOnDisk)
+
+                      // add the sample to the filename lists, so any subsequent copies will know its there
+                      this._addFileReference(sample.fileName)
+                      fileCount++
+                    } catch (err) {
+                      hadCopyError = true
+                    }
+                  }
+                }
+              })
+            }
+
+            parseDirectory(result.filePaths)
             this._saveSamples()
 
-            dispatch({ type: Actions.RESET_SAMPLES, samples: Object.keys(this.deviceSamples) });
+            dispatch({ type: Actions.RESET_SAMPLES, samples: Object.keys(this.deviceSamples) })
 
             if (hadCopyError) {
               dispatch(
                 showNotice("is-warning", "There was a problem importing one or more samples.")
-              );
+              )
             } else {
               dispatch(
                 showNotice("is-success", "Samples successfully imported.")
-              );
+              )
             }
           },100)
         })
@@ -173,11 +198,11 @@ class SampleStore extends Store {
   }
 
   _getFlippedDeviceSamples() {
-    let ret = {};
+    let ret = {}
     Object.keys(this.deviceSamples).forEach(key => {
-      ret[this.deviceSamples[key]] = key;
-    });
-    return ret;
+      ret[this.deviceSamples[key]] = key
+    })
+    return ret
   }
 
   _saveSamples() {
@@ -213,12 +238,12 @@ class SampleStore extends Store {
     /** the file names as stored on disk - this is used for r/w only, not file uniqueness */
     this.fileNamesOnDisk = Object.fromEntries(
       Object.entries(this.deviceSamples).map(([fileName, fileNameOnDisk]) => [fileNameOnDisk.toLowerCase(), true])
-    );
+    )
 
     /** the file names displayed to the user - this is used for uniqueness */
     this.fileNames = Object.fromEntries(
       Object.entries(this.deviceSamples).map(([fileName, fileNameOnDisk]) => [fileName.toLowerCase(), true])
-    );
+    )
   }
 
   _fileExists(fileName) {
@@ -244,7 +269,7 @@ class SampleStore extends Store {
     let fileName = displayName.substr(0, displayName.length - Drive.SAMPLE_EXTENSION.length)
 
     // remove any non-alphanumeric characters
-    fileName = fileName.replace(/[^0-9a-z]/gi, '');
+    fileName = fileName.replace(/[^0-9a-z]/gi, '')
 
     // ideally, use the actual name or some portion of it, truncate it to a max length
     fileName = fileName.substr(0, MAX_FILENAME_LENGTH)
@@ -271,7 +296,7 @@ class SampleStore extends Store {
         throw new Error("Cannot import sample file")
       }
 
-      let testFileName = fileName.substr(0, insertPos) + fileCount;
+      let testFileName = fileName.substr(0, insertPos) + fileCount
       if (!this._fileExistsOnDisk(testFileName + Drive.SAMPLE_EXTENSION)) {
         return testFileName + Drive.SAMPLE_EXTENSION
       }
@@ -279,4 +304,4 @@ class SampleStore extends Store {
   }
 }
 
-export default new SampleStore();
+export default new SampleStore()

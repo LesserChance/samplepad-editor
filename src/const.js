@@ -64,7 +64,7 @@ export const Drive = {
   KIT_EXTENSION: ".KIT",
   KIT_FILE_TYPE: "KIT",
   KIT_DIRECTORY: "KITS",
-  MAX_SAMPLES: 512
+  MAX_SAMPLES: 511
 };
 
 export const KitBuffer = {

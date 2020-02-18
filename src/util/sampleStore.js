@@ -22,16 +22,16 @@ const MAX_FILENAME_LENGTH = 8
  *    : TR-909-KICK.wav (stored as TR-909-1.wav), when uploading a file called TR-909-1.wav
  *      it'd have to get renamed to not overwrite on disk
  */
-class SampleStore extends Store {
+class SampleStore {
 
   constructor(settings) {
-    super(settings)
+    this.store = new Store();
 
     /** @var deviceId => path */
-    this.devicePaths = this.get('devicePaths') || {}
+    this.devicePaths = this.store.get('devicePaths') || {}
 
     /** @var deviceId => {fileName => fileNameOnDisk} */
-    this.samples = this.get('samples') || {}
+    this.samples = this.store.get('samples') || {}
 
     /** @var all the samples on the current device {fileName => fileNameOnDisk} */
     this.deviceSamples = {}
@@ -207,7 +207,7 @@ class SampleStore extends Store {
 
   _saveSamples() {
     this.samples[this.deviceId] = this.deviceSamples
-    this.set('samples', this.samples)
+    this.store.set('samples', this.samples)
     this._loadFilenames()
 
     return this
@@ -215,14 +215,14 @@ class SampleStore extends Store {
 
   _saveDevicePath(devicePath) {
     this.devicePaths[this.deviceId] = devicePath
-    this.set('devicePaths', this.devicePaths)
+    this.store.set('devicePaths', this.devicePaths)
 
     return this
   }
 
   _reset() {
-    this.set('devicePaths', {})
-    this.set('samples', {})
+    this.store.set('devicePaths', {})
+    this.store.set('samples', {})
   }
 
   _loadDevice(deviceId) {

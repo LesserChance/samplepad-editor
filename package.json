@@ -1,8 +1,9 @@
 {
   "name": "samplepad-editor",
+  "productName": "SamplePad Kit Editor",
   "description": "Build drum kits for the Alesis SamplePad",
   "author": "Ryan Bateman",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "private": true,
   "main": "public/electron.js",
   "homepage": "./",

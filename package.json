@@ -15,6 +15,11 @@
     ],
     "directories": {
       "buildResources": "assets"
+    },
+    "dmg": {
+      "contents": {
+        "name": "SamplePad Kit Editor"
+      }
     }
   },
   "dependencies": {

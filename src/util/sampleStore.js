@@ -10,7 +10,7 @@ const Store = window.require('electron-store')
 const fs = window.require('fs')
 const path = window.require('path')
 
-const MAX_FILENAME_LENGTH = 8
+const store = new Store()
 
 /**
  * responsible for managing sample file and display names
@@ -25,13 +25,12 @@ const MAX_FILENAME_LENGTH = 8
 class SampleStore {
 
   constructor(settings) {
-    this.store = new Store();
 
     /** @var deviceId => path */
-    this.devicePaths = this.store.get('devicePaths') || {}
+    this.devicePaths = store.get('devicePaths') || {}
 
     /** @var deviceId => {fileName => fileNameOnDisk} */
-    this.samples = this.store.get('samples') || {}
+    this.samples = store.get('samples') || {}
 
     /** @var all the samples on the current device {fileName => fileNameOnDisk} */
     this.deviceSamples = {}
@@ -207,7 +206,7 @@ class SampleStore {
 
   _saveSamples() {
     this.samples[this.deviceId] = this.deviceSamples
-    this.store.set('samples', this.samples)
+    store.set('samples', this.samples)
     this._loadFilenames()
 
     return this
@@ -215,14 +214,14 @@ class SampleStore {
 
   _saveDevicePath(devicePath) {
     this.devicePaths[this.deviceId] = devicePath
-    this.store.set('devicePaths', this.devicePaths)
+    store.set('devicePaths', this.devicePaths)
 
     return this
   }
 
   _reset() {
-    this.store.set('devicePaths', {})
-    this.store.set('samples', {})
+    store.set('devicePaths', {})
+    store.set('samples', {})
   }
 
   _loadDevice(deviceId) {
@@ -272,7 +271,7 @@ class SampleStore {
     fileName = fileName.replace(/[^0-9a-z]/gi, '')
 
     // ideally, use the actual name or some portion of it, truncate it to a max length
-    fileName = fileName.substr(0, MAX_FILENAME_LENGTH)
+    fileName = fileName.substr(0, Drive.MAX_FILENAME_LENGTH)
     if (!this._fileExistsOnDisk(fileName + Drive.SAMPLE_EXTENSION)) {
       return fileName + Drive.SAMPLE_EXTENSION
     }
@@ -287,7 +286,7 @@ class SampleStore {
       count = count + 1
       let fileCount = '' + count
 
-      while (insertPos > 0 && insertPos + fileCount.length > MAX_FILENAME_LENGTH) {
+      while (insertPos > 0 && insertPos + fileCount.length > Drive.MAX_FILENAME_LENGTH) {
         insertPos--
       }
 

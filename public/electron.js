@@ -14,7 +14,10 @@ function createWindow() {
     height: 780,
     minWidth: 900,
     webPreferences: {
-        nodeIntegration: true
+      nodeIntegration: false,
+      contextIsolation: true,
+      enableRemoteModule: false,
+      preload: path.join(__dirname, "preload.js")
     }
   });
   mainWindow.loadURL(isDev ? 'http://localhost:3000' : `file://${path.join(__dirname, '../build/index.html')}`);

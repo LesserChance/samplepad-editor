@@ -6,11 +6,7 @@ import { openSampleFileDialog } from 'util/fileDialog'
 import { copySample } from 'util/storage'
 
 /* Electron imports */
-const Store = window.require('electron-store')
-const fs = window.require('fs')
-const path = window.require('path')
-
-const store = new Store()
+const { getFromStore, saveToStore, fs, path } = window.api
 
 /**
  * responsible for managing sample file and display names
@@ -25,12 +21,11 @@ const store = new Store()
 class SampleStore {
 
   constructor(settings) {
-
     /** @var deviceId => path */
-    this.devicePaths = store.get('devicePaths') || {}
+    this.devicePaths = getFromStore('devicePaths') || {}
 
     /** @var deviceId => {fileName => fileNameOnDisk} */
-    this.samples = store.get('samples') || {}
+    this.samples = getFromStore('samples') || {}
 
     /** @var all the samples on the current device {fileName => fileNameOnDisk} */
     this.deviceSamples = {}
@@ -97,15 +92,9 @@ class SampleStore {
                   return
                 }
 
-                let stats = fs.statSync(file)
-                if (stats.isDirectory()) {
+                if (fs.isDirectory(file)) {
                   // read directories recursively
-                  let dirFileList = fs.readdirSync(file)
-                    .map((dirFile) => {
-                      return file + "/" + dirFile
-                    })
-
-                  parseDirectory(dirFileList)
+                  parseDirectory(fs.getFileListFromDirectory(file))
                 } else {
                   let samplePath = path.parse(file)
 
@@ -160,15 +149,11 @@ class SampleStore {
       this.devicePath = devicePath
 
       this.deviceSamples = Object.fromEntries(
-        fs.readdirSync(devicePath, {withFileTypes: true})
-        .filter((dirent, index, arr) => {
-          return dirent.isFile()
-            && path.extname(dirent.name).toLowerCase() === Drive.SAMPLE_EXTENSION
-            && !(/(^|\/)\.[^/.]/g).test(dirent.name)
-        })
-        .map((dirent) => {
-          return [dirent.name, dirent.name]
-        }))
+        fs.getSampleFiles()
+          .map((dirent) => {
+            return [dirent.name, dirent.name]
+          })
+        )
 
       this
         ._saveSamples()
@@ -206,7 +191,7 @@ class SampleStore {
 
   _saveSamples() {
     this.samples[this.deviceId] = this.deviceSamples
-    store.set('samples', this.samples)
+    saveToStore('samples', this.samples)
     this._loadFilenames()
 
     return this
@@ -214,14 +199,14 @@ class SampleStore {
 
   _saveDevicePath(devicePath) {
     this.devicePaths[this.deviceId] = devicePath
-    store.set('devicePaths', this.devicePaths)
+    saveToStore('devicePaths', this.devicePaths)
 
     return this
   }
 
   _reset() {
-    store.set('devicePaths', {})
-    store.set('samples', {})
+    saveToStore('devicePaths', {})
+    saveToStore('samples', {})
   }
 
   _loadDevice(deviceId) {

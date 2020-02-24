@@ -1,30 +1,27 @@
 /* Global imports */
-import { WaveFile }  from 'wavefile'
+import { WaveFile } from 'wavefile'
 
 /* App imports */
-import { Drive } from 'const';
-import { getKitFileBuffer } from 'util/kitFile';
+import { Drive } from 'const'
+import { getBuffer } from 'util/buffer'
+import { getKitFileBuffer } from 'util/kitFile'
 
 /* Electron imports */
-const fs = window.require('fs');
-const path = window.require('path');
-const Store = window.require('electron-store');
-
-const store = new Store();
+const { getFromStore, saveToStore, fs, path } = window.api
 
 /**
  * Store the directory for next time the app opens
  * @param {String} directory
  */
 export function storeLastLoadedDirectory(directory) {
-  store.set('lastLoadedDirectory', directory);
+  saveToStore('lastLoadedDirectory', directory);
 }
 
 /**
  * @return {String} the directory used last time the application was open
  */
 export function getLastLoadedDirectory() {
-  return store.get('lastLoadedDirectory');
+  return getFromStore('lastLoadedDirectory');
 }
 
 /**
@@ -42,15 +39,11 @@ export function copySample(source, destinationDirectory, newFileName=false) {
 
   let destination = destinationDirectory + "/" + newFileName;
 
-  // if(fs.existsSync(destination)) {
-  //   // for now, dont overwrite files
-  //   return;
-  // }
-
   try {
     // The samples files must be 16-bit, mono or stereo .WAV files.
     // with a sample rate of 48K, 44.1K, 32K, 22.05K, and 11.025K.
-    let wav = new WaveFile(fs.readFileSync(source));
+    let buffer = getBuffer(source);
+    let wav = new WaveFile(buffer);
 
     if (parseInt(wav.bitDepth, 10) !== 16) {
       wav.toBitDepth("16");
@@ -60,7 +53,7 @@ export function copySample(source, destinationDirectory, newFileName=false) {
       wav.toSampleRate(44100);
     }
 
-    fs.writeFileSync(destination, wav.toBuffer());
+    fs.writeFile(destination, wav.toBuffer());
     return destination;
   } catch (err) {
     console.error(err)
@@ -74,7 +67,7 @@ export function copySample(source, destinationDirectory, newFileName=false) {
  * @returns {Boolean} true if the kit would clobber another
  */
 export const kitWillOverwriteExisting = (kit, asNew = false) => {
-  if(!fs.existsSync(kit.filePath)) {
+  if(!fs.exists(kit.filePath)) {
     return false;
   }
 
@@ -83,7 +76,7 @@ export const kitWillOverwriteExisting = (kit, asNew = false) => {
   let kitFile = kit.filePath + "/" + desiredFileName;
 
   if (!currentFileName || currentFileName.toUpperCase() !== desiredFileName.toUpperCase()) {
-    return fs.existsSync(kitFile);
+    return fs.exists(kitFile);
   }
 
   return false;
@@ -96,9 +89,9 @@ export const kitWillOverwriteExisting = (kit, asNew = false) => {
  * @returns {String} the file name the kit was stored as
  */
 export const saveKitToFile = (kit, pads, asNew = false) => {
-  if(!fs.existsSync(kit.filePath)) {
+  if(!fs.exists(kit.filePath)) {
     // need to create the kits directory
-    fs.mkdirSync(kit.filePath);
+    fs.mkdir(kit.filePath);
   }
 
   let desiredFileName = kit.kitName + Drive.KIT_EXTENSION;
@@ -113,17 +106,10 @@ export const saveKitToFile = (kit, pads, asNew = false) => {
   try {
     if (currentFileName && desiredFileName !== currentFileName && !asNew) {
       // we need to rename the file first
-      fs.renameSync(kit.filePath + "/" + currentFileName, kitFile);
+      fs.renameFile(kit.filePath + "/" + currentFileName, kitFile);
     }
 
-    // open the file
-    fs.open(kitFile, "w", (err, fd) => {
-      if (err) throw err;
-
-      // write the kit file
-      let buffer = getKitFileBuffer(kit, pads);
-      fs.writeSync(fd, buffer, 0, buffer.length);
-    });
+    fs.writeFile(kitFile, getKitFileBuffer(kit, pads))
   } catch (err) {
     console.error(err);
     throw(err);

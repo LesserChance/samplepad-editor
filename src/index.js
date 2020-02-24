@@ -13,6 +13,7 @@ import App from 'component/App'
 import 'css/index.css';
 
 const store = createStore(reducers, applyMiddleware(thunk));
+
 render(
   <Provider store={store}>
     <App />

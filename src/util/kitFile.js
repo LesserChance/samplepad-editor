@@ -1,12 +1,13 @@
 /* App imports */
-import { KitBuffer, Drive } from 'const';
-import { KitModel, PadModel } from 'state/models';
-import { getSortedPadIds } from 'state/sortModels';
+import { KitBuffer, Drive } from 'const'
+import { KitModel, PadModel } from 'state/models'
+import { getSortedPadIds } from 'state/sortModels'
+import { getBuffer } from 'util/buffer'
 import SampleStore from 'util/sampleStore'
 
 /* Electron imports */
-const fs = window.require('fs');
-const path = window.require('path');
+const fs = window.api.fs;
+const path = window.api.path;
 
 /** @var { Map } memory location within individual memory blocks for each parameter */
 const MEMLOC = {
@@ -41,12 +42,12 @@ const MEMLOC = {
  * @return {KitModel, PadModel[]} kit, pads
  */
 export const getKitAndPadsFromFile = (kitFile) => {
-  if(!fs.existsSync(kitFile)) {
+  if(!fs.exists(kitFile)) {
     return null;
   }
 
   let kitPath = path.parse(kitFile);
-  let buffer = fs.readFileSync(kitFile);
+  let buffer = getBuffer(kitFile);
   let checksum = buffer.readUInt8(KitBuffer.CHECKSUM_BYTE);
 
   if (checksum !== calculateChecksumFromBuffer(buffer)) {

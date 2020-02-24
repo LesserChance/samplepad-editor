@@ -32,7 +32,6 @@ const ModalComponent = (props) => {
         </div>
       }
 
-
       {props.showConfirmLoadCard &&
         <div className="modal is-active">
           <div className="modal-background"></div>

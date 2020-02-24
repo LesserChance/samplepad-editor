@@ -2,8 +2,10 @@
 import React from 'react';
 
 /* App imports */
-import SamplePlayerUtil from 'util/samplePlayer'
 import SampleStore from 'util/sampleStore'
+
+/* Electron imports */
+const { playWavFile, stopWavFile } = window.api;
 
 class SamplePlayerComponent extends React.Component {
 
@@ -42,20 +44,16 @@ class SamplePlayerComponent extends React.Component {
 
   playSample() {
     if (this.state.playingSample) {
-      this.state.player.stop();
+      stopWavFile();
       this.setState({playingSample: false});
       return;
     }
 
-    let player = new SamplePlayerUtil();
-
     this.setState({
-      player: player,
       playingSample: true
     });
 
-    player
-      .play(SampleStore.getFileNameOnDisk(this.props.sampleFile))
+    playWavFile(SampleStore.getFileNameOnDisk(this.props.sampleFile))
       .then(() => {
         this.setState({playingSample: false});
       })

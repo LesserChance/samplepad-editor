@@ -2,14 +2,14 @@
 import { Drive } from 'const';
 
 /* Electron imports */
-const remote = window.require('electron').remote;
+const showOpenDialog = window.api.showOpenDialog;
 
 /**
  * Open a file dialog with appropriate file type filters for kits
  * @return {Promise}
  */
 export function openKitFileDialog() {
-  return remote.dialog.showOpenDialog(remote.getCurrentWindow(), {
+  return showOpenDialog({
     properties:["openFile"],
     filters: [
       { name: 'Kits (* .' + Drive.KIT_FILE_TYPE + ')',
@@ -24,7 +24,7 @@ export function openKitFileDialog() {
  * @return {Promise}
  */
 export function openSampleFileDialog() {
-  return remote.dialog.showOpenDialog(remote.getCurrentWindow(), {
+  return showOpenDialog({
     title: 'Directories will recursivley load samples',
     properties:["openFile", 'multiSelections', 'openDirectory'],
     filters: [
@@ -39,7 +39,7 @@ export function openSampleFileDialog() {
  * @return {Promise}
  */
 export function openDriveDirectoryDialog() {
-  return remote.dialog.showOpenDialog(remote.getCurrentWindow(), {
+  return showOpenDialog({
     properties:["openDirectory"]
   })
 }

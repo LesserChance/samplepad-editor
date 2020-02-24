@@ -25,17 +25,11 @@ class SamplePlayerComponent extends React.Component {
       playingSample: false
     }
 
-
     this.renderChildren = this.renderChildren.bind(this)
     this.playOrStopSample = this.playOrStopSample.bind(this)
 
-    if (this.props.sampleFile && props.midi) {
-      this.midi = props.midi
-      this.handlerId = uuidv1()
-      addMidiNoteOnHandler(this.handlerId, props.midi.note, props.midi.min, props.midi.max, (e) => {
-        this.playSample()
-      })
-    }
+    this.handlerId = uuidv1()
+    this.addMidiHandler()
   }
 
   renderChildren() {
@@ -92,9 +86,34 @@ class SamplePlayerComponent extends React.Component {
     this.playSample()
   }
 
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (this.props.midi) {
+      if (prevProps.sampleFile !== this.props.sampleFile ||
+          prevProps.midi.note !== this.props.midi.note ||
+          prevProps.midi.min !== this.props.midi.min ||
+          prevProps.midi.max !== this.props.midi.max) {
+
+        this.removeMidiHandler(prevProps.midi.note)
+        this.addMidiHandler()
+      }
+    }
+  }
+
   componentWillUnmount() {
+    this.removeMidiHandler(this.props.midi.note)
+  }
+
+  addMidiHandler() {
+    if (this.props.sampleFile && this.props.midi) {
+      addMidiNoteOnHandler(this.handlerId, this.props.midi.note, this.props.midi.min, this.props.midi.max, (e) => {
+        this.playSample()
+      })
+    }
+  }
+
+  removeMidiHandler(note) {
     if (this.handlerId) {
-      removeMidiNoteOnHandler(this.handlerId, this.midi.note)
+      removeMidiNoteOnHandler(this.handlerId, note)
     }
   }
 }

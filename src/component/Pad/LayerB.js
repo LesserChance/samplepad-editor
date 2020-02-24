@@ -24,7 +24,13 @@ const PadLayerBComponent = (props) => {
         </div>
 
         <div className="level-item Sample">
-          <SamplePlayerComponent sampleFile={props.sampleFile}>
+          <SamplePlayerComponent
+            sampleFile={props.sampleFile}
+            midi={{
+              note: pad.midiNote,
+              min: pad.velocityMinB,
+              max: pad.velocityMaxB
+            }}>
             <SampleComponent
               draggable={false}
               removable={true}

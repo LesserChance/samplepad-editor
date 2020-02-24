@@ -158,7 +158,9 @@ contextBridge.exposeInMainWorld(
       }
     },
     removeMidiNoteOnHandler: (handlerId, note) => {
-      delete noteOnCallbacks[note][handlerId]
+      if (noteOnCallbacks[note] && noteOnCallbacks[note][handlerId]) {
+        delete noteOnCallbacks[note][handlerId]
+      }
     }
   }
 )

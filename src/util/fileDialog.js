@@ -10,6 +10,7 @@ const { dialog } = window.api;
  */
 export function openKitFileDialog() {
   return dialog.showOpenDialog({
+    title: 'Import kit',
     properties:["openFile"],
     filters: [
       { name: 'Kits (* .' + Drive.KIT_FILE_TYPE + ')',
@@ -25,7 +26,7 @@ export function openKitFileDialog() {
  */
 export function openSampleFileDialog() {
   return dialog.showOpenDialog({
-    title: 'Directories will recursivley load samples',
+    title: 'Import Sample(s)',
     properties:["openFile", 'multiSelections', 'openDirectory'],
     filters: [
       { name: 'wav (* .' + Drive.SAMPLE_FILE_TYPE + ')',
@@ -40,6 +41,7 @@ export function openSampleFileDialog() {
  */
 export function openDriveDirectoryDialog() {
   return dialog.showOpenDialog({
+    title: 'Load SamplePad Root Directory',
     properties:["openDirectory"]
   })
 }

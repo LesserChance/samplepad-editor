@@ -7,7 +7,7 @@ import { RootModel, KitModel } from 'state/models';
 import SampleStore from 'util/sampleStore';
 
 /* Electron imports */
-const fs = window.api.fs;
+const { fs } = window.api;
 
 /**
  * @param {String} rootPath

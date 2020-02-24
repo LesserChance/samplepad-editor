@@ -7,21 +7,21 @@ import { getBuffer } from 'util/buffer'
 import { getKitFileBuffer } from 'util/kitFile'
 
 /* Electron imports */
-const { getFromStore, saveToStore, fs, path } = window.api
+const { store, fs, path } = window.api
 
 /**
  * Store the directory for next time the app opens
  * @param {String} directory
  */
 export function storeLastLoadedDirectory(directory) {
-  saveToStore('lastLoadedDirectory', directory);
+  store.save('lastLoadedDirectory', directory);
 }
 
 /**
  * @return {String} the directory used last time the application was open
  */
 export function getLastLoadedDirectory() {
-  return getFromStore('lastLoadedDirectory');
+  return store.get('lastLoadedDirectory');
 }
 
 /**

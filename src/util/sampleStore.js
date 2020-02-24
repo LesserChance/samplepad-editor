@@ -6,7 +6,7 @@ import { openSampleFileDialog } from 'util/fileDialog'
 import { copySample } from 'util/storage'
 
 /* Electron imports */
-const { getFromStore, saveToStore, fs, path } = window.api
+const { store, fs, path } = window.api
 
 /**
  * responsible for managing sample file and display names
@@ -22,10 +22,10 @@ class SampleStore {
 
   constructor(settings) {
     /** @var deviceId => path */
-    this.devicePaths = getFromStore('devicePaths') || {}
+    this.devicePaths = store.get('devicePaths') || {}
 
     /** @var deviceId => {fileName => fileNameOnDisk} */
-    this.samples = getFromStore('samples') || {}
+    this.samples = store.get('samples') || {}
 
     /** @var all the samples on the current device {fileName => fileNameOnDisk} */
     this.deviceSamples = {}
@@ -191,7 +191,7 @@ class SampleStore {
 
   _saveSamples() {
     this.samples[this.deviceId] = this.deviceSamples
-    saveToStore('samples', this.samples)
+    store.save('samples', this.samples)
     this._loadFilenames()
 
     return this
@@ -199,14 +199,14 @@ class SampleStore {
 
   _saveDevicePath(devicePath) {
     this.devicePaths[this.deviceId] = devicePath
-    saveToStore('devicePaths', this.devicePaths)
+    store.save('devicePaths', this.devicePaths)
 
     return this
   }
 
   _reset() {
-    saveToStore('devicePaths', {})
-    saveToStore('samples', {})
+    store.save('devicePaths', {})
+    store.save('samples', {})
   }
 
   _loadDevice(deviceId) {

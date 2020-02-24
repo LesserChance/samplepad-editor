@@ -6,8 +6,7 @@ import { getBuffer } from 'util/buffer'
 import SampleStore from 'util/sampleStore'
 
 /* Electron imports */
-const fs = window.api.fs;
-const path = window.api.path;
+const { fs, path } = window.api;
 
 /** @var { Map } memory location within individual memory blocks for each parameter */
 const MEMLOC = {

@@ -7,7 +7,7 @@ import update from 'immutability-helper'
 import SampleStore from 'util/sampleStore'
 
 /* Electron imports */
-const { playWavFile, stopWavFile, addMidiNoteOnHandler, removeMidiNoteOnHandler } = window.api
+const { wav, midi } = window.api
 
 
 class SamplePlayerComponent extends React.Component {
@@ -51,7 +51,7 @@ class SamplePlayerComponent extends React.Component {
 
   stopSample() {
     for (let i = 0; i < this.state.wavStack.length; i++) {
-      stopWavFile(this.state.wavStack[i])
+      wav.stopWavFile(this.state.wavStack[i])
     }
 
     this.setState({
@@ -68,7 +68,7 @@ class SamplePlayerComponent extends React.Component {
       wavStack: {$push: [wavId]}
     }))
 
-    playWavFile(wavId,SampleStore.getFileNameOnDisk(this.props.sampleFile))
+    wav.playWavFile(wavId,SampleStore.getFileNameOnDisk(this.props.sampleFile))
       .then(() => {
         this.setState(update(this.state, {
           playingSample: {$set: (this.state.wavStack.length > 1)},
@@ -105,7 +105,7 @@ class SamplePlayerComponent extends React.Component {
 
   addMidiHandler() {
     if (this.props.sampleFile && this.props.midi) {
-      addMidiNoteOnHandler(this.handlerId, this.props.midi.note, this.props.midi.min, this.props.midi.max, (e) => {
+      midi.addMidiNoteOnHandler(this.handlerId, this.props.midi.note, this.props.midi.min, this.props.midi.max, (e) => {
         this.playSample()
       })
     }
@@ -113,7 +113,7 @@ class SamplePlayerComponent extends React.Component {
 
   removeMidiHandler(note) {
     if (this.handlerId) {
-      removeMidiNoteOnHandler(this.handlerId, note)
+      midi.removeMidiNoteOnHandler(this.handlerId, note)
     }
   }
 }

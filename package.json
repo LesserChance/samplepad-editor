@@ -3,7 +3,7 @@
   "productName": "SamplePad Kit Editor",
   "description": "Build drum kits for the Alesis SamplePad",
   "author": "Ryan Bateman",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "private": true,
   "main": "public/electron.js",
   "homepage": "./",
@@ -16,6 +16,9 @@
     "directories": {
       "buildResources": "assets"
     }
+  },
+  "resolutions": {
+    "react-dev-utils": "10.1.0"
   },
   "dependencies": {
     "@craco/craco": "^5.6.3",
@@ -34,12 +37,14 @@
     "redux": "^4.0.4",
     "redux-thunk": "^2.3.0",
     "uuid": "^3.4.0",
-    "wavefile": "^11.0.0"
+    "wavefile": "^11.0.0",
+    "webmidi": "^2.5.1"
   },
   "devDependencies": {
     "concurrently": "^5.0.2",
     "electron": "7.1.8",
     "electron-builder": "^21.2.0",
+    "electron-rebuild": "^1.10.0",
     "eslint": "^6.8.0",
     "wait-on": "^3.3.0",
     "yarn-run-all": "^3.1.1"

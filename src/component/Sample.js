@@ -5,7 +5,6 @@ import { useDrag } from 'react-dnd';
 /* App imports */
 import { DragItemTypes } from 'const';
 
-
 const SampleComponent = (props) => {
   let [, drag] = useDrag({
     item: { type: DragItemTypes.SAMPLE, fileName: props.fileName },
@@ -39,7 +38,7 @@ const SampleComponent = (props) => {
   return (
     <div {...containerProps}>
       <div ref={drag} className="dragContainer">
-        <button className="link panel-block sample" onClick={(e) => {if(hasSample) {props.playSample()}}}>
+        <button className="link panel-block sample" onClick={(e) => {if(hasSample) {props.playOrStopSample()}}}>
           <div className="panel-icon">
             <i className={"glyphicon " + ((props.playingSample) ? "glyphicon-stop" : "glyphicon-play")} aria-hidden="true" />
           </div>

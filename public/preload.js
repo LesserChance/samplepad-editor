@@ -5,8 +5,37 @@ const path = require('path')
 const spawn = require('child_process').spawn
 const Store = require('electron-store')
 
+
 const store = new Store()
-let wavSpawn = null
+let wavSpawn = {}
+
+
+const WebMidi = require('WebMidi')
+
+// midi note => {handlerId => {min, max, callback},...}
+const noteOnCallbacks = {}
+
+WebMidi.enable(function (err) {
+  if (err) {
+    console.error("WebMidi could not be enabled.", err);
+  }
+
+  var input = WebMidi.inputs[0];
+  input.addListener('noteon', "all",
+    function (e) {
+      let noteOnCallbackList = noteOnCallbacks[e.note.number]
+      if (noteOnCallbackList) {
+
+        for (let handlerId of Object.keys(noteOnCallbackList)) {
+          let noteOnCallback = noteOnCallbackList[handlerId]
+          if (e.rawVelocity >= noteOnCallback.min && e.rawVelocity <= noteOnCallback.max) {
+            noteOnCallback.callback(e);
+          }
+        }
+      }
+    }
+  );
+});
 
 contextBridge.exposeInMainWorld(
   "api", {
@@ -23,34 +52,34 @@ contextBridge.exposeInMainWorld(
     },
 
     // wav file player
-    playWavFile: (path) => {
+    playWavFile: (wavId, path) => {
       return new Promise((resolve, reject) => {
         switch (remote.process.platform) {
           case 'darwin':
-            wavSpawn = spawn('afplay', [path])
+            wavSpawn[wavId] = spawn('afplay', [path])
             break
           case 'win32':
-            wavSpawn = spawn('powershell', [
+            wavSpawn[wavId] = spawn('powershell', [
               '-c',
               '(New-Object System.Media.SoundPlayer "' + path + '").PlaySync()'
             ])
-            wavSpawn.stdin.end()
+            wavSpawn[wavId].stdin.end()
             break
           default:
             resolve()
             break
         }
 
-        wavSpawn.on('close', (code) => {
+        wavSpawn[wavId].on('close', (code) => {
           resolve()
         })
       })
     },
-    stopWavFile: () => {
-      if (wavSpawn) {
-        wavSpawn.removeAllListeners('close')
-        if (wavSpawn) {
-          wavSpawn.kill()
+    stopWavFile: (wavId) => {
+      if (wavSpawn[wavId]) {
+        wavSpawn[wavId].removeAllListeners('close')
+        if (wavSpawn[wavId]) {
+          wavSpawn[wavId].kill()
         }
       }
     },
@@ -114,6 +143,22 @@ contextBridge.exposeInMainWorld(
     // dialog
     showOpenDialog: (options) => {
       return remote.dialog.showOpenDialog(options)
+    },
+
+    // midi
+    addMidiNoteOnHandler: (handlerId, note, min, max, callback) => {
+      if (!noteOnCallbacks[note]){
+        noteOnCallbacks[note] = {}
+      }
+
+      noteOnCallbacks[note][handlerId] = {
+        min: min,
+        max: max,
+        callback: callback
+      }
+    },
+    removeMidiNoteOnHandler: (handlerId, note) => {
+      delete noteOnCallbacks[note][handlerId]
     }
   }
 )

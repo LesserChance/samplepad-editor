@@ -8,13 +8,17 @@
   "main": "public/electron.js",
   "homepage": "./",
   "build": {
-    "appId": "MY-APP",
+    "appId": "com.electron.samplepadeditor",
+    "productName": "SamplePad Kit Editor",
     "files": [
       "build/**/*",
       "node_modules/**/*"
     ],
     "directories": {
       "buildResources": "assets"
+    },
+    "mac": {
+      "category": "public.app-category.music"
     }
   },
   "resolutions": {
@@ -44,7 +48,6 @@
     "concurrently": "^5.0.2",
     "electron": "7.1.8",
     "electron-builder": "^21.2.0",
-    "electron-rebuild": "^1.10.0",
     "eslint": "^6.8.0",
     "wait-on": "^3.3.0",
     "yarn-run-all": "^3.1.1"

@@ -1,4 +1,4 @@
-const WebMidi = require('WebMidi')
+const WebMidi = require('webmidi')
 
 /* @var midi note => {handlerId => {min, max, callback},...} */
 let noteOnCallbacks = {}
@@ -26,6 +26,9 @@ WebMidi.enable(function (err) {
 });
 
 module.exports = {
+  getInputList: () => {
+    return WebMidi.inputs;
+  },
   addMidiNoteOnHandler: (handlerId, note, min, max, callback) => {
     if (!noteOnCallbacks[note]){
       noteOnCallbacks[note] = {}

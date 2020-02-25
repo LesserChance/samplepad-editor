@@ -149,7 +149,7 @@ class SampleStore {
       this.devicePath = devicePath
 
       this.deviceSamples = Object.fromEntries(
-        fs.getSampleFiles()
+        fs.getSampleFiles(devicePath)
           .map((dirent) => {
             return [dirent.name, dirent.name]
           })

@@ -100,7 +100,9 @@ class SamplePlayerComponent extends React.Component {
   }
 
   componentWillUnmount() {
-    this.removeMidiHandler(this.props.midi.note)
+    if (this.props.midi) {
+      this.removeMidiHandler(this.props.midi.note)
+    }
   }
 
   addMidiHandler() {

@@ -7,10 +7,13 @@ import thunk from 'redux-thunk';
 
 /* App imports */
 import reducers from 'state/reducers'
+import { initMidiMenu } from 'util/midiMenu'
 
 /* Component imports */
 import App from 'component/App'
 import 'css/index.css';
+
+initMidiMenu();
 
 const store = createStore(reducers, applyMiddleware(thunk));
 

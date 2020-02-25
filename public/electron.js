@@ -1,7 +1,8 @@
-const { app, BrowserWindow } = require('electron')
-
+const { app, BrowserWindow, Menu } = require('electron')
 const path = require('path');
 const isDev = require('electron-is-dev');
+const rendererHandlers = require('./electron/rendererHandlers')
+const { getMenuTemplate } = require('./electron/menu')
 
 let mainWindow;
 
@@ -19,8 +20,14 @@ function createWindow() {
   mainWindow.loadURL(isDev ? 'http://localhost:3000' : `file://${path.join(__dirname, '../build/index.html')}`);
   mainWindow.on('closed', () => mainWindow = null);
 
-  require('./electron/menu')
+  // Initialize the menu
+  const menu = Menu.buildFromTemplate(getMenuTemplate())
+  Menu.setApplicationMenu(menu)
+
+  // Initialize the renderer message handlers
+  rendererHandlers.initIpcMainReceiver();
 }
+
 
 app.on('ready', createWindow);
 
@@ -35,4 +42,3 @@ app.on('activate', () => {
     createWindow();
   }
 });
-

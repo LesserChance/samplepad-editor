@@ -1,8 +1,8 @@
 const { app, BrowserWindow, Menu } = require('electron')
 const path = require('path');
 const isDev = require('electron-is-dev');
-const mainProcessEvents = require('./electron/mainProcessEvents')
-const { getMenuTemplate } = require('./electron/menu')
+const mainProcessEvents = require('./events/mainProcessEvents')
+const { getMenuTemplate } = require('./mainApi/menu')
 
 let mainWindow;
 

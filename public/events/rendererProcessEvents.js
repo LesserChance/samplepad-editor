@@ -6,7 +6,7 @@ const { ipcRenderer, BrowserWindow } = require("electron")
  */
 module.exports = {
   /**
-   * tell the renderer process a main process event has happend
+   * tell the renderer process a main process event has happened
    * main process event: a midi device has been selected in the menu
    */
   selectMidiInput: (midiInput) => {
@@ -14,7 +14,7 @@ module.exports = {
     windows[0].webContents.send('selectMidiInput', midiInput)
   },
   /**
-   * tell the renderer process a main process event has happend
+   * tell the renderer process a main process event has happened
    * main process event: the "scan for midi devices" menu item has been clicked
    */
   selectMidiScan: () => {

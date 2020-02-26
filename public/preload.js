@@ -1,13 +1,14 @@
 /* Electron imports */
 const { contextBridge } = require("electron")
-const path = require('./node/path')
-const wav = require('./node/wav')
-const fs = require('./node/fs')
-const store = require('./node/store')
-const dialog = require('./node/dialog')
-const midi = require('./node/midi')
-const rendererProcessEvents = require('./electron/rendererProcessEvents')
-const mainProcessEvents = require('./electron/mainProcessEvents')
+const path = require('./rendererApi/path')
+const wav = require('./rendererApi/wav')
+const fs = require('./rendererApi/fs')
+const store = require('./rendererApi/store')
+const dialog = require('./rendererApi/dialog')
+const midi = require('./rendererApi/midi')
+
+const rendererProcessEvents = require('./events/rendererProcessEvents')
+const mainProcessEvents = require('./events/mainProcessEvents')
 
 // Initialize the apis that should be accessible from the renderer process
 contextBridge.exposeInMainWorld(

@@ -6,7 +6,8 @@ const fs = require('./node/fs')
 const store = require('./node/store')
 const dialog = require('./node/dialog')
 const midi = require('./node/midi')
-const rendererHandlers = require('./electron/rendererHandlers')
+const rendererProcessEvents = require('./electron/rendererProcessEvents')
+const mainProcessEvents = require('./electron/mainProcessEvents')
 
 // Initialize the apis that should be accessible from the renderer process
 contextBridge.exposeInMainWorld(
@@ -16,9 +17,10 @@ contextBridge.exposeInMainWorld(
     fs: fs,
     store: store,
     dialog: dialog,
-    midi: midi
+    midi: midi,
+    rendererProcessEvents: rendererProcessEvents
   }
 )
 
 // Initialize the renderer message handlers for communication with the main process
-rendererHandlers.initIpcRendererSender();
+mainProcessEvents.initIpcRendererSender();

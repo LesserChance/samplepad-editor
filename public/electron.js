@@ -1,7 +1,7 @@
 const { app, BrowserWindow, Menu } = require('electron')
 const path = require('path');
 const isDev = require('electron-is-dev');
-const rendererHandlers = require('./electron/rendererHandlers')
+const mainProcessEvents = require('./electron/mainProcessEvents')
 const { getMenuTemplate } = require('./electron/menu')
 
 let mainWindow;
@@ -25,7 +25,7 @@ function createWindow() {
   Menu.setApplicationMenu(menu)
 
   // Initialize the renderer message handlers
-  rendererHandlers.initIpcMainReceiver();
+  mainProcessEvents.initIpcMainReceiver();
 }
 
 

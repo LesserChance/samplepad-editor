@@ -1,7 +1,13 @@
-const { ipcMain, ipcRenderer, Menu, MenuItem } = require('electron')
+const { ipcMain, ipcRenderer, Menu, BrowserWindow } = require('electron')
 const { getMenuTemplate } = require('./menu')
+const { rendererProcessEvents } = require('./rendererProcessEvents')
 
+/**
+ * This class is responsible for the main process receiving events
+ * from the renderer process
+ */
 module.exports = {
+  // renderer process sending events to main process
   initIpcRendererSender:() => {
     process.once('loaded', () => {
       window.addEventListener('message', event => {
@@ -10,12 +16,15 @@ module.exports = {
         switch (message.type) {
           case 'setMidiMenu':
             ipcRenderer.send('setMidiMenu', message);
-            break;
+            break
+          default:
+            break
         }
       });
     });
   },
 
+  // main process receiving events from renderer process
   initIpcMainReceiver: () => {
     ipcMain.on('setMidiMenu', (event, message) => {
       if (!message.midiInputs) {
@@ -29,7 +38,10 @@ module.exports = {
           {
             checked: true,
             type: "radio",
-            label: "-Midi Off-"
+            label: "-Midi Off-",
+            click() {
+              rendererProcessEvents.sendSelectMidiInput(null)
+            }
           }
         ]
       }
@@ -37,10 +49,10 @@ module.exports = {
       for (let i = 0; i < message.midiInputs.length; i++) {
         let midiInput = message.midiInputs[i]
         midiMenu.submenu.push({
-           type: "radio",
-           label: midiInput[1],
-           click() {
-            console.log(midiInput[0])
+          type: "radio",
+          label: midiInput[1],
+          click() {
+            rendererProcessEvents.sendSelectMidiInput(midiInput[0])
           }
         })
       }

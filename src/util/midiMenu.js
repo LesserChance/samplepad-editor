@@ -1,16 +1,15 @@
 /* Electron imports */
-const { midi } = window.api
+const { midi, rendererProcessEvents } = window.api
 
 export const initMidiMenu = () => {
-  console.log(midi.getInputList());
   window.postMessage({
     type: 'setMidiMenu',
     midiInputs: midi.getInputList()
   });
 
-  midi.bindMidiInput(0);
+  rendererProcessEvents.setSelectMidiInputCallback(selectMidiMenuItem)
 }
 
-export const selectMenuItem = (inputIndex) => {
+export const selectMidiMenuItem = (inputIndex) => {
   midi.bindMidiInput(inputIndex);
 }

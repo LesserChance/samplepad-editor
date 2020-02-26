@@ -1,4 +1,4 @@
-const { Menu, app } = require('electron')
+const { Menu, app, BrowserWindow } = require('electron')
 const isDev = require('electron-is-dev')
 
 module.exports = {

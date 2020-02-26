@@ -31,6 +31,17 @@ module.exports = {
       return
     }
 
+    // remove any current listeners
+    for (let i = 0; i < WebMidi.inputs.length; i++) {
+      WebMidi.inputs[i].removeListener();
+    }
+
+    if (inputIndex === null) {
+      // no midi device selected
+      return
+    }
+
+    // add midi listener to selected device
     var input = WebMidi.inputs[inputIndex];
     input.addListener('noteon', "all",
       function (e) {

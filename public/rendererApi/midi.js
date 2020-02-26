@@ -6,9 +6,6 @@ let noteOnCallbacks = {}
 /** @var track if WebMidi is actively running */
 let enabled = false
 
-/** @var track the current selected midi device index */
-let currentMidiInput = null
-
 /**
  * Enable WebMidi
  */
@@ -39,8 +36,6 @@ const bindMidiInput = (inputIndex) => {
   if (!enabled) {
     return
   }
-
-  currentMidiInput = inputIndex;
 
   // remove any current listeners
   for (let i = 0; i < WebMidi.inputs.length; i++) {
@@ -87,13 +82,6 @@ module.exports = {
 
     // assure WebMidi is active
     enable()
-
-    // update the menu with detected midi devices
-    window.postMessage({
-      type: 'setMidiMenu',
-      midiInputs: getInputList(),
-      currentMidiInput: currentMidiInput
-    });
   },
 
   /**

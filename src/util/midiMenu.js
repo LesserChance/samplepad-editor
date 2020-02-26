@@ -1,19 +1,14 @@
 /* Electron imports */
-const { midi, rendererProcessEvents } = window.api
+const { midi, mainProcessCallbacks, mainProcessTriggers } = window.api
 
 /**
  * Initialize the renderer process handlers for the midi device menu
  */
 export const initMidiMenu = () => {
   let inputList = midi.getInputList()
-  window.postMessage({
-    type: 'setMidiMenu',
-    midiInputs: inputList,
-    currentMidiInput: inputList.length ? 0 : null
-  });
-
-  rendererProcessEvents.setSelectMidiInputCallback(selectMidiMenuItem)
-  rendererProcessEvents.setSelectMidiScanCallback(scanForMidiDevices)
+  mainProcessTriggers.generateMidiMenu(inputList, (inputList.length ? 0 : null))
+  mainProcessCallbacks.setSelectMidiInputCallback(selectMidiMenuItem)
+  mainProcessCallbacks.setSelectMidiScanCallback(scanForMidiDevices)
 }
 
 /**
@@ -22,6 +17,7 @@ export const initMidiMenu = () => {
  */
 export const scanForMidiDevices = () => {
   midi.scanForMidiDevices();
+  mainProcessTriggers.generateMidiMenu(midi.getInputList(), null)
 }
 
 /**

@@ -7,7 +7,8 @@ const store = require('./rendererApi/store')
 const dialog = require('./rendererApi/dialog')
 const midi = require('./rendererApi/midi')
 
-const rendererProcessEvents = require('./events/rendererProcessEvents')
+const mainProcessCallbacks = require('./events/mainProcessCallbacks')
+const mainProcessTriggers = require('./events/mainProcessTriggers')
 const mainProcessEvents = require('./events/mainProcessEvents')
 
 // Initialize the apis that should be accessible from the renderer process
@@ -19,7 +20,8 @@ contextBridge.exposeInMainWorld(
     store: store,
     dialog: dialog,
     midi: midi,
-    rendererProcessEvents: rendererProcessEvents
+    mainProcessTriggers: mainProcessTriggers,
+    mainProcessCallbacks: mainProcessCallbacks
   }
 )
 

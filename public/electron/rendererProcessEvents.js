@@ -5,15 +5,38 @@ const { ipcRenderer, BrowserWindow } = require("electron")
  * from the main process
  */
 module.exports = {
-  // main process sending events to renderer process
-  sendSelectMidiInput: (midiInput) => {
+  /**
+   * tell the renderer process a main process event has happend
+   * main process event: a midi device has been selected in the menu
+   */
+  selectMidiInput: (midiInput) => {
     let windows = BrowserWindow.getAllWindows()
-    windows[0].webContents.send('selectMidiInput', null)
+    windows[0].webContents.send('selectMidiInput', midiInput)
+  },
+  /**
+   * tell the renderer process a main process event has happend
+   * main process event: the "scan for midi devices" menu item has been clicked
+   */
+  selectMidiScan: () => {
+    let windows = BrowserWindow.getAllWindows()
+    windows[0].webContents.send('midiScan', null)
   },
 
-  // renderer process receiving events from main process
+  /**
+   * bind a renderer callback to the main processes
+   * main process event: a midi device has been selected in the menu
+   */
   setSelectMidiInputCallback: (callback) => {
     ipcRenderer.on('selectMidiInput', (event, inputIndex) => {
+      callback(inputIndex)
+    })
+  },
+  /**
+   * bind a renderer callback to the main processes
+   * main process event: the "scan for midi devices" menu item has been clicked
+   */
+  setSelectMidiScanCallback: (callback) => {
+    ipcRenderer.on('midiScan', (event, inputIndex) => {
       callback(inputIndex)
     })
   }

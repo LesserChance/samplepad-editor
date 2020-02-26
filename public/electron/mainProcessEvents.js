@@ -1,13 +1,16 @@
 const { ipcMain, ipcRenderer, Menu, BrowserWindow } = require('electron')
 const { getMenuTemplate } = require('./menu')
-const { rendererProcessEvents } = require('./rendererProcessEvents')
+const rendererProcessEvents = require('./rendererProcessEvents')
 
 /**
  * This class is responsible for the main process receiving events
  * from the renderer process
  */
 module.exports = {
-  // renderer process sending events to main process
+  /**
+   * Initialize functionality for the
+   * renderer process to send events to main process
+   */
   initIpcRendererSender:() => {
     process.once('loaded', () => {
       window.addEventListener('message', event => {
@@ -24,7 +27,12 @@ module.exports = {
     });
   },
 
-  // main process receiving events from renderer process
+  /**
+   * Initialize functionality for the
+   * main process to receive events from the renderer process
+   *
+   * This can only be called in a context where we have an active renderer process
+   */
   initIpcMainReceiver: () => {
     ipcMain.on('setMidiMenu', (event, message) => {
       if (!message.midiInputs) {
@@ -36,11 +44,11 @@ module.exports = {
         id: 'midi-settings',
         submenu: [
           {
-            checked: true,
+            checked: (message.currentMidiInput === null),
             type: "radio",
             label: "-Midi Off-",
             click() {
-              rendererProcessEvents.sendSelectMidiInput(null)
+              rendererProcessEvents.selectMidiInput(null)
             }
           }
         ]
@@ -49,10 +57,11 @@ module.exports = {
       for (let i = 0; i < message.midiInputs.length; i++) {
         let midiInput = message.midiInputs[i]
         midiMenu.submenu.push({
+          checked: (message.currentMidiInput === midiInput[0]),
           type: "radio",
           label: midiInput[1],
           click() {
-            rendererProcessEvents.sendSelectMidiInput(midiInput[0])
+            rendererProcessEvents.selectMidiInput(midiInput[0])
           }
         })
       }

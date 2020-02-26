@@ -28,7 +28,6 @@ function createWindow() {
   mainProcessEvents.initIpcMainReceiver();
 }
 
-
 app.on('ready', createWindow);
 
 app.on('window-all-closed', () => {

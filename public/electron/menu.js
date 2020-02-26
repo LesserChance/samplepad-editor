@@ -1,4 +1,5 @@
-const { Menu, app, BrowserWindow } = require('electron')
+const { app } = require('electron')
+const rendererProcessEvents = require('./rendererProcessEvents')
 const isDev = require('electron-is-dev')
 
 module.exports = {
@@ -39,8 +40,8 @@ module.exports = {
     midiMenu.submenu.unshift({ type: 'separator' })
     midiMenu.submenu.unshift({
       label: "Scan for Midi Devices",
-       click() {
-        console.log("scan")
+      click() {
+        rendererProcessEvents.selectMidiScan()
       }
     })
 

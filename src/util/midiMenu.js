@@ -5,10 +5,16 @@ const { midi, mainProcessCallbacks, mainProcessTriggers } = window.api
  * Initialize the renderer process handlers for the midi device menu
  */
 export const initMidiMenu = () => {
+  midi.enable()
+
   let inputList = midi.getInputList()
   mainProcessTriggers.generateMidiMenu(inputList, (inputList.length ? 0 : null))
   mainProcessCallbacks.setSelectMidiInputCallback(selectMidiMenuItem)
   mainProcessCallbacks.setSelectMidiScanCallback(scanForMidiDevices)
+
+  if (inputList.length) {
+    selectMidiMenuItem(0)
+  }
 }
 
 /**
@@ -17,7 +23,13 @@ export const initMidiMenu = () => {
  */
 export const scanForMidiDevices = () => {
   midi.scanForMidiDevices();
-  mainProcessTriggers.generateMidiMenu(midi.getInputList(), null)
+
+  let inputList = midi.getInputList()
+  mainProcessTriggers.generateMidiMenu(inputList, (inputList.length ? 0 : null))
+
+  if (inputList.length) {
+    selectMidiMenuItem(0)
+  }
 }
 
 /**

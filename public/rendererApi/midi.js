@@ -69,6 +69,7 @@ const bindMidiInput = (inputIndex) => {
 enable()
 
 module.exports = {
+  enable: enable,
   getInputList: getInputList,
   bindMidiInput: bindMidiInput,
 

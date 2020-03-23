@@ -4,17 +4,27 @@
     margin-bottom:0 !important;
   }
 
+  .layerA {
+    .padName {
+      width: 9em;
+      padding: .5em;
+      border-radius: 5px;
+    }
+  }
+
   .PadLayer .level-left {
     width: 50%;
     padding-right: 2em;
 
-    .PadName {
+    .PadMidi {
       .padName {
-        width: 9em;
-        padding: .5em;
-        border-radius: 5px;
+        transition: background-color 300ms linear;
+      }
+      .padName.playing {
+        transition: background-color 30ms linear;
       }
     }
+
     .MidiNote {
       margin-left: -1em;
 

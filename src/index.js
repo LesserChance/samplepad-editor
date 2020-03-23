@@ -13,8 +13,10 @@ import { initMidiMenu } from 'util/midiMenu'
 import App from 'component/App'
 import 'css/index.css';
 
+/* Initalize Electron App From Renderer Process */
 initMidiMenu();
 
+/* Initalize React App */
 const store = createStore(reducers, applyMiddleware(thunk));
 
 render(

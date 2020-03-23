@@ -1,13 +1,18 @@
 .Pad .level {
   margin-bottom: 0 !important; }
 
+.Pad .layerA .padName {
+  width: 9em;
+  padding: .5em;
+  border-radius: 5px; }
+
 .Pad .PadLayer .level-left {
   width: 50%;
   padding-right: 2em; }
-  .Pad .PadLayer .level-left .PadName .padName {
-    width: 9em;
-    padding: .5em;
-    border-radius: 5px; }
+  .Pad .PadLayer .level-left .PadMidi .padName {
+    transition: background-color 300ms linear; }
+  .Pad .PadLayer .level-left .PadMidi .padName.playing {
+    transition: background-color 30ms linear; }
   .Pad .PadLayer .level-left .MidiNote {
     margin-left: -1em; }
     .Pad .PadLayer .level-left .MidiNote select {

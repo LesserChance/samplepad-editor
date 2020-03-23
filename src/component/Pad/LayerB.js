@@ -9,28 +9,29 @@ import { updatePadIntProperty, updatePadProperty } from 'actions/pad'
 /* Component imports */
 import SamplePlayerComponent from 'component/SamplePlayer'
 import SampleComponent from 'component/Sample'
+import PadNameComponent from 'component/Pad/PadName'
 import VelocityComponent from 'component/Pad/Velocity'
 
 const PadLayerBComponent = (props) => {
   let pad = props.pad;
+  let midiProps = {
+    note: pad.midiNote,
+    min: pad.velocityMinB,
+    max: pad.velocityMaxB
+  }
 
   return (
     <div className="level PadLayer layerB">
       <div className="level-left">
-        <div className="level-item">
-          <span className="is-size-7 padName has-background-white-ter">
-            Layer B:
-          </span>
-        </div>
+        <PadNameComponent
+            padName={"Layer B"}
+            padClass={"has-background-white-ter"}
+            midi={midiProps} />
 
         <div className="level-item Sample">
           <SamplePlayerComponent
             sampleFile={props.sampleFile}
-            midi={{
-              note: pad.midiNote,
-              min: pad.velocityMinB,
-              max: pad.velocityMaxB
-            }}>
+            midi={midiProps}>
             <SampleComponent
               draggable={false}
               removable={true}

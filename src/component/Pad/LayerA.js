@@ -9,6 +9,7 @@ import { updatePadIntProperty, updatePadProperty, updatePadSensitivity } from 'a
 /* Component imports */
 import SamplePlayerComponent from 'component/SamplePlayer'
 import SampleComponent from 'component/Sample'
+import PadNameComponent from 'component/Pad/PadName'
 import MidiNoteSelectComponent from 'component/Pad/MidiNoteSelect'
 import KnobComponent from 'component/Pad/KnobControl'
 import SlideComponent from 'component/Pad/SlideControl'
@@ -19,16 +20,20 @@ const PadLayerAComponent = (props) => {
 
   let pad = props.pad;
   let padName = MidiMap[pad.padType][0]
+  let midiProps = {
+    note: pad.midiNote,
+    min: pad.velocityMin,
+    max: pad.velocityMax
+  }
 
   return (
-    <div className="PadLayer">
+    <div className="PadLayer layerA">
       <div className="level">
         <div className="level-left">
-          <div className="level-item PadName">
-            <span className="is-size-7 has-background-grey-lighter padName">
-              {padName}:
-            </span>
-          </div>
+          <PadNameComponent
+              padName={padName}
+              padClass={"has-background-grey-lighter"}
+              midi={midiProps} />
 
           <div className="level-item MidiNote">
             <MidiNoteSelectComponent
@@ -40,11 +45,7 @@ const PadLayerAComponent = (props) => {
           <div className='level-item Sample'>
             <SamplePlayerComponent
               sampleFile={pad.fileName}
-              midi={{
-                note: pad.midiNote,
-                min: pad.velocityMin,
-                max: pad.velocityMax
-              }}>
+              midi={midiProps}>
               <SampleComponent
                 draggable={false}
                 removable={true}

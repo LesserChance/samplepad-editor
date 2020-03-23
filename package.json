@@ -57,6 +57,7 @@
     "preelectron-pack": "yarn run build",
     "electron-pack": "electron-builder build -m -w -c.extraMetadata.main=build/electron.js",
     "electron-dev": "concurrently \"BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron .\"",
+    "postinstall": "electron-builder install-app-deps",
     "build-css": "node-sass-chokidar src/ -o src/",
     "watch-css": "yarn run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
     "start": "npm-run-all -p watch-css start-react",

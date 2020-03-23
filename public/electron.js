@@ -14,7 +14,7 @@ function createWindow() {
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
-      preload: path.join(__dirname, isDev ? "preload.js" : "build/preload.js")
+      preload: path.join(__dirname, "preload.js")
     }
   });
   mainWindow.loadURL(isDev ? 'http://localhost:3000' : `file://${path.join(__dirname, '../build/index.html')}`);

@@ -5,8 +5,8 @@
 ## Getting SamplePad Kit Editor
 SamplePad Kit Editor is released via the GitHub [releases](https://github.com/LesserChance/samplepad-editor/releases) page.
 
-The current version is v.4
-([Download v.4 for Mac](https://github.com/LesserChance/samplepad-editor/releases/download/v0.4/SamplePad.Kit.Editor-0.4.0-mac.zip) or [Download v.4 for PC](https://github.com/LesserChance/samplepad-editor/releases/download/v0.4/SamplePad.Kit.Editor.Setup.0.4.0.exe))
+The current version is v.5
+([Download v.5 for Mac](https://github.com/LesserChance/samplepad-editor/releases/download/v0.5/SamplePad.Kit.Editor-0.5.0-mac.zip) or [Download v.5 for PC](https://github.com/LesserChance/samplepad-editor/releases/download/v0.5/SamplePad.Kit.Editor.Setup.0.5.0.exe))
 
 ## Overview
 SamplePad Kit Editor is an application that allows you to create and edit custom drum kits for the [Alesis SamplePad Pro](https://www.alesis.com/products/view2/samplepad-pro) directly on your Mac or PC. It uses an intuitive drap and drop interface to quickly and easily create custom drum kits. All pad parameters are available to edit, and it's significantly easier than scrolling through all the details on the SamplePad itself.
@@ -35,6 +35,9 @@ Imported samples are automatically formatted as appropriate (16bit, 44.1k 8-char
 1. Access Layer B sample and velocity parameters by clicking on the dropdown icon on the right
 
 Once you're satisfied, save your kit. Saving it as a new kit will create a new `.kit` file and not affect the original. Put it into your SamplePad and try it out!
+
+### Midi Control
+While creating or editing a kit, you can easily test it out by connecting a midi controller to your computer. Once connected, select a device through the menu `Edit > Midi Settings` (or `Scan for Midi Devices` if it does not appear.) Playing midi notes on the selected device will show you which pad is being played and triggers the sample attached to it. Triggers are velocity dependent, and layer B is supported.
 
 ## Helping Out
 ### Testing

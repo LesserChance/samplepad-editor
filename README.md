@@ -1,3 +1,6 @@
+# Development Note
+This is only tested with the SampleRack, which should be functioning well. If you have a samplepad or samplepad pro and would like this to work for you, you can help out be sending me any existing `.kit` files you have on your SD card, and letting me know what your samplepad firmware version is. The more examples I get the easier it'll be for me to assure itll work for all versions. Thanks!
+
 # SamplePad Kit Editor
 ![](https://img.shields.io/github/v/release/lesserchance/samplepad-editor?include_prereleases)
 ![](https://img.shields.io/github/downloads/lesserchance/samplepad-editor/total)

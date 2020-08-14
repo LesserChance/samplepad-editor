@@ -13,5 +13,12 @@ module.exports = {
       midiInputs: inputList,
       currentMidiInput: currentMidiInput
     })
+  },
+
+  setDeviceType: (deviceType) => {
+    window.postMessage({
+      type: Events.SET_DEVICE_TYPE,
+      deviceType: deviceType
+    })
   }
 }

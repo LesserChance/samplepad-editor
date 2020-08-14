@@ -3,7 +3,7 @@ import { combineReducers } from 'redux'
 import update from 'immutability-helper';
 
 /* App imports */
-import { Actions } from 'const'
+import { Actions, DeviceType } from 'const'
 import { getGlobalStateFromDirectory } from 'state/globalState';
 import { getSortedKitIds } from 'state/sortModels';
 import { getLastLoadedDirectory } from 'util/storage';
@@ -17,7 +17,9 @@ let initialState = {
     confirmLoadCardCallback: null
   },
   notices: [],
-  drive: {},
+  drive: {
+    deviceType: DeviceType.SAMPLERACK
+  },
   kits: {
     ids: [],
     models: {}
@@ -42,6 +44,7 @@ const initialAppState = {
 };
 const initialDriveState = {
   deviceId: initialState.drive.deviceId,
+  deviceType: initialState.drive.deviceType,
   rootPath: initialState.drive.rootPath,
   kitPath: initialState.drive.kitPath,
   samples: initialState.drive.samples
@@ -112,9 +115,15 @@ function drive(state = initialDriveState, action) {
     case Actions.LOAD_DRIVE:
       return update(state, {
         deviceId: {$set: action.drive.deviceId},
+        deviceType: {$set: action.drive.deviceType},
         rootPath: {$set: action.drive.rootPath},
         kitPath: {$set: action.drive.kitPath},
         samples: {$set: action.drive.samples}
+      });
+
+    case Actions.SET_DEVICE_TYPE:
+      return update(state, {
+        deviceType: {$set: action.deviceType},
       });
 
     case Actions.RESET_SAMPLES:

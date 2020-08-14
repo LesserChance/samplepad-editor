@@ -1,8 +1,54 @@
 const { app, Menu } = require('electron')
 const rendererProcessEvents = require('../events/rendererProcessEvents')
+const { DeviceType }  = require('../const')
 const isDev = require('electron-is-dev');
 
-const getMenuTemplate = (midiMenu) => {
+// default, configurable menus
+let midiMenu = {
+  label: 'Midi Settings',
+  id: 'midi-settings',
+  submenu: [
+    {
+      checked: true,
+      type: "radio",
+      label: "-Midi Off-"
+    },
+    {
+      type: 'separator'
+    },
+    {
+      label: "Scan for Midi Devices",
+      click() {
+        rendererProcessEvents.selectMidiScan()
+      }
+    }
+  ]
+}
+
+let deviceMenu = {
+  label: 'Device Type',
+  id: 'device-settings',
+  submenu: [
+    {
+      checked: true,
+      type: "radio",
+      label: "SampleRack",
+      click() {
+        rendererProcessEvents.selectDeviceType(DeviceType.SAMPLERACK)
+      }
+    },
+    {
+      checked: false,
+      type: "radio",
+      label: "SamplePad Pro",
+      click() {
+        rendererProcessEvents.selectDeviceType(DeviceType.SAMPLEPAD_PRO)
+      }
+    }
+  ]
+};
+
+const getMenuTemplate = () => {
   const template = []
 
   if (process.platform === 'darwin') {
@@ -22,32 +68,11 @@ const getMenuTemplate = (midiMenu) => {
     })
   }
 
-  if (!midiMenu) {
-    midiMenu = {
-      label: 'Midi Settings',
-      id: 'midi-settings',
-      submenu: [
-        {
-          checked: true,
-          type: "radio",
-          label: "-Midi Off-"
-        }
-      ]
-    }
-  }
-
-  midiMenu.submenu.unshift({ type: 'separator' })
-  midiMenu.submenu.unshift({
-    label: "Scan for Midi Devices",
-    click() {
-      rendererProcessEvents.selectMidiScan()
-    }
-  })
-
   template.push({
     label: 'Edit',
     submenu: [
-      midiMenu
+      midiMenu,
+      deviceMenu
     ]
   });
 
@@ -107,7 +132,7 @@ module.exports = {
       midiInputs = []
     }
 
-    let midiMenu = {
+    midiMenu = {
       label: 'Midi Settings',
       id: 'midi-settings',
       submenu: [
@@ -134,7 +159,26 @@ module.exports = {
       })
     }
 
-    const newMenu = Menu.buildFromTemplate(getMenuTemplate(midiMenu))
+
+    midiMenu.submenu.unshift({
+      type: 'separator'
+    });
+
+    midiMenu.submenu.unshift({
+      label: "Scan for Midi Devices",
+      click() {
+        rendererProcessEvents.selectMidiScan()
+      }
+    });
+
+    const newMenu = Menu.buildFromTemplate(getMenuTemplate())
+    Menu.setApplicationMenu(newMenu)
+  },
+  rengenerateDeviceMenu: (deviceType) => {
+    deviceMenu.submenu[0].checked = (deviceType == DeviceType.SAMPLERACK);
+    deviceMenu.submenu[1].checked = (deviceType == DeviceType.SAMPLEPAD_PRO);
+
+    const newMenu = Menu.buildFromTemplate(getMenuTemplate())
     Menu.setApplicationMenu(newMenu)
   }
 }

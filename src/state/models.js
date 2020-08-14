@@ -9,9 +9,10 @@ export const NoticeModel = (style = "", text = "") => {
   };
 }
 
-export const RootModel = (deviceId = "", rootPath = "", kitPath = "", samples = []) => {
+export const RootModel = (deviceId = "", deviceType = "", rootPath = "", kitPath = "", samples = []) => {
   return {
     deviceId: deviceId,
+    deviceType: deviceType,
     rootPath: rootPath,
     kitPath: kitPath,
     samples: samples

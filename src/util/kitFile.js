@@ -37,10 +37,11 @@ const MEMLOC = {
 
 /**
  * Given a file, get the kit and pads
+ * @param {RootModel} drive
  * @param {String} kitFile - the file to parse
  * @return {KitModel, PadModel[]} kit, pads
  */
-export const getKitAndPadsFromFile = (kitFile) => {
+export const getKitAndPadsFromFile = (drive, kitFile) => {
   if(!fs.exists(kitFile)) {
     return null;
   }
@@ -53,7 +54,8 @@ export const getKitAndPadsFromFile = (kitFile) => {
     throw new Error("Invalid .kit file")
   }
 
-  let pads = getPadsFromBuffer(buffer);
+  // need to get the global device
+  let pads = getPadsFromBuffer(drive, buffer);
 
   var kit = KitModel(
     kitPath.dir,
@@ -62,7 +64,7 @@ export const getKitAndPadsFromFile = (kitFile) => {
     false,
     true,
     kitPath.name,
-    getSortedPadIds(pads)
+    getSortedPadIds(drive, pads)
   );
 
   return {kit, pads};
@@ -74,18 +76,18 @@ export const getKitAndPadsFromFile = (kitFile) => {
  * @param {PadModel[]} pads
  * @returns {Buffer}
  */
-export const getKitFileBuffer = (kit, pads) => {
+export const getKitFileBuffer = (drive, kit, pads) => {
   let buffer = [];
 
   // header
-  buffer = buffer.concat(getHeader());
+  buffer = buffer.concat(getHeader(kit.kitName));
 
-  KitBuffer.PAD_FILE_ORDER.forEach((padType) => {
+  KitBuffer.PAD_FILE_ORDER[drive.deviceType].forEach((padType) => {
     let pad = getPadWithType(kit, pads, padType);
     buffer = buffer.concat(getPadBlock1(pad));
   });
 
-  KitBuffer.PAD_FILE_ORDER.forEach((padType) => {
+  KitBuffer.PAD_FILE_ORDER[drive.deviceType].forEach((padType) => {
     let pad = getPadWithType(kit, pads, padType);
     buffer = buffer.concat(getPadBlock2(pad));
   });
@@ -111,28 +113,29 @@ const calculateChecksumFromBuffer = (buffer) => {
  * GET KIT FROM FILE *
  *********************/
 /**
+ * @param {RootModel} drive
  * @param {Buffer} buffer
  * @return {Map} padId => PadModel
  */
-const getPadsFromBuffer = (buffer) => {
+const getPadsFromBuffer = (drive, buffer) => {
   let headerLength = 128;
   let blockLength = 256;
   let offset = headerLength;
 
   let block1 = {};
-  KitBuffer.PAD_FILE_ORDER.forEach((padType) => {
+  KitBuffer.PAD_FILE_ORDER[drive.deviceType].forEach((padType) => {
     block1[padType] = buffer.slice(offset, offset+blockLength);
     offset += blockLength;
   });
 
   let block2 = {};
-  KitBuffer.PAD_FILE_ORDER.forEach((padType) => {
+  KitBuffer.PAD_FILE_ORDER[drive.deviceType].forEach((padType) => {
     block2[padType] = buffer.slice(offset, offset+blockLength);
     offset += blockLength;
   });
 
   let pads = {};
-  KitBuffer.PAD_FILE_ORDER.forEach((padType) => {
+  KitBuffer.PAD_FILE_ORDER[drive.deviceType].forEach((padType) => {
     let pad = getPadFromBufferBlocks(padType, block1[padType], block2[padType]);
     pads[pad.id] = pad;
   });
@@ -225,9 +228,13 @@ const unpack = (str, padLength, padByte) => {
 }
 
 /**
+ * Kit File Header - one per kit file
+ * Header contains checksum at byte 0x08
+ * And kit name (which seems unecessary since kit name is read from the file) starting at byte 0x48
+ * Kit Name String length is at byte 0x47
  * @return {Byte[]}
  */
-const getHeader = () => {
+const getHeader = (kitName) => {
   let block = [
     0x4b, 0x49, 0x54, 0x48, 0x00, 0x80, 0x00, 0x00, 0xeb, 0x00, 0x00, 0x18, 0x00, 0x00, 0x00, 0x00,
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
@@ -243,6 +250,7 @@ const getHeader = () => {
 }
 
 /**
+ * Pad Block 1 - one per pad
  * @param {PadModel} pad
  * @return {Byte[]}
  */
@@ -283,6 +291,7 @@ const getPadBlock1 = (pad) => {
 }
 
 /**
+ * Pad Block 2 - one per pad
  * @param {PadModel} pad
  * @return {Byte[]}
  */

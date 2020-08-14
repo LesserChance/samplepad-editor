@@ -19,6 +19,9 @@ module.exports = {
   readFileAsString: (file) => {
     return fs.readFileSync(file, "utf8")
   },
+  readFileAsArrayByLine: (file) => {
+    return fs.readFileSync(file, "utf8").split("\n");
+  },
   readFileBufferArray: (file) => {
     return fs.readFileSync(file)
   },

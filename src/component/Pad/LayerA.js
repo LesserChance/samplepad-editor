@@ -19,7 +19,7 @@ import MuteGroupComponent from 'component/Pad/MuteGroup'
 const PadLayerAComponent = (props) => {
 
   let pad = props.pad;
-  let padName = MidiMap[pad.padType][0]
+  let padName = MidiMap[props.deviceType][pad.padType][0]
   let midiProps = {
     note: pad.midiNote,
     min: pad.velocityMin,
@@ -37,6 +37,7 @@ const PadLayerAComponent = (props) => {
 
           <div className="level-item MidiNote">
             <MidiNoteSelectComponent
+              deviceType={props.deviceType}
               padType={pad.padType}
               value={pad.midiNote}
               onChange={(midiNote) => props.updatePadIntProperty("midiNote", midiNote)} />
@@ -180,6 +181,7 @@ const mapStateToProps = (state, ownProps) => {
 
   return {
     pad: pad,
+    deviceType: state.drive.deviceType,
     hasVelocityError: hasVelocityError,
     velocityTooltip: velocityTooltip,
     hasLayerBError: hasLayerBError

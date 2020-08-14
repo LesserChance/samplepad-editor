@@ -12,23 +12,35 @@ import { saveKitToFile, kitWillOverwriteExisting } from 'util/storage';
  * Open a file dialog, and parse the resulting file as a SamplePad kit
  */
 export function importKitFromFile() {
-  return (dispatch) => {
+  return (dispatch, getState) => {
     openKitFileDialog()
       .then(result => {
         if (result.canceled) {
           return null;
         }
 
-        let {kit, pads} = getKitAndPadsFromFile(result.filePaths[0]);
+        // catch an error, maybe an invalid file?
+        let state = getState();
+        try {
+          let {kit, pads} = getKitAndPadsFromFile(state.drive, result.filePaths[0]);
 
-        // remove the filename, as a new one will get created
-        kit.fileName = null;
+          // remove the filename, as a new one will get created
+          kit.filePath = state.drive.kitPath;
+          kit.fileName = null;
 
-        dispatch({ type: Actions.ADD_PADS, pads: pads });
-        dispatch({ type: Actions.ADD_KIT, kit: kit });
-        dispatch({ type: Actions.SET_SELECTED_KIT_ID, kitId: kit.id });
-        dispatch({ type: Actions.SET_ACTIVE_KIT_ID, kitId: kit.id });
-        dispatch({ type: Actions.SORT_KITS });
+          dispatch({ type: Actions.ADD_PADS, pads: pads });
+          dispatch({ type: Actions.ADD_KIT, kit: kit });
+          dispatch({ type: Actions.SET_SELECTED_KIT_ID, kitId: kit.id });
+          dispatch({ type: Actions.SET_ACTIVE_KIT_ID, kitId: kit.id });
+          dispatch({ type: Actions.SORT_KITS });
+        } catch (err) {
+          console.error(err);
+          dispatch(
+            showNotice("is-danger", "There was a problem importing this kit.")
+          );
+          return null;
+        }
+
       })
   }
 }
@@ -45,7 +57,7 @@ export function loadKitDetails(kitId) {
       let kitFile = kit.filePath + "/" + kit.fileName;
 
       try {
-        let result = getKitAndPadsFromFile(kitFile);
+        let result = getKitAndPadsFromFile(state.drive, kitFile);
 
         dispatch({ type: Actions.ADD_PADS, pads: result.pads });
         dispatch(updateKitState(kitId, {
@@ -80,8 +92,8 @@ export function loadNewKit(presetData=null) {
     // create a default set of samples
     let pads = {};
 
-    Object.keys(MidiMap).forEach((padType) => {
-      let midiNote = MidiMap[padType][1];
+    Object.keys(MidiMap[state.drive.deviceType]).forEach((padType) => {
+      let midiNote = MidiMap[state.drive.deviceType][padType][1];
       let pad = PadModel.getPad(padType)
       pad.midiNote = midiNote;
       pads[pad.id] = pad;
@@ -156,7 +168,7 @@ export function saveKit(kitId, asNew=false, confirmedOverwrite=false) {
 
     let fileName = "";
     try {
-      fileName = saveKitToFile(kit, state.pads, asNew);
+      fileName = saveKitToFile(state.drive, kit, state.pads, asNew);
     } catch (err) {
       dispatch(
         showNotice("is-danger", "There was a problem saving the kit.")

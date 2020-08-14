@@ -33,8 +33,8 @@ export const getSortedKitIds = (kits) => {
     });
 }
 
-export const getSortedPadIds = (pads) => {
-  let padPriority = Object.keys(MidiMap);
+export const getSortedPadIds = (drive, pads) => {
+  let padPriority = Object.keys(MidiMap[drive.deviceType]);
 
   let ret = Object.keys(pads)
     .map((padId) => {

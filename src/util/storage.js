@@ -83,12 +83,13 @@ export const kitWillOverwriteExisting = (kit, asNew = false) => {
 }
 
 /**
+ * @param {RootModel} drive
  * @param {KitModel} kit
  * @param {PadModel[]} pads
  * @param {Boolean} asNew
  * @returns {String} the file name the kit was stored as
  */
-export const saveKitToFile = (kit, pads, asNew = false) => {
+export const saveKitToFile = (drive, kit, pads, asNew = false) => {
   if(!fs.exists(kit.filePath)) {
     // need to create the kits directory
     fs.mkdir(kit.filePath);
@@ -109,7 +110,7 @@ export const saveKitToFile = (kit, pads, asNew = false) => {
       fs.renameFile(kit.filePath + "/" + currentFileName, kitFile);
     }
 
-    fs.writeFile(kitFile, getKitFileBuffer(kit, pads))
+    fs.writeFile(kitFile, getKitFileBuffer(drive, kit, pads))
   } catch (err) {
     console.error(err);
     throw(err);

@@ -15,7 +15,7 @@ const MidiNoteSelect = (props) => {
             {
               [...Array(127).keys()].map((midiNote) => {
                 midiNote = midiNote + 1;
-                let defaultNote = MidiMap[props.padType][1];
+                let defaultNote = MidiMap[props.deviceType][props.padType][1];
                 return (
                   <option key={midiNote} value={midiNote}>
                     {midiNote}{(midiNote===defaultNote) ? '*' : ''}

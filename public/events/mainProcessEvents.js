@@ -1,5 +1,5 @@
 const { ipcMain, ipcRenderer } = require('electron')
-const { regenerateMidiMenu } = require('../mainApi/menu')
+const { regenerateMidiMenu, rengenerateDeviceMenu } = require('../mainApi/menu')
 const Events = require("./events")
 
 /**
@@ -39,6 +39,12 @@ module.exports = {
       // context: main
       // the renderer process wants the midi menu regenerated
       regenerateMidiMenu(message.midiInputs, message.currentMidiInput)
+    });
+
+    ipcMain.on(Events.SET_DEVICE_TYPE, (event, message) => {
+      // context: main
+      // the renderer process wants to select a new device type
+      rengenerateDeviceMenu(message.deviceType)
     });
   }
 }

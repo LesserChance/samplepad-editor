@@ -27,5 +27,14 @@ module.exports = {
   selectMidiScan: () => {
     let windows = BrowserWindow.getAllWindows()
     windows[0].webContents.send(Events.SELECT_MIDI_SCAN, null)
+  },
+
+  /**
+   * tell the renderer process a main process event has happened
+   * main process event: a new device type has been selected
+   */
+  selectDeviceType: (deviceType) => {
+    let windows = BrowserWindow.getAllWindows()
+    windows[0].webContents.send(Events.SELECT_DEVICE_TYPE, deviceType)
   }
 }

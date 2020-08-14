@@ -29,5 +29,15 @@ module.exports = {
     ipcRenderer.on(Events.SELECT_MIDI_SCAN, (event, inputIndex) => {
       callback(inputIndex)
     })
+  },
+
+  /**
+   * bind a renderer callback to the main processes
+   * main process event: a new device type has been selected
+   */
+  setSelectDeviceTypeCallback: (callback) => {
+    ipcRenderer.on(Events.SELECT_DEVICE_TYPE, (event, deviceType) => {
+      callback(deviceType)
+    })
   }
 }

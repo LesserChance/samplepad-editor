@@ -2,12 +2,11 @@
 import React from 'react'
 import { render } from 'react-dom'
 import { Provider } from 'react-redux'
-import { createStore, applyMiddleware } from 'redux'
-import thunk from 'redux-thunk';
 
 /* App imports */
-import reducers from 'state/reducers'
+import store from 'state/store'
 import { initMidiMenu } from 'util/midiMenu'
+import { initDeviceTypeMenu } from 'util/deviceTypeMenu'
 
 /* Component imports */
 import App from 'component/App'
@@ -15,9 +14,7 @@ import 'css/index.css';
 
 /* Initalize Electron App From Renderer Process */
 initMidiMenu();
-
-/* Initalize React App */
-const store = createStore(reducers, applyMiddleware(thunk));
+initDeviceTypeMenu();
 
 render(
   <Provider store={store}>

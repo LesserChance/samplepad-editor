@@ -3,11 +3,12 @@ import React from 'react';
 import { connect } from 'react-redux'
 
 /* App imports */
-import { KitErrors, KitErrorStrings } from 'const'
+import { KitErrors, KitErrorStrings, DeviceType } from 'const'
 import { saveKit, updateKitName } from 'actions/kit'
 
 /* Component imports */
-import PadRowComponent from 'component/Pad/Row'
+import SamplerackEditor from 'component/Editor/Samplerack'
+import SamplepadProEditor from 'component/Editor/SamplepadPro'
 import 'css/EditKit.css'
 
 const EditKit = (props) => {
@@ -41,15 +42,13 @@ const EditKit = (props) => {
           </div>
         </div>
 
-        <div className="pad-table">
-          {
-            props.pads.map((padId) => {
-              return (
-                <PadRowComponent padId={padId} key={padId} />
-              );
-            })
-          }
-        </div>
+        { props.showSamplerackEditor &&
+          <SamplerackEditor kitId={props.kitId} />
+        }
+
+        { props.showSamplepadProEditor &&
+          <SamplepadProEditor kitId={props.kitId} />
+        }
       </div>
     </section>
   );
@@ -59,6 +58,8 @@ const mapStateToProps = (state, ownProps) => {
   let kit = state.kits.models[ownProps.kitId];
 
   return {
+    showSamplerackEditor: (state.drive.deviceType === DeviceType.SAMPLERACK),
+    showSamplepadProEditor: (state.drive.deviceType === DeviceType.SAMPLEPAD_PRO),
     showSaveAsNew: kit.isExisting,
     kitName: kit.kitName,
     originalKitName: kit.originalKitName,

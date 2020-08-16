@@ -192,7 +192,7 @@ const getPadFromBufferBlocks = (padType, block1, block2) => {
  * @param {String} padType
  * @returns {PadModel|null}
  */
-const getPadWithType = (kit, pads, padType) => {
+export const getPadWithType = (kit, pads, padType) => {
   let returnPad = null;
 
   kit.pads.forEach(function(padId) {

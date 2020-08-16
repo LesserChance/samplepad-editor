@@ -22,7 +22,7 @@ const HeaderComponent = (props) => {
 
             <div className="level-right">
               <p className="level-item">
-                <div className="is-outlined">{ props.deviceType }</div>
+                <span className="is-outlined">{ props.deviceType }</span>
               </p>
             </div>
           </div>
@@ -40,6 +40,9 @@ const mapStateToProps = (state, ownProps) => {
       break;
     case DeviceType.SAMPLERACK:
       deviceType = "SAMPLERACK";
+      break;
+    default:
+      deviceType = "";
       break;
   }
 

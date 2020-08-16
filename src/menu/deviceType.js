@@ -1,6 +1,3 @@
-/* Global imports */
-import React from 'react';
-
 /* App imports */
 import { Actions } from 'const';
 import store from 'state/store'

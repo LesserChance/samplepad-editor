@@ -5,48 +5,67 @@ import Slider from 'rc-slider';
 /* Component imports */
 import 'css/Pad/Control.css'
 
-const KnobComponent = (props) => {
+class KnobComponent extends React.Component {
 
-  let min = props.min;
-  let max = props.max;
+  /*
+   * @constructor
+   * @param {Object} props
+   */
+  constructor(props) {
+    super(props)
 
-  const getRotateTransform = (value) => {
+    this.state = {
+      value: props.value
+    };
+  }
+
+  onSliderChange(value) {
+    this.setState({
+      value,
+    });
+  };
+
+  getRotateTransform(value) {
     // rotation goes from -90 to 90
-    let range = max - min
+    let range = this.props.max - this.props.min
     let step = 180/range;
-    let rotation = -90 + (step*(value - min))
+    let rotation = -90 + (step*(value - this.props.min))
     let rotate = 'rotate(' + (rotation) + 'deg)';
     return rotate;
   }
 
-  const getHandle = (handleProps) => {
+  getHandle(handleProps) {
     const { value, ...restProps } = handleProps;
 
     return (
       <span className="knobIcon">
         <i
-          style={{transform: getRotateTransform(restProps.dragging ? value : props.value)}}
-          className={"glyphicon glyphicon-" + props.icon}
+          style={{transform: this.getRotateTransform(restProps.dragging ? value : this.props.value)}}
+          className={"glyphicon glyphicon-" + this.props.icon}
           aria-hidden="true"
         />
       </span>
     );
   }
 
-  return (
-    <span className="controlContainer has-tooltip-bottom"
-      data-tooltip={props.tooltip + props.value} >
-      <span className={'height-' + (props.stepDistance)}>
-        <Slider
-          min={min}
-          max={max}
-          defaultValye={props.value}
-          vertical={true}
-          handle={getHandle}
-          onAfterChange={(value) => props.onChange(value)} />
+  render() {
+    return (
+      <span className="controlContainer has-tooltip-bottom"
+        data-tooltip={this.props.tooltip + this.props.value} >
+        <span className={'height-' + (this.props.stepDistance)}>
+          <div className="value">{ this.state.value }</div>
+          <Slider
+            min={this.props.min}
+            max={this.props.max}
+            defaultValue={this.props.value}
+            vertical={true}
+            handle={this.getHandle.bind(this)}
+            onChange={this.onSliderChange.bind(this)}
+            onAfterChange={(value) => this.props.onChange(value)} />
+        </span>
       </span>
-    </span>
-  );
+    );
+  }
 }
 
 export default KnobComponent;

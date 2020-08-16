@@ -1,5 +1,5 @@
 /* Global imports */
-import uuidv1 from 'uuid/v1';
+import { v1 as uuidv1 } from 'uuid';
 
 /* App imports */
 import { Drive, DeviceType } from 'const';

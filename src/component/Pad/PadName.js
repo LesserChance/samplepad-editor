@@ -1,6 +1,6 @@
 /* Global imports */
 import React from 'react';
-import uuidv1 from 'uuid/v1'
+import { v1 as uuidv1 } from 'uuid';
 
 /* Electron imports */
 const { midi } = window.api

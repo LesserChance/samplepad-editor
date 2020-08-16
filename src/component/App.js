@@ -2,7 +2,7 @@
 import React from 'react';
 import { connect } from 'react-redux'
 import { DndProvider } from 'react-dnd'
-import Backend from 'react-dnd-html5-backend'
+import { HTML5Backend } from 'react-dnd-html5-backend'
 
 /* App imports */
 import { selectAndLoadDrive } from 'actions/drive'
@@ -16,7 +16,7 @@ import SampleListComponent from 'component/SampleList'
 
 const AppComponent = (props) => {
   return (
-    <DndProvider backend={Backend}>
+    <DndProvider backend={HTML5Backend}>
         {props.showSplash &&
           <div className="App">
             <HeaderComponent />

@@ -71,6 +71,12 @@ const getMenuTemplate = () => {
   template.push({
     label: 'Edit',
     submenu: [
+      {
+        label: 'Load SD Card',
+        click() {
+          rendererProcessEvents.loadSDCard()
+        }
+      },
       midiMenu,
       deviceMenu
     ]

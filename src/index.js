@@ -5,14 +5,16 @@ import { Provider } from 'react-redux'
 
 /* App imports */
 import store from 'state/store'
-import { initMidiMenu } from 'util/midiMenu'
-import { initDeviceTypeMenu } from 'util/deviceTypeMenu'
+import { initEditMenu } from 'menu/edit'
+import { initMidiMenu } from 'menu/midi'
+import { initDeviceTypeMenu } from 'menu/deviceType'
 
 /* Component imports */
 import App from 'component/App'
 import 'css/index.css';
 
 /* Initalize Electron App From Renderer Process */
+initEditMenu();
 initMidiMenu();
 initDeviceTypeMenu();
 

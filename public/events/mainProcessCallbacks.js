@@ -39,5 +39,15 @@ module.exports = {
     ipcRenderer.on(Events.SELECT_DEVICE_TYPE, (event, deviceType) => {
       callback(deviceType)
     })
+  },
+
+  /**
+   * bind a renderer callback to the main processes
+   * main process event: load SD Card has been clicked
+   */
+  setLoadSDCardCallback: (callback) => {
+    ipcRenderer.on(Events.LOAD_SD_CARD, (event) => {
+      callback()
+    })
   }
 }

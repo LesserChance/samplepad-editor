@@ -36,5 +36,14 @@ module.exports = {
   selectDeviceType: (deviceType) => {
     let windows = BrowserWindow.getAllWindows()
     windows[0].webContents.send(Events.SELECT_DEVICE_TYPE, deviceType)
+  },
+
+  /**
+   * tell the renderer process a main process event has happened
+   * main process event: load SD Card has been clicked
+   */
+  loadSDCard: () => {
+    let windows = BrowserWindow.getAllWindows()
+    windows[0].webContents.send(Events.LOAD_SD_CARD)
   }
 }

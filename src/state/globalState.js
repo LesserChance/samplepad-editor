@@ -5,7 +5,7 @@ import uuidv1 from 'uuid/v1';
 import { Drive, DeviceType } from 'const';
 import { RootModel, KitModel } from 'state/models';
 import SampleStore from 'util/sampleStore';
-import { resetDeviceType } from 'util/deviceTypeMenu'
+import { resetDeviceType } from 'menu/deviceType'
 
 /* Electron imports */
 const { fs } = window.api;

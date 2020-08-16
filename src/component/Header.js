@@ -3,6 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux'
 
 /* App imports */
+import { DeviceType } from 'const'
 import { selectAndLoadDrive } from 'actions/drive'
 
 const HeaderComponent = (props) => {
@@ -19,13 +20,11 @@ const HeaderComponent = (props) => {
               </div>
             </div>
 
-            {props.showLoadCard &&
-              <div className="level-right">
-                <p className="level-item">
-                  <button className="button is-link is-outlined" onClick={props.loadCard}>Load SD Card</button>
-                </p>
-              </div>
-            }
+            <div className="level-right">
+              <p className="level-item">
+                <div className="is-outlined">{ props.deviceType }</div>
+              </p>
+            </div>
           </div>
         </div>
       </div>
@@ -34,7 +33,19 @@ const HeaderComponent = (props) => {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  return {}
+  let deviceType = "";
+  switch (state.drive.deviceType) {
+    case DeviceType.SAMPLEPAD_PRO:
+      deviceType = "SAMPLEPAD PRO";
+      break;
+    case DeviceType.SAMPLERACK:
+      deviceType = "SAMPLERACK";
+      break;
+  }
+
+  return {
+    deviceType: deviceType
+  }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {

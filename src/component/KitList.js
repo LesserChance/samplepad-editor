@@ -9,8 +9,6 @@ import { importKitFromFile, loadNewKit } from 'actions/kit'
 const KitList = (props) => {
   return (
     <section>
-      <label className="label kitHeader is-size-5">Select, Import, or Create a New Kit</label>
-
       <div className="field is-grouped">
         <div className="select control">
           <select

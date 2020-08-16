@@ -28,7 +28,7 @@ const SampleComponent = (props) => {
   let containerProps = {
     'className': 'sampleContainer'
   };
-  if (hasSample && props.useTooltip && props.fileName.length > 12) {
+  if (hasSample && props.useTooltip && props.fileName.length > 12 ) {
     containerProps = {
       'className': 'sampleContainer has-tooltip-bottom',
       'data-tooltip': props.fileName

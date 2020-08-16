@@ -48,29 +48,33 @@
     text-align: right; }
 
 .Pad .Sample {
-  width: 50%; }
+  width: 50%;
+  border: 1px solid #FBFBFF;
+  border-radius: 5px; }
   .Pad .Sample > div {
     width: 100%; }
-  .Pad .Sample .sampleContainer .dragContainer {
-    display: inline-block;
-    width: 100%; }
-  .Pad .Sample .sampleContainer .panel-block.sample {
-    border-radius: 6px;
-    padding: .2em .5em;
-    width: 100%; }
-  .Pad .Sample .sampleContainer .sampleNameContainer {
-    width: 100%;
-    text-align: left; }
-  .Pad .Sample .sampleContainer .sampleName {
-    text-align: left;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap; }
-  .Pad .Sample .sampleContainer .removeSample {
-    display: none;
-    position: absolute;
-    top: .3em;
-    right: -2em; }
+  .Pad .Sample .sampleContainer {
+    position: relative; }
+    .Pad .Sample .sampleContainer .dragContainer {
+      display: inline-block;
+      width: 100%; }
+    .Pad .Sample .sampleContainer .panel-block.sample {
+      border-radius: 6px;
+      padding: .2em .5em;
+      width: 100%; }
+    .Pad .Sample .sampleContainer .sampleNameContainer {
+      width: 100%;
+      text-align: left; }
+    .Pad .Sample .sampleContainer .sampleName {
+      text-align: left;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap; }
+    .Pad .Sample .sampleContainer .removeSample {
+      display: none;
+      position: absolute;
+      top: .3em;
+      right: -2em; }
 
 @media (min-width: 950px) {
   .Pad .PadLayer .level-left, .Pad .Sample {

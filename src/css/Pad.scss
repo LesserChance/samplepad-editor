@@ -82,12 +82,16 @@
 
   .Sample {
     width: 50%;
+    border: 1px solid #FBFBFF;
+    border-radius: 5px;
 
     > div {
       width: 100%;
     }
 
     .sampleContainer {
+      position: relative;
+
       .dragContainer {
         display: inline-block;
         width: 100%;

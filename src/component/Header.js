@@ -6,6 +6,9 @@ import { connect } from 'react-redux'
 import { DeviceType } from 'const'
 import { selectAndLoadDrive } from 'actions/drive'
 
+/* Component imports */
+import KitListComponent from 'component/KitList'
+
 const HeaderComponent = (props) => {
   return (
     <section className="hero is-small is-primary is-bold">
@@ -16,13 +19,15 @@ const HeaderComponent = (props) => {
               <div className="level-item">
                 <h1 className="title">
                   SamplePad Kit Editor
+                  <div className="is-size-7">Model: { props.deviceType }</div>
                 </h1>
               </div>
             </div>
 
             <div className="level-right">
               <p className="level-item">
-                <span className="is-outlined">{ props.deviceType }</span>
+
+                <KitListComponent />
               </p>
             </div>
           </div>

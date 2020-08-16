@@ -13,7 +13,6 @@ import NoticeComponent from 'component/Notice'
 import EditKitComponent from 'component/EditKit'
 import HeaderComponent from 'component/Header'
 import SampleListComponent from 'component/SampleList'
-import KitListComponent from 'component/KitList'
 
 const AppComponent = (props) => {
   return (
@@ -39,7 +38,14 @@ const AppComponent = (props) => {
               </div>
 
               <div className="column is-three-quarters">
-                <KitListComponent />
+
+                {!props.hasActiveKit &&
+                  <div>
+                    <div className="splash is-medium">
+                      <p>Select, import, or create a new kit to begin</p>
+                    </div>
+                  </div>
+                }
 
                 {props.hasActiveKit &&
                   <EditKitComponent kitId={props.activeKitId} />

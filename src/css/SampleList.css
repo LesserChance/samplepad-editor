@@ -1,22 +1,31 @@
 .SampleList {
-  margin: .5em 0 0 .5em; }
-  .SampleList .samples {
-    width: 100%;
-    overflow-y: scroll;
-    max-height: 30em; }
-    .SampleList .samples button.sample {
-      text-align: left; }
-    .SampleList .samples .sampleName {
-      max-width: 10em; }
-    .SampleList .samples .sampleContainer:hover {
-      width: 100%;
-      background: white; }
-      .SampleList .samples .sampleContainer:hover .sample {
-        width: 100%;
-        background: white;
-        border-radius: 2px;
-        box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.1), inset 0 0 0 1px rgba(0, 0, 0, 0.1); }
-        .SampleList .samples .sampleContainer:hover .sample .sampleName {
-          background: white;
-          text-overflow: normal;
-          white-space: normal; }
+  margin: 0.5em 0 0 0.5em;
+}
+.SampleList .samples {
+  width: 100%;
+  overflow-y: scroll;
+  max-height: 30em;
+}
+.SampleList .samples button.sample {
+  text-align: left;
+}
+.SampleList .samples .sampleName {
+  max-width: 10em;
+}
+.SampleList .samples .sampleContainer:hover {
+  width: 100%;
+  background: white;
+}
+.SampleList .samples .sampleContainer:hover .sample {
+  width: 100%;
+  background: white;
+  border-radius: 2px;
+  box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.1), inset 0 0 0 1px rgba(0, 0, 0, 0.1);
+}
+.SampleList .samples .sampleContainer:hover .sample .sampleName {
+  background: white;
+  text-overflow: normal;
+  white-space: normal;
+}
+
+/*# sourceMappingURL=SampleList.css.map */

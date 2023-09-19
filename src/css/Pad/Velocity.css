@@ -1,10 +1,15 @@
 .velocityContainer {
   width: 5em;
-  text-align: center; }
-  .velocityContainer input {
-    width: 1.8em;
-    padding: .2em 0;
-    height: 1.5em; }
-  .velocityContainer.has-tooltip-bottom::before {
-    width: 11em;
-    white-space: normal !important; }
+  text-align: center;
+}
+.velocityContainer input {
+  width: 1.8em;
+  padding: 0.2em 0;
+  height: 1.5em;
+}
+.velocityContainer.has-tooltip-bottom::before {
+  width: 11em;
+  white-space: normal !important;
+}
+
+/*# sourceMappingURL=Velocity.css.map */

@@ -8,7 +8,7 @@ import { importKitFromFile, loadNewKit } from 'actions/kit'
 
 const KitList = (props) => {
   return (
-    <section>
+    <div>
       <div className="field is-grouped">
         <div className="select control">
           <select
@@ -21,8 +21,8 @@ const KitList = (props) => {
 
                 return (
                   <option key={kit.id} value={kit.id}>
-                    { kit.isNew && "<New> " + kit.kitName }
-                    { !kit.isNew && kit.originalKitName }
+                    {kit.isNew && "<New> " + kit.kitName}
+                    {!kit.isNew && kit.originalKitName}
                   </option>
                 );
               })
@@ -35,7 +35,7 @@ const KitList = (props) => {
           <button className="button" onClick={props.loadNewKit}>New Kit</button>
         </div>
       </div>
-    </section>
+    </div>
   );
 }
 

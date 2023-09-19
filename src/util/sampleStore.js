@@ -32,14 +32,18 @@ class SampleStore {
   }
 
   clear() {
-    console.log("Deleting samples")
-    this._reset()
-    /** @var deviceId => {fileName => fileNameOnDisk} */
-    this.samples = store.get('samples') || {}
-    console.log(this.samples)
-    /** @var all the samples on the current device {fileName => fileNameOnDisk} */
-    this.deviceSamples = {}
+    return (dispatch, getState) => {
+      console.log("Deleting samples")
 
+      let numSamples = Object.keys(this.deviceSamples).length
+      this._reset()
+      this.deviceSamples = {}
+
+      dispatch(
+        showNotice("is-success", `Cleared ${numSamples} stored samples.`)
+      )
+      dispatch({ type: Actions.RESET_SAMPLES, samples: Object.keys(this.deviceSamples) })
+    }
   }
 
   getSamples() {

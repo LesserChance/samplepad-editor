@@ -19,16 +19,16 @@ const HeaderComponent = (props) => {
               <div className="level-item">
                 <h1 className="title">
                   SamplePad Kit Editor
-                  <div className="is-size-7">Model: { props.deviceType }</div>
+                  <div className="is-size-7">Model: {props.deviceType}</div>
                 </h1>
               </div>
             </div>
 
             <div className="level-right">
-              <p className="level-item">
 
-                <KitListComponent />
-              </p>
+
+              <KitListComponent />
+
             </div>
           </div>
         </div>

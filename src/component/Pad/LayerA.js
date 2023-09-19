@@ -31,9 +31,9 @@ const PadLayerAComponent = (props) => {
       <div className="level">
         <div className="level-left">
           <PadNameComponent
-              padName={padName}
-              padClass={"has-background-grey-lighter"}
-              midi={midiProps} />
+            padName={padName}
+            padClass={"has-background-grey-lighter"}
+            midi={midiProps} />
 
           <div className="level-item MidiNote">
             <MidiNoteSelectComponent
@@ -52,7 +52,7 @@ const PadLayerAComponent = (props) => {
                 removable={true}
                 useTooltip={true}
                 fileName={pad.fileName}
-                removeSample={() => {props.removePadSample(null)}}
+                removeSample={() => { props.removePadSample(null) }}
               />
             </SamplePlayerComponent>
           </div>
@@ -67,7 +67,7 @@ const PadLayerAComponent = (props) => {
               icon={'off'}
               value={pad.tune}
               stepDistance={50}
-              onChange={(value) => props.updatePadIntProperty("tune", value)}/>
+              onChange={(value) => props.updatePadIntProperty("tune", value)} />
 
             <SlideComponent
               min={1}
@@ -77,7 +77,7 @@ const PadLayerAComponent = (props) => {
               value={pad.sensitivity}
               stepDistance={100}
               overlayProperty='color'
-              onChange={(value) => props.updatePadSensitivity(value)}/>
+              onChange={(value) => props.updatePadSensitivity(value)} />
 
             <KnobComponent
               min={-4}
@@ -86,7 +86,7 @@ const PadLayerAComponent = (props) => {
               icon={'upload'}
               value={pad.pan}
               stepDistance={50}
-              onChange={(value) => props.updatePadIntProperty("pan", value)}/>
+              onChange={(value) => props.updatePadIntProperty("pan", value)} />
 
             <SlideComponent
               min={0}
@@ -96,7 +96,7 @@ const PadLayerAComponent = (props) => {
               value={pad.reverb}
               stepDistance={100}
               overlayProperty='width'
-              onChange={(value) => props.updatePadIntProperty("reverb", value)}/>
+              onChange={(value) => props.updatePadIntProperty("reverb", value)} />
 
             <SlideComponent
               min={0}
@@ -106,7 +106,7 @@ const PadLayerAComponent = (props) => {
               value={pad.level}
               stepDistance={100}
               overlayProperty='width'
-              onChange={(value) => props.updatePadIntProperty("level", value)}/>
+              onChange={(value) => props.updatePadIntProperty("level", value)} />
 
             <span className="modeIcon">
               <div className="field">
@@ -151,7 +151,13 @@ const PadLayerAComponent = (props) => {
               data-tooltip="Toggle Layer B"
               onClick={props.toggleLayerB}>
               <i className={"glyphicon glyphicon-chevron-" + (props.showLayerB ? 'up' : 'down')} aria-hidden="true" />
+
             </div>
+            {/* auto layers */}
+
+
+
+
           </div>
         </div>
       </div>

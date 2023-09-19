@@ -46,7 +46,7 @@ class SampleList extends React.Component {
                 <i className="is-size-7">({this.props.samples ? this.props.samples.length : 0}/{Drive.MAX_SAMPLES})</i>
               </div>
 
-              <button className="glyphicon glyphicon-trash" onClick={() => SampleStore.clear()} />
+              <button className="glyphicon glyphicon-trash" onClick={this.props.clear} />
             </div>
           </div>
 
@@ -102,6 +102,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     importSamples: () => {
       dispatch(SampleStore.importSamples());
+    },
+    clear: () => {
+      dispatch(SampleStore.clear())
     }
   }
 }

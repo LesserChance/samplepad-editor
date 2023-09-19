@@ -1,11 +1,16 @@
 .kit {
-  margin: .8em 0 0 0; }
+  margin: 0.8em 0 0 0;
+}
 
 .kitHeader {
-  margin: 1em 0 .7em 0 !important; }
+  margin: 1em 0 0.7em 0 !important;
+}
 
 .pad-table {
   max-height: 33.5em;
   overflow-y: scroll;
-  padding-right: .2em;
-  padding-bottom: 2em; }
+  padding-right: 0.2em;
+  padding-bottom: 2em;
+}
+
+/*# sourceMappingURL=EditKit.css.map */

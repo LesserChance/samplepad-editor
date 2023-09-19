@@ -27,65 +27,67 @@ class SampleList extends React.Component {
   }
 
   filterSamples(filter) {
-    this.setState({filter: filter})
+    this.setState({ filter: filter })
   }
 
   render() {
     return (
-        <section className="SampleList">
-          <nav className="panel">
-            <div className="panel-heading">
-              <div className="level">
-                <div className="level-left">
-                  <div className="level-item">
-                    Samples
-                  </div>
-                </div>
-
-                <div className="level-right">
-                  <i className="is-size-7">({this.props.samples ? this.props.samples.length : 0}/{Drive.MAX_SAMPLES})</i>
+      <section className="SampleList">
+        <nav className="panel">
+          <div className="panel-heading">
+            <div className="level">
+              <div className="level-left">
+                <div className="level-item">
+                  Samples
                 </div>
               </div>
-            </div>
 
-            <div className="panel-block">
-              <div className="control has-icons-left">
-                <input className="input" type="text" placeholder="Search" onChange={(e) => this.filterSamples(e.target.value)} />
-                <span className="icon is-left">
-                  <i className="glyphicon glyphicon-search" aria-hidden="true"></i>
-                </span>
+              <div className="level-right">
+                <i className="is-size-7">({this.props.samples ? this.props.samples.length : 0}/{Drive.MAX_SAMPLES})</i>
               </div>
-            </div>
 
-            <div className="samples">
-              {
-                this.props.samples && this.props.samples.map((file, index) => {
-                  return (
-                    <span key={index}>
-                       { file.toLowerCase().includes(this.state.filter.toLowerCase()) && (
-                          <SamplePlayerComponent
-                            sampleFile={file}>
-                            <SampleComponent
-                              fileName={file}
-                              highlightKeyword={this.state.filter}
-                              draggable={true}
-                            />
-                          </SamplePlayerComponent>
-                        )
-                      }
-                    </span>
-                  )
-                })
-              }
+              <button className="glyphicon glyphicon-trash" onClick={() => SampleStore.clear()} />
             </div>
+          </div>
 
-            <div className="panel-block">
-              <button className="button is-link is-outlined is-fullwidth" onClick={this.props.importSamples}>
-                Import Samples
-              </button>
+          <div className="panel-block">
+            <div className="control has-icons-left">
+              <input className="input" type="text" placeholder="Search" onChange={(e) => this.filterSamples(e.target.value)} />
+              <span className="icon is-left">
+                <i className="glyphicon glyphicon-search" aria-hidden="true"></i>
+              </span>
             </div>
-          </nav>
-        </section>
+          </div>
+
+          <div className="samples">
+            {
+              this.props.samples && this.props.samples.map((file, index) => {
+                return (
+                  <span key={index}>
+                    {file.toLowerCase().includes(this.state.filter.toLowerCase()) && (
+                      <SamplePlayerComponent
+                        sampleFile={file}>
+                        <SampleComponent
+                          fileName={file}
+                          highlightKeyword={this.state.filter}
+                          draggable={true}
+                        />
+                      </SamplePlayerComponent>
+                    )
+                    }
+                  </span>
+                )
+              })
+            }
+          </div>
+
+          <div className="panel-block">
+            <button className="button is-link is-outlined is-fullwidth" onClick={this.props.importSamples}>
+              Import Samples
+            </button>
+          </div>
+        </nav>
+      </section>
     );
   }
 }

@@ -1,101 +1,119 @@
 .Pad .level {
-  margin-bottom: 0 !important; }
-
+  margin-bottom: 0 !important;
+}
 .Pad .layerA .padName {
   width: 9em;
-  padding: .5em;
-  border-radius: 5px; }
-
+  padding: 0.5em;
+  border-radius: 5px;
+}
 .Pad .PadLayer .level-left {
   width: 50%;
-  padding-right: 2em; }
-  .Pad .PadLayer .level-left .PadMidi .padName {
-    transition: background-color 300ms linear; }
-  .Pad .PadLayer .level-left .PadMidi .padName.playing {
-    transition: background-color 30ms linear; }
-  .Pad .PadLayer .level-left .MidiNote {
-    margin-left: -1em; }
-    .Pad .PadLayer .level-left .MidiNote select {
-      padding-left: 2em !important;
-      padding-right: .25em !important; }
-    .Pad .PadLayer .level-left .MidiNote .select::after {
-      display: none !important; }
-
+  padding-right: 2em;
+}
+.Pad .PadLayer .level-left .PadMidi .padName {
+  transition: background-color 300ms linear;
+}
+.Pad .PadLayer .level-left .PadMidi .padName.playing {
+  transition: background-color 30ms linear;
+}
+.Pad .PadLayer .level-left .MidiNote {
+  margin-left: -1em;
+}
+.Pad .PadLayer .level-left .MidiNote select {
+  padding-left: 2em !important;
+  padding-right: 0.25em !important;
+}
+.Pad .PadLayer .level-left .MidiNote .select::after {
+  display: none !important;
+}
 .Pad .PadLayer .level-left:hover .removeSample {
-  display: inline-block; }
-
+  display: inline-block;
+}
 .Pad .PadLayer .level-right .modeIcon {
-  padding-left: .2em; }
-  .Pad .PadLayer .level-right .modeIcon select {
-    padding-left: .25em !important;
-    padding-right: .25em !important; }
-  .Pad .PadLayer .level-right .modeIcon .select::after {
-    display: none !important; }
-
+  padding-left: 0.2em;
+}
+.Pad .PadLayer .level-right .modeIcon select {
+  padding-left: 0.25em !important;
+  padding-right: 0.25em !important;
+}
+.Pad .PadLayer .level-right .modeIcon .select::after {
+  display: none !important;
+}
 .Pad .PadLayer .level-right .layerBIcon {
   cursor: pointer;
   width: 1.5em;
-  padding: .2em 0 0 .4em; }
-
+  padding: 0.2em 0 0 0.4em;
+}
 .Pad .PadLayer .level-right .value {
   position: absolute;
   right: 0;
   bottom: 0;
-  font-size: 7px; }
-
+  font-size: 7px;
+}
 .Pad .layerB {
-  margin: 0 3em 0 0; }
-  .Pad .layerB .level-left {
-    width: 85%; }
-  .Pad .layerB .padName {
-    width: 12.9em;
-    padding: .5em;
-    border-radius: 5px;
-    text-align: right; }
-
+  margin: 0 3em 0 0;
+}
+.Pad .layerB .level-left {
+  width: 85%;
+}
+.Pad .layerB .padName {
+  width: 12.9em;
+  padding: 0.5em;
+  border-radius: 5px;
+  text-align: right;
+}
 .Pad .Sample {
   width: 50%;
   border: 1px solid #FBFBFF;
-  border-radius: 5px; }
-  .Pad .Sample > div {
-    width: 100%; }
-  .Pad .Sample .sampleContainer {
-    position: relative; }
-    .Pad .Sample .sampleContainer .dragContainer {
-      display: inline-block;
-      width: 100%; }
-    .Pad .Sample .sampleContainer .panel-block.sample {
-      border-radius: 6px;
-      padding: .2em .5em;
-      width: 100%; }
-    .Pad .Sample .sampleContainer .sampleNameContainer {
-      width: 100%;
-      text-align: left; }
-    .Pad .Sample .sampleContainer .sampleName {
-      text-align: left;
-      text-overflow: ellipsis;
-      overflow: hidden;
-      white-space: nowrap; }
-    .Pad .Sample .sampleContainer .removeSample {
-      display: none;
-      position: absolute;
-      top: .3em;
-      right: -2em; }
-
+  border-radius: 5px;
+}
+.Pad .Sample > div {
+  width: 100%;
+}
+.Pad .Sample .sampleContainer {
+  position: relative;
+}
+.Pad .Sample .sampleContainer .dragContainer {
+  display: inline-block;
+  width: 100%;
+}
+.Pad .Sample .sampleContainer .panel-block.sample {
+  border-radius: 6px;
+  padding: 0.2em 0.5em;
+  width: 100%;
+}
+.Pad .Sample .sampleContainer .sampleNameContainer {
+  width: 100%;
+  text-align: left;
+}
+.Pad .Sample .sampleContainer .sampleName {
+  text-align: left;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.Pad .Sample .sampleContainer .removeSample {
+  display: none;
+  position: absolute;
+  top: 0.3em;
+  right: -2em;
+}
 @media (min-width: 950px) {
   .Pad .PadLayer .level-left, .Pad .Sample {
-    width: 55%; } }
-
+    width: 55%;
+  }
+}
 @media (min-width: 1000px) {
   .Pad .PadLayer .level-left, .Pad .Sample {
-    width: 60%; } }
-
+    width: 60%;
+  }
+}
 .Pad .sampleDrop {
   position: relative;
   width: 100%;
   height: 100%;
-  margin-bottom: .24em; }
-
+  margin-bottom: 0.24em;
+}
 .Pad .sampleDropHighlight {
   position: absolute;
   top: 0;
@@ -103,4 +121,7 @@
   height: 100%;
   width: 100%;
   z-index: 1;
-  opacity: 0.5; }
+  opacity: 0.5;
+}
+
+/*# sourceMappingURL=Pad.css.map */

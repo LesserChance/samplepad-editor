@@ -31,6 +31,17 @@ class SampleStore {
     this.deviceSamples = {}
   }
 
+  clear() {
+    console.log("Deleting samples")
+    this._reset()
+    /** @var deviceId => {fileName => fileNameOnDisk} */
+    this.samples = store.get('samples') || {}
+    console.log(this.samples)
+    /** @var all the samples on the current device {fileName => fileNameOnDisk} */
+    this.deviceSamples = {}
+
+  }
+
   getSamples() {
     return this.deviceSamples
   }
@@ -129,7 +140,7 @@ class SampleStore {
                 showNotice("is-success", "Samples successfully imported.")
               )
             }
-          },100)
+          }, 100)
         })
     }
   }
@@ -153,7 +164,7 @@ class SampleStore {
           .map((dirent) => {
             return [dirent.name, dirent.name]
           })
-        )
+      )
 
       this
         ._saveSamples()
@@ -165,7 +176,7 @@ class SampleStore {
    * Add a new file to the current device
    * @param {String} fileName
    */
-  addSample(fileName, save=true) {
+  addSample(fileName, save = true) {
     // if the sample already exists, do we want to overwrite it?
     if (this._fileExists(fileName)) {
       // overwriting a sample - remove references to it so it can be overwritten

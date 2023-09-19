@@ -2,24 +2,34 @@
   width: 1.5em;
   height: 1.5em;
   overflow: hidden;
-  padding-left: .2em;
-  cursor: pointer; }
-  .controlContainer .rc-slider-rail, .controlContainer .rc-slider-track, .controlContainer .rc-slider-step, .controlContainer .rc-slider-mark {
-    display: none; }
-  .controlContainer .overlapContainer {
-    position: absolute;
-    top: 0; }
-    .controlContainer .overlapContainer .glyphicon.overlapValue {
-      overflow: hidden;
-      top: 2px; }
-    .controlContainer .overlapContainer .overlapHandle {
-      width: 1.5em; }
+  padding-left: 0.2em;
+  cursor: pointer;
+}
+.controlContainer .rc-slider-rail, .controlContainer .rc-slider-track, .controlContainer .rc-slider-step, .controlContainer .rc-slider-mark {
+  display: none;
+}
+.controlContainer .overlapContainer {
+  position: absolute;
+  top: 0;
+}
+.controlContainer .overlapContainer .glyphicon.overlapValue {
+  overflow: hidden;
+  top: 2px;
+}
+.controlContainer .overlapContainer .overlapHandle {
+  width: 1.5em;
+}
 
 .height-25 .rc-slider, .height-25 .rc-slider-rail, .height-25 .rc-slider-mark {
-  height: 25px !important; }
+  height: 25px !important;
+}
 
 .height-50 .rc-slider, .height-50 .rc-slider-rail, .height-50 .rc-slider-mark {
-  height: 50px !important; }
+  height: 50px !important;
+}
 
 .height-100 .rc-slider, .height-100 .rc-slider-rail, .height-100 .rc-slider-mark {
-  height: 100px !important; }
+  height: 100px !important;
+}
+
+/*# sourceMappingURL=Control.css.map */

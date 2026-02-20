@@ -1,6 +1,6 @@
 /* Global imports */
 import React from 'react'
-import { render } from 'react-dom'
+import { createRoot } from 'react-dom/client'
 import { Provider } from 'react-redux'
 
 /* App imports */
@@ -11,16 +11,19 @@ import { initDeviceTypeMenu } from 'menu/deviceType'
 
 /* Component imports */
 import App from 'component/App'
-import 'css/index.css';
+import 'css/bulma.min.css'
+import 'css/bulma-tooltip.min.css'
+import 'css/icons.css'
+import 'css/index.scss'
 
 /* Initalize Electron App From Renderer Process */
 initEditMenu();
 initMidiMenu();
 initDeviceTypeMenu();
 
-render(
+const root = createRoot(document.getElementById('root'))
+root.render(
   <Provider store={store}>
     <App />
-  </Provider>,
-  document.getElementById('root')
+  </Provider>
 )

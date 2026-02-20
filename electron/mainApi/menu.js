@@ -1,8 +1,6 @@
 const { app, Menu } = require('electron')
 const rendererProcessEvents = require('../events/rendererProcessEvents')
 const { DeviceType }  = require('../const')
-const isDev = require('electron-is-dev');
-
 // default, configurable menus
 let midiMenu = {
   label: 'Midi Settings',
@@ -91,23 +89,21 @@ const getMenuTemplate = () => {
     { role: 'togglefullscreen' }
   ]
 
-  if (isDev || !isDev) {
-    viewSubmenus.unshift({
-      label: 'Toggle Developer Tools',
-      accelerator: process.platform === 'darwin' ? 'Alt+Command+I' : 'Ctrl+Shift+I',
-      click (item, focusedWindow) {
-        if (focusedWindow) focusedWindow.webContents.toggleDevTools()
-      }
-    })
+  viewSubmenus.unshift({
+    label: 'Toggle Developer Tools',
+    accelerator: process.platform === 'darwin' ? 'Alt+Command+I' : 'Ctrl+Shift+I',
+    click (item, focusedWindow) {
+      if (focusedWindow) focusedWindow.webContents.toggleDevTools()
+    }
+  })
 
-    viewSubmenus.unshift({
-      label: 'Reload',
-      accelerator: 'CmdOrCtrl+R',
-      click (item, focusedWindow) {
-        if (focusedWindow) focusedWindow.reload()
-      }
-    })
-  }
+  viewSubmenus.unshift({
+    label: 'Reload',
+    accelerator: 'CmdOrCtrl+R',
+    click (item, focusedWindow) {
+      if (focusedWindow) focusedWindow.reload()
+    }
+  })
 
   template.push({
     label: 'View',

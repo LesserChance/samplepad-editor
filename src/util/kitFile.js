@@ -1,4 +1,5 @@
 /* App imports */
+import { Buffer } from 'buffer'
 import { KitBuffer, Drive } from 'const'
 import { KitModel, PadModel } from 'state/models'
 import { getSortedPadIds } from 'state/sortModels'

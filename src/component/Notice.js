@@ -3,7 +3,7 @@ import React from 'react';
 import update from 'immutability-helper';
 
 /* Component imports */
-import 'css/Notice.css'
+import 'css/Notice.scss'
 
 class NoticeComponent extends React.Component {
   /*

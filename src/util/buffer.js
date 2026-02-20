@@ -1,4 +1,5 @@
 /* Electron imports */
+import { Buffer } from 'buffer'
 const { fs } = window.api
 
 export const getBuffer = (filePath) => {

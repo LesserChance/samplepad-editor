@@ -9,7 +9,7 @@ import SampleStore from 'util/sampleStore'
 /* Component imports */
 import SampleComponent from 'component/Sample'
 import SamplePlayerComponent from 'component/SamplePlayer'
-import 'css/SampleList.css'
+import 'css/SampleList.scss'
 
 class SampleList extends React.Component {
   /*

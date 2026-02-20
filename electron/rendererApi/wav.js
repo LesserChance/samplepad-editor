@@ -1,5 +1,3 @@
-/* Electron imports */
-const { remote } = require("electron")
 const spawn = require('child_process').spawn
 
 let wavSpawn = {}
@@ -7,7 +5,7 @@ let wavSpawn = {}
 module.exports = {
   playWavFile: (wavId, path) => {
     return new Promise((resolve, reject) => {
-      switch (remote.process.platform) {
+      switch (process.platform) {
         case 'darwin':
           wavSpawn[wavId] = spawn('afplay', [path])
           break

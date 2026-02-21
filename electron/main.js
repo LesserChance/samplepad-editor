@@ -7,12 +7,6 @@ const { getMenuTemplate } = require('./mainApi/menu')
 // Initialize electron-store in main process (required for contextIsolation: true)
 const store = new Store()
 
-// Dialog IPC handler (replaces removed remote.dialog)
-// Register once before app is ready, not in createWindow
-ipcMain.handle('dialog:showOpenDialog', async (event, options) => {
-  return dialog.showOpenDialog(options)
-})
-
 let mainWindow
 
 function createWindow() {
@@ -43,6 +37,11 @@ function createWindow() {
   // Initialize the renderer message handlers
   mainProcessEvents.initIpcMainReceiver()
 }
+
+// Dialog IPC handler (replaces removed remote.dialog)
+ipcMain.handle('dialog:showOpenDialog', async (event, options) => {
+  return dialog.showOpenDialog(options)
+})
 
 app.on('ready', createWindow)
 

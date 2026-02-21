@@ -7,8 +7,9 @@ import { DragItemTypes } from 'const';
 
 const SampleComponent = (props) => {
   let [, drag] = useDrag({
-    item: { type: DragItemTypes.SAMPLE, fileName: props.fileName },
-    canDrag: monitor => (props.draggable)
+    type: DragItemTypes.SAMPLE,
+    item: { fileName: props.fileName },
+    canDrag: () => props.draggable
   });
 
   let hasSample = !!props.fileName;

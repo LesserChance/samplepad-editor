@@ -1,6 +1,6 @@
 const { app, BrowserWindow, Menu, dialog, ipcMain } = require('electron')
 const path = require('path')
-const Store = require('electron-store')
+const { default: Store } = require('electron-store')
 const mainProcessEvents = require('./events/mainProcessEvents')
 const { getMenuTemplate } = require('./mainApi/menu')
 

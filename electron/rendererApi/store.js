@@ -1,5 +1,5 @@
 /* Electron imports */
-const Store = require('electron-store')
+const { default: Store } = require('electron-store')
 
 const store = new Store()
 

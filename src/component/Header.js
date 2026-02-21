@@ -25,10 +25,10 @@ const HeaderComponent = (props) => {
             </div>
 
             <div className="level-right">
-              <p className="level-item">
+              <div className="level-item">
 
                 <KitListComponent />
-              </p>
+              </div>
             </div>
           </div>
         </div>

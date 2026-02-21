@@ -1,6 +1,6 @@
 /* Global imports */
 import React from 'react';
-import Popover from 'react-simple-popover';
+import Popover from 'component/Popover';
 
 /* Component imports */
 import 'css/Pad/MuteGroup.scss'
@@ -63,7 +63,6 @@ class MuteGroupComponent extends React.Component {
         <Popover
           placement='bottom'
           hideWithOutsideClick={true}
-          container={this}
           target={this.target}
           show={this.state.open}
           style={{width:'8em',padding:'0.6em'}}

@@ -10,15 +10,6 @@
     text-align: center;
   }
 
-  & > div {
-    z-index: 10;
-    left: -5.3em !important;
-
-    & > div {
-      left: 6em !important;
-    }
-  }
-
   .selectMgrp {
     button {
       width: 100%;

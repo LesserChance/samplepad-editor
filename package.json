@@ -9,7 +9,10 @@
   "scripts": {
     "dev": "concurrently \"vite\" \"wait-on http://localhost:5173 && electron .\"",
     "build": "vite build",
-    "pack": "vite build && electron-builder build --mac"
+    "pack": "vite build && electron-builder build --mac",
+    "pack:win": "vite build && electron-builder build --win --x64",
+    "pack:linux": "vite build && electron-builder build --linux --x64",
+    "pack:all": "vite build && electron-builder build --mac --win --linux --x64"
   },
   "build": {
     "appId": "com.electron.samplepadeditor",
@@ -32,6 +35,27 @@
           ]
         }
       ]
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    },
+    "linux": {
+      "target": [
+        {
+          "target": "tar.gz",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "category": "Audio"
     }
   },
   "dependencies": {

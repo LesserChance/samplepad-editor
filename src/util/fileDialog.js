@@ -27,7 +27,7 @@ export function openKitFileDialog() {
 export function openSampleFileDialog() {
   return dialog.showOpenDialog({
     title: 'Import Sample(s)',
-    properties:["openFile", 'multiSelections', 'openDirectory'],
+    properties:["openFile", 'multiSelections'],
     filters: [
       { name: 'wav (* .' + Drive.SAMPLE_FILE_TYPE + ')',
         extensions: [Drive.SAMPLE_FILE_TYPE] },

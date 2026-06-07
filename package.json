@@ -3,86 +3,85 @@
   "productName": "SamplePad Kit Editor",
   "description": "Build drum kits for the Alesis SamplePad",
   "author": "Ryan Bateman",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "private": true,
-  "main": "public/electron.js",
-  "homepage": "./",
+  "main": "electron/main.js",
+  "scripts": {
+    "dev": "concurrently \"vite\" \"wait-on http://localhost:5173 && electron .\"",
+    "build": "vite build",
+    "pack": "vite build && electron-builder build --mac",
+    "pack:win": "vite build && electron-builder build --win --x64",
+    "pack:linux": "vite build && electron-builder build --linux --x64",
+    "pack:all": "vite build && electron-builder build --mac --win --linux --x64"
+  },
   "build": {
     "appId": "com.electron.samplepadeditor",
     "productName": "SamplePad Kit Editor",
     "files": [
       "build/**/*",
-      "node_modules/**/*"
+      "electron/**/*"
     ],
     "directories": {
       "buildResources": "assets"
     },
     "mac": {
-      "category": "public.app-category.music"
+      "category": "public.app-category.music",
+      "target": [
+        {
+          "target": "dmg",
+          "arch": [
+            "arm64",
+            "x64"
+          ]
+        }
+      ]
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
     },
     "linux": {
-      "target": "tar.gz"
+      "target": [
+        {
+          "target": "tar.gz",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "category": "Audio"
     }
   },
-  "resolutions": {
-    "react-dev-utils": "10.1.0"
-  },
   "dependencies": {
-    "@craco/craco": "^5.6.3",
-    "electron-is-dev": "^1.1.0",
-    "electron-store": "^6.0.0",
-    "immutability-helper": "^3.0.1",
-    "node-sass-chokidar": "^1.4.0",
-    "rc-slider": "^9.3.1",
-    "react": "^16.12.0",
-    "react-dev-utils": "10.2.1",
-    "react-dnd": "^11.1.3",
-    "react-dnd-html5-backend": "^11.1.3",
-    "react-dom": "^16.12.0",
-    "react-redux": "^7.1.0",
-    "react-scripts": "3.4.3",
-    "react-simple-popover": "^0.2.4",
-    "redux": "^4.0.4",
-    "redux-thunk": "^2.3.0",
-    "uuid": "^8.3.0",
+    "electron-store": "^11.0.2",
+    "immutability-helper": "^3.1.1",
+    "rc-slider": "^11.1.7",
+    "react": "^19.2.4",
+    "react-dnd": "^16.0.1",
+    "react-dnd-html5-backend": "^16.0.1",
+    "react-dom": "^19.2.4",
+    "react-redux": "^9.2.0",
+    "redux": "^5.0.1",
+    "redux-thunk": "^3.1.0",
+    "uuid": "^13.0.0",
     "wavefile": "^11.0.0",
-    "webmidi": "^2.5.1"
+    "webmidi": "^3.1.14"
   },
   "devDependencies": {
-    "concurrently": "^5.0.2",
-    "electron": "10.1.3",
-    "electron-builder": "^22.8.0",
-    "electron-rebuild": "^1.10.0",
-    "wait-on": "^5.2.0",
-    "yarn-run-all": "^3.1.1"
+    "concurrently": "^9.2.1",
+    "electron": "^40.6.0",
+    "electron-builder": "^26.8.1",
+    "sass": "^1.86.0",
+    "vite": "^7.3.1",
+    "wait-on": "^9.0.4"
   },
-  "scripts": {
-    "preelectron-pack": "yarn run build",
-    "electron-pack": "electron-builder build -l -m -w -c.extraMetadata.main=build/electron.js",
-    "electron-dev": "concurrently \"BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron .\"",
-    "postinstall": "electron-builder install-app-deps",
-    "build-css": "node-sass-chokidar src/ -o src/",
-    "watch-css": "yarn run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
-    "start": "npm-run-all -p watch-css start-react",
-    "build": "npm-run-all -s build-css build-react",
-    "start-react": "react-scripts start",
-    "build-react": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+  "overrides": {
+    "minimatch": "^10.2.1"
   }
 }

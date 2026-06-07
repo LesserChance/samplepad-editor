@@ -1,4 +1,4 @@
-const WebMidi = require('webmidi')
+const { WebMidi } = require('webmidi')
 
 /* @var midi note => {handlerId => {min, max, callback},...} */
 let noteOnCallbacks = {}
@@ -9,14 +9,13 @@ let enabled = false
 /**
  * Enable WebMidi
  */
-const enable = () => {
-  WebMidi.enable(function (err) {
-    if (err) {
-      console.error("WebMidi could not be enabled.", err);
-    }
-
+const enable = async () => {
+  try {
+    await WebMidi.enable()
     enabled = true
-  })
+  } catch (err) {
+    console.error("WebMidi could not be enabled.", err);
+  }
 }
 
 /**
@@ -39,7 +38,7 @@ const bindMidiInput = (inputIndex) => {
 
   // remove any current listeners
   for (let i = 0; i < WebMidi.inputs.length; i++) {
-    WebMidi.inputs[i].removeListener();
+    WebMidi.inputs[i].removeListener('noteon');
   }
 
   if (inputIndex === null) {
@@ -49,24 +48,22 @@ const bindMidiInput = (inputIndex) => {
 
   // add midi listener to selected device
   var input = WebMidi.inputs[inputIndex];
-  input.addListener('noteon', "all",
-    function (e) {
-      let noteOnCallbackList = noteOnCallbacks[e.note.number]
-      if (noteOnCallbackList) {
+  input.addListener('noteon', (e) => {
+    let noteOnCallbackList = noteOnCallbacks[e.note.number]
+    if (noteOnCallbackList) {
 
-        for (let handlerId of Object.keys(noteOnCallbackList)) {
-          let noteOnCallback = noteOnCallbackList[handlerId]
-          if (e.rawVelocity >= noteOnCallback.min && e.rawVelocity <= noteOnCallback.max) {
-            noteOnCallback.callback(e);
-          }
+      for (let handlerId of Object.keys(noteOnCallbackList)) {
+        let noteOnCallback = noteOnCallbackList[handlerId]
+        if (e.rawVelocity >= noteOnCallback.min && e.rawVelocity <= noteOnCallback.max) {
+          noteOnCallback.callback(e);
         }
       }
     }
-  );
+  }, { channels: 'all' });
 }
 
-// Enable WebMidi as soon as called
-enable()
+// Enable WebMidi as soon as called (don't await, let it run in background)
+enable().catch(err => console.error('Failed to enable WebMidi:', err))
 
 module.exports = {
   enable: enable,

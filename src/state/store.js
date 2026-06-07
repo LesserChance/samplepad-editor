@@ -1,6 +1,6 @@
 /* Global imports */
 import { createStore, applyMiddleware } from 'redux'
-import thunk from 'redux-thunk';
+import { thunk } from 'redux-thunk';
 
 /* App imports */
 import reducers from 'state/reducers'

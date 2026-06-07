@@ -9,7 +9,7 @@ import { saveKit, updateKitName } from 'actions/kit'
 /* Component imports */
 import SamplerackEditor from 'component/Editor/Samplerack'
 import SamplepadProEditor from 'component/Editor/SamplepadPro'
-import 'css/EditKit.css'
+import 'css/EditKit.scss'
 
 const EditKit = (props) => {
   let kitNameControlProps = {};

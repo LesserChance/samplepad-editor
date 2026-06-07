@@ -3,7 +3,7 @@ import React from 'react';
 import Slider from 'rc-slider';
 
 /* Component imports */
-import 'css/Pad/Control.css'
+import 'css/Pad/Control.scss'
 
 class SlideComponent extends React.Component {
 
@@ -71,7 +71,7 @@ class SlideComponent extends React.Component {
             max={this.props.max}
             defaultValye={this.props.value}
             vertical={true}
-            handle={this.getHandle.bind(this)}
+            handleRender={(node, handleProps) => this.getHandle(handleProps)}
             onChange={this.onSliderChange.bind(this)}
             onAfterChange={(value) => this.props.onChange(value)} />
         </span>

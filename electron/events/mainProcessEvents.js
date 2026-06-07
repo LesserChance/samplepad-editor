@@ -1,4 +1,4 @@
-const { ipcMain, ipcRenderer } = require('electron')
+const { ipcMain } = require('electron')
 const { regenerateMidiMenu, rengenerateDeviceMenu } = require('../mainApi/menu')
 const Events = require("./events")
 
@@ -15,14 +15,13 @@ module.exports = {
    * renderer process to send events to main process
    */
   initIpcRendererSender:() => {
-    process.once('loaded', () => {
-      window.addEventListener('message', event => {
-        const message = event.data
+    const { ipcRenderer } = require('electron')
+    window.addEventListener('message', event => {
+      const message = event.data
 
-        if (message.type) {
-          ipcRenderer.send(message.type, message)
-        }
-      });
+      if (message.type) {
+        ipcRenderer.send(message.type, message)
+      }
     });
   },
 

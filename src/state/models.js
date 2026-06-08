@@ -164,7 +164,7 @@ export class PadModel {
       case 8:
         return 0x20;
       default:
-        return 0x00;
+        return 0x0b;
     }
   }
 

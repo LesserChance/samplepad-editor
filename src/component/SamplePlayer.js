@@ -75,6 +75,20 @@ class SamplePlayerComponent extends React.Component {
           wavStack: {$splice: [[this.state.wavStack.indexOf(wavId), 1]]}
         }))
       })
+      .catch(error => {
+        console.error('Unable to play sample.', error)
+        this.setState(state => {
+          const index = state.wavStack.indexOf(wavId)
+          if (index === -1) {
+            return null
+          }
+
+          return update(state, {
+            playingSample: {$set: (state.wavStack.length > 1)},
+            wavStack: {$splice: [[index, 1]]}
+          })
+        })
+      })
   }
 
   playOrStopSample() {

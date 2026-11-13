@@ -36,7 +36,16 @@ class SampleStore {
   }
 
   getFileNameOnDisk(fileName) {
-    return this.devicePath + "/" + this.deviceSamples[fileName]
+    if (!fileName) {
+      return ""
+    }
+
+    let sample = Object.entries(this.deviceSamples).find(([displayName, fileNameOnDisk]) => {
+      return displayName.toLowerCase() === fileName.toLowerCase()
+        || fileNameOnDisk.toLowerCase() === fileName.toLowerCase()
+    })
+
+    return this.devicePath + "/" + (sample ? sample[1] : fileName)
   }
 
   /**
@@ -61,6 +70,14 @@ class SampleStore {
 
     if (reverseList[fileName]) {
       return reverseList[fileName]
+    }
+
+    let matchingFileName = Object.keys(reverseList).find((name) => {
+      return name.toLowerCase() === fileName.toLowerCase()
+    })
+
+    if (matchingFileName) {
+      return reverseList[matchingFileName]
     }
 
     return fileName
